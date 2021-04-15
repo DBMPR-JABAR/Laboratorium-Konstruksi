@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'labkon',
+    title: 'Labolatorium Kontruksi',
     htmlAttrs: {
       lang: 'en'
     },
@@ -65,7 +65,7 @@ export default {
   build: {},
 
   router: {
-    base: '/labkon/',
+    // base: '/labkon/',
     // mode: 'hash',
     linkActiveClass: 'active',
     routeNameSplitter: '/'
@@ -82,6 +82,6 @@ export default {
     // }
   },
   generate: {
-    dir: '../labkon'
+    // dir: '../labkon'
   }
 }
