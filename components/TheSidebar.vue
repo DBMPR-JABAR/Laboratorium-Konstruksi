@@ -20,7 +20,8 @@
         :height="35"
         view-box="0 0 110 134"
       /> -->
-      <Logo />
+      <Logo class="c-sidebar-brand-full" :height="35" />
+      <LogoSquare class="c-sidebar-brand-minimized" :height="35" />
     </CSidebarBrand>
 
     <CRenderFunction flat :content-to-render="$options.nav" />

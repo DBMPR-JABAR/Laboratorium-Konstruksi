@@ -25,7 +25,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{ src: '~/plugins/coreui-vue.js', mode: 'client' },
-    { src: '~/plugins/icons.js', mode: 'client' }
+    { src: '~/plugins/icons.js', mode: 'client' },
+    { src: '~/plugins/api.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -44,12 +45,29 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseUrl: 'http://localhost/temanjabar/public/api/'
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
   router: {
-    base: '/labkon/dist/'
+    // base: '/labkon/dist/'
+    // mode: 'hash',
+    linkActiveClass: 'active',
+    scrollBehavior: () => ({ y: 0 }),
+    routeNameSplitter: '/',
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'Pengujian',
+        path: 'pengujian',
+        redirect: '/pengujian/pendaftaran',
+        // component: {
+        //   render (c) { return c('router-view') }
+        // }
+        component: resolve(__dirname, 'pages/Pengujian/Pendaftaran.vue')
+      })
+    }
   }
 }

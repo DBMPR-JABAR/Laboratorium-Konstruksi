@@ -11,7 +11,7 @@
       @click="$store.commit('ui/toggleSidebarDesktop')"
     />
     <CHeaderBrand class="mx-auto d-lg-none" to="/">
-      <CIcon name="logo" height="48" alt="Logo" />
+      <Logo :height="48" />
     </CHeaderBrand>
     <CHeaderNav class="d-md-down-none mr-auto">
       <CHeaderNavItem class="px-3">
@@ -48,8 +48,8 @@
       </CHeaderNavItem>
       <TheHeaderDropdownAccnt />
     </CHeaderNav> -->
-    <CSubheader class="px-3">
+    <!-- <CSubheader class="px-3">
       <CBreadcrumbRouter class="border-0 mb-0" />
-    </CSubheader>
+    </CSubheader> -->
   </CHeader>
 </template>
