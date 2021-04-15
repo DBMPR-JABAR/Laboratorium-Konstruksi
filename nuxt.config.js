@@ -1,6 +1,6 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  // target: 'static',
+  target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -53,21 +53,23 @@ export default {
   build: {},
 
   router: {
-    // base: '/labkon/dist/'
+    base: '/labkon/',
     // mode: 'hash',
     linkActiveClass: 'active',
-    scrollBehavior: () => ({ y: 0 }),
-    routeNameSplitter: '/',
-    extendRoutes (routes, resolve) {
-      routes.push({
-        name: 'Pengujian',
-        path: 'pengujian',
-        redirect: '/pengujian/pendaftaran',
-        // component: {
-        //   render (c) { return c('router-view') }
-        // }
-        component: resolve(__dirname, 'pages/Pengujian/Pendaftaran.vue')
-      })
-    }
+    routeNameSplitter: '/'
+    // extendRoutes (routes, resolve) {
+    //   routes.push({
+    //     name: 'Pengujian',
+    //     path: 'pengujian',
+    //     redirect: '/pengujian/pendaftaran',
+    //     // component: {
+    //     //   render (c) { return c('router-view') }
+    //     // }
+    //     component: resolve(__dirname, 'pages/Pengujian/Pendaftaran.vue')
+    //   })
+    // }
+  },
+  generate: {
+    dir: '../labkon'
   }
 }
