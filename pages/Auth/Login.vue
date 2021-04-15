@@ -81,9 +81,13 @@ export default {
   },
   methods: {
     async login () {
-      const response = await this.$api.post('/auth/login', this.form)
-      console.log(response.data.data.token.access_token)
+      // const response = await this.$api.post('/auth/login', this.form)
+      const response = await this.$auth.loginWith('local', {
+        data: this.form
+      })
+      // console.log(response.data.data.token.access_token)
       console.log(response)
+      console.log(this.$auth.user)
     }
   }
 }
