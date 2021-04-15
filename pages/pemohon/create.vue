@@ -6,6 +6,7 @@
     <CForm novalidate>
       <CCardBody>
         <CInput
+          v-model="form.nama_perusahaan"
           type="text"
           description="Silahkan masukan nama perusahaan."
           label="Nama Perusahaan"
@@ -13,6 +14,7 @@
           required
           was-validated
         /><CInput
+          v-model="form.email_perusahaan"
           type="email"
           description="Silahkan masukan email perusahaan."
           autocomplete="email"
@@ -22,6 +24,7 @@
           was-validated
         />
         <CInput
+          v-model="form.no_telp_perusahaan"
           type="number"
           description="Silahkan masukan no. telp perusahaan."
           label="No. Telp Perusahaan"
@@ -29,6 +32,7 @@
           required
           was-validated
         /><CInput
+          v-model="form.nama_penanggung_jawab"
           type="text"
           description="Silahkan masukan nama penanggung jawab."
           label="Nama Penanggung Jawab"
@@ -36,6 +40,7 @@
           required
           was-validated
         /><CInput
+          v-model="form.email_penanggung_jawab"
           type="email"
           description="Silahkan masukan email penanggung jawab."
           autocomplete="email"
@@ -45,6 +50,7 @@
           was-validated
         />
         <CInput
+          v-model="form.no_telp_penanggung_jawab"
           type="number"
           description="Silahkan masukan no. telp penanggung jawab."
           label="No. Telp Penanggung Jawab"
@@ -53,6 +59,7 @@
           was-validated
         />
         <CInput
+          v-model="form.nip"
           type="number"
           description="Silahkan masukan nip/nik penanggung jawab."
           label="NIP/NIK Penanggung Jawab"
@@ -62,7 +69,7 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="submit" size="sm" color="primary">
+        <CButton type="button" size="sm" color="primary" @click="insert">
           <CIcon name="cil-check-circle" /> Submit
         </CButton>
         <CButton type="reset" size="sm" color="danger">
@@ -74,46 +81,27 @@
 </template>
 
 <script>
-export default { layout: 'TheContainer' }
+export default {
+  layout: 'TheContainer',
+  data () {
+    return {
+      form: {
+        nama_perusahaan: '',
+        email_perusahaan: '',
+        no_telp_perusahaan: '',
+        nama_penanggung_jawab: '',
+        email_penanggung_jawab: '',
+        no_telp_penanggung_jawab: '',
+        nip: ''
+      }
+    }
+  },
+  methods: {
+    async insert () {
+      console.log(this.form)
+      const response = await this.$axios.post('labkon/daftar_pemohon/create', this.form)
+      console.log(response)
+    }
+  }
+}
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>

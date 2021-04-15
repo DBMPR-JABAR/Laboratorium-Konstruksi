@@ -11,7 +11,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: 'Bina Marga Labolatorium Kontruksi' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -25,8 +25,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{ src: '~/plugins/coreui-vue.js', mode: 'client' },
-    { src: '~/plugins/icons.js', mode: 'client' },
-    { src: '~/plugins/api.js', mode: 'client' }
+    { src: '~/plugins/icons.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,7 +46,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl: 'http://localhost/temanjabar/public/api/'
+    baseUrl: 'http://124.81.122.132/temanjabar/public/api/'
   },
 
   // Authorization

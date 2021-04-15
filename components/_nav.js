@@ -14,12 +14,18 @@ export default [
       },
       {
         _name: 'CSidebarNavTitle',
-        _children: ['Pengujian']
+        _children: ['Pemohon']
       },
       {
         _name: 'CSidebarNavItem',
-        name: 'Pendaftaran',
-        to: '/pengujian/pendaftaran',
+        name: 'Daftar Pemohon',
+        to: '/pemohon/list',
+        icon: 'cil-list'
+      },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Input Data Pemohon',
+        to: '/pemohon/create',
         icon: 'cil-pencil'
       }
       // {

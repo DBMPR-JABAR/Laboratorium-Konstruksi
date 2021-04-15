@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <Logo :height="100" />
+      <Logo :height="75" />
       <h1 class="title">
         Selamat Datang di Labolatorium Kontruksi
       </h1>
@@ -36,7 +36,7 @@ export default {}
     sans-serif;
   display: block;
   font-weight: 300;
-  font-size: 100px;
+  font-size: 50px;
   color: #35495e;
   letter-spacing: 1px;
 }
