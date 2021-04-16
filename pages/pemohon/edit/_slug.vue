@@ -72,12 +72,14 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="button" size="sm" color="primary" @click="insert">
+        <CButton type="button" size="sm" color="primary" @click="update">
           <CIcon name="cil-check-circle" /> Submit
         </CButton>
-        <CButton type="reset" size="sm" color="danger">
-          <CIcon name="cil-ban" /> Reset
-        </CButton>
+        <NuxtLink to="/pemohon/list">
+          <CButton type="button" size="sm" color="danger">
+            <CIcon name="cil-ban" /> Batal
+          </CButton>
+        </NuxtLink>
       </CCardFooter>
     </CForm>
   </CCard>
@@ -86,31 +88,32 @@
 <script>
 export default {
   layout: 'TheContainer',
+  async asyncData ({ params, $axios }) {
+    const slug = params.slug
+    const { data } = await $axios.get('labkon/daftar_pemohon/show/' + slug)
+    const form = data.pemohon
+    const formReset = form
+    return { form, formReset }
+  },
   data () {
     return {
       uptdOptions: [{
         value: 0,
         label: 'Pilih UPTD'
       }],
-      form: {
-        nama_perusahaan: '',
-        email_perusahaan: '',
-        no_telp_perusahaan: '',
-        nama_penanggung_jawab: '',
-        email_penanggung_jawab: '',
-        no_telp_penanggung_jawab: '',
-        nip: '',
-        uptd_id: 1
-      }
+      form: []
     }
   },
   created () {
     this.init()
   },
   methods: {
-    async insert () {
-      const { data } = await this.$axios.post('labkon/daftar_pemohon/create', this.form)
+    async update () {
+      const { data } = await this.$axios.put('labkon/daftar_pemohon/edit/' + this.form.id_pemohon, this.form)
       console.log(data)
+    },
+    reset () {
+      this.form = this.formReset
     },
     async init () {
       const { data } = await this.$axios.get('uptd_list')

@@ -20,12 +20,14 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~node_modules/@coreui/coreui/scss/coreui',
-    '~assets/scss/style.scss'
+    '~assets/scss/style.scss',
+    '~node_modules/vue-select/src/scss/vue-select.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{ src: '~/plugins/coreui-vue.js', mode: 'client' },
-    { src: '~/plugins/icons.js', mode: 'client' }
+    { src: '~/plugins/icons.js', mode: 'client' },
+    { src: '~/plugins/vue-select.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,7 +48,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl: 'http://124.81.122.132/temanjabar/public/api/'
+    baseUrl: process.env.API_URL || 'http://localhost/temanjabar/public/api/'
   },
 
   // Authorization
