@@ -1,4 +1,4 @@
-# labkon
+# Labolatorium Kontruksi
 
 ## Build Setup
 
