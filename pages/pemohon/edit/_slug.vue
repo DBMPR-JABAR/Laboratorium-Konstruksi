@@ -111,6 +111,7 @@ export default {
     async update () {
       const { data } = await this.$axios.put('labkon/daftar_pemohon/edit/' + this.form.id_pemohon, this.form)
       console.log(data)
+      if (data.status === 'success') { this.$router.push({ path: '/pemohon/list' }) }
     },
     reset () {
       this.form = this.formReset

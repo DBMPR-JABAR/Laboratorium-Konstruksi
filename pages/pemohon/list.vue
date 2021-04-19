@@ -29,8 +29,13 @@
           </template>
           <template #aksi="{item}">
             <td>
-              <NuxtLink :to="{path:'pemohon/edit',query: {id:item.id_pemohon}}">
+              <NuxtLink :to="{path:'/pemohon/edit/'+item.id_pemohon,params: {slug:item.id_pemohon}}">
                 <CIcon name="cil-pencil" />
+              </NuxtLink>
+            </td>
+            <td>
+              <NuxtLink :to="{path:'/pemohon/edit/'+item.id_pemohon,params: {slug:item.id_pemohon}}">
+                <CIcon name="cis-trash" />
               </NuxtLink>
             </td>
           </template>
@@ -66,7 +71,7 @@
           </template>
           <template #aksi="{item}">
             <td>
-              <NuxtLink :to="{path:'pemohon/edit',query: {id:item.id_pemohon}}">
+              <NuxtLink :to="{path:'/pemohon/edit/'+item.id_pemohon,params: {slug:item.id_pemohon}}">
                 <CIcon name="cil-pencil" />
               </NuxtLink>
             </td>
