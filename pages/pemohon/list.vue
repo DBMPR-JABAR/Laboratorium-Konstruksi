@@ -79,8 +79,9 @@
                   params: { slug: item.id_pemohon },
                 }"
               >
-                <CIcon name="cil-x-circle" class="text-danger" @click.native="$store.commit('ui/set', ['modal', {open: true, title: 'Konfirmasi Hapus Data',message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`, onClick: () => onDelete(item.id_pemohon)}])" />
+                <CIcon name="cil-pencil" />
               </NuxtLink>
+              <CIcon name="cil-x-circle" class="text-danger" @click.native="$store.commit('ui/set', ['modal', {open: true, title: 'Konfirmasi Hapus Data',message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`, onClick: () => onDelete(item.id_pemohon)}])" />
             </td>
           </template>
         </CDataTable>
