@@ -67,7 +67,7 @@ export default {
   build: {},
 
   router: {
-    // base: '/labkon/',
+    base: '/labkon/',
     // mode: 'hash',
     linkActiveClass: 'active',
     routeNameSplitter: '/'
@@ -82,8 +82,8 @@ export default {
     //     component: resolve(__dirname, 'pages/Pengujian/Pendaftaran.vue')
     //   })
     // }
-  },
-  generate: {
-    dir: '../labkon'
   }
+  // generate: {
+  //   dir: '../labkon'
+  // }
 }
