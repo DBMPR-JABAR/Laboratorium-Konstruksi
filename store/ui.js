@@ -10,7 +10,7 @@ export const state = () => ({
   },
   flushMessage: {
     color: 'success',
-    countDown: 0,
+    open: false,
     message: ''
   }
 })

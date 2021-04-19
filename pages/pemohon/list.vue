@@ -199,6 +199,13 @@ export default {
       )
       if (data.status === 'success') {
         this.initDaftarPemohon()
+        this.$store.commit('ui/set', [
+          'flushMessage', {
+            color: 'success',
+            open: true,
+            message: `Berhasil menghapus data pemohon ${id}.`
+          }
+        ])
       }
     }
   }

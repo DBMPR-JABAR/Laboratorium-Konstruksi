@@ -8,10 +8,11 @@
           <main class="c-main">
             <CContainer fluid>
               <CAlert
-                :show="flushMesage().countDown"
+                :show="flushMesage().open"
                 close-button
                 :color="flushMesage().color"
                 fade
+                @update:show="flushMesageEvent"
               >
                 {{ flushMesage().message }}
               </CAlert>
@@ -51,6 +52,9 @@ export default {
     },
     flushMesage () {
       return this.$store.state.ui.flushMessage
+    },
+    flushMesageEvent (status) {
+      if (status === false) { this.$store.commit('ui/set', ['flushMessage', { open: false }]) }
     }
   }
 }

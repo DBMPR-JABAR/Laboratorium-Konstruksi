@@ -94,7 +94,6 @@ export default {
     const { data } = await $axios.get('labkon/daftar_pemohon/show/' + slug)
     const form = data.pemohon
     const formReset = form
-    console.log(type)
     return { form, formReset, type }
   },
   data () {
@@ -112,8 +111,16 @@ export default {
   methods: {
     async update () {
       const { data } = await this.$axios.put('labkon/daftar_pemohon/edit/' + this.form.id_pemohon, this.form)
-      console.log(data)
-      if (data.status === 'success') { this.$router.push({ path: '/pemohon/list' }) }
+      if (data.status === 'success') {
+        this.$store.commit('ui/set', [
+          'flushMessage', {
+            color: 'success',
+            open: true,
+            message: `Berhasil memperbaharui data pemohon ${this.form.id_pemohon}.`
+          }
+        ])
+        this.$router.push({ path: '/pemohon/list' })
+      }
     },
     reset () {
       this.form = this.formReset
