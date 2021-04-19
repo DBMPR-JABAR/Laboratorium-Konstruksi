@@ -5,7 +5,7 @@
     </CCardHeader>
     <CForm novalidate>
       <CCardBody>
-        <div v-show="$auth.user.role == 'masyarakat'">
+        <div v-show="type == 'masyarakat'">
           <CInput
             v-model="form.nama_perusahaan"
             type="text"
@@ -88,12 +88,14 @@
 <script>
 export default {
   layout: 'TheContainer',
-  async asyncData ({ params, $axios }) {
-    const slug = params.slug
+  async asyncData ({ query, params, $axios }) {
+    const { type } = query
+    const { slug } = params
     const { data } = await $axios.get('labkon/daftar_pemohon/show/' + slug)
     const form = data.pemohon
     const formReset = form
-    return { form, formReset }
+    console.log(type)
+    return { form, formReset, type }
   },
   data () {
     return {

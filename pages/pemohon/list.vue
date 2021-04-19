@@ -34,11 +34,26 @@
                 :to="{
                   path: '/pemohon/edit/' + item.id_pemohon,
                   params: { slug: item.id_pemohon },
+                  query: { type: 'internal' },
                 }"
               >
                 <CIcon name="cil-pencil" />
               </NuxtLink>
-              <CIcon name="cil-x-circle" class="text-danger" @click.native="$store.commit('ui/set', ['modal', {open: true, title: 'Konfirmasi Hapus Data',message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`, onClick: () => onDelete(item.id_pemohon)}])" />
+              <CIcon
+                name="cil-x-circle"
+                class="text-danger"
+                @click.native="
+                  $store.commit('ui/set', [
+                    'modal',
+                    {
+                      open: true,
+                      title: 'Konfirmasi Hapus Data',
+                      message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`,
+                      onClick: () => onDelete(item.id_pemohon),
+                    },
+                  ])
+                "
+              />
             </td>
           </template>
         </CDataTable>
@@ -77,11 +92,26 @@
                 :to="{
                   path: '/pemohon/edit/' + item.id_pemohon,
                   params: { slug: item.id_pemohon },
+                  query: { type: 'masyarakat' },
                 }"
               >
                 <CIcon name="cil-pencil" />
               </NuxtLink>
-              <CIcon name="cil-x-circle" class="text-danger" @click.native="$store.commit('ui/set', ['modal', {open: true, title: 'Konfirmasi Hapus Data',message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`, onClick: () => onDelete(item.id_pemohon)}])" />
+              <CIcon
+                name="cil-x-circle"
+                class="text-danger"
+                @click.native="
+                  $store.commit('ui/set', [
+                    'modal',
+                    {
+                      open: true,
+                      title: 'Konfirmasi Hapus Data',
+                      message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`,
+                      onClick: () => onDelete(item.id_pemohon),
+                    },
+                  ])
+                "
+              />
             </td>
           </template>
         </CDataTable>
@@ -130,7 +160,6 @@ export default {
     },
     async initDaftarPemohon () {
       const { data } = await this.$axios.get('labkon/daftar_pemohon')
-      console.log(this.$auth.user)
       this.daftarPemohon = []
       data.daftar_pemohon.forEach((row) => {
         this.daftarPemohon.push(row)
@@ -141,17 +170,20 @@ export default {
     status (status) {
       let className
       switch (Number(status)) {
-        case 3:
+        case 4:
           className = { status: 'Selesai', color: 'success' }
           break
-        case 2:
+        case 3:
           className = { status: 'On Proggress', color: 'primary' }
           break
-        case 1:
+        case 2:
           className = { status: 'Waiting List', color: 'warning' }
           break
+        case 1:
+          className = { status: 'Registration', color: 'secondary' }
+          break
         default:
-          className = { status: 'Belum Divalidasi', color: 'secondary' }
+          className = { status: 'Pending', color: 'danger' }
           break
       }
       return className
@@ -162,7 +194,9 @@ export default {
         : this.daftarPemohon.filter(data => data.uptd_id == null)
     },
     async onDelete (id) {
-      const { data } = await this.$axios.get('labkon/daftar_pemohon/delete/' + id)
+      const { data } = await this.$axios.get(
+        'labkon/daftar_pemohon/delete/' + id
+      )
       if (data.status === 'success') {
         this.initDaftarPemohon()
       }

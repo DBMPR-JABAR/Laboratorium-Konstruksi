@@ -7,6 +7,11 @@ export const state = () => ({
     color: 'primary',
     title: 'Modal Title',
     message: 'Apakah anda yakin akan menghapus data ini ?'
+  },
+  flushMessage: {
+    color: 'success',
+    countDown: 0,
+    message: ''
   }
 })
 
@@ -19,11 +24,7 @@ export const mutations = {
     const sidebarClosed = [false, 'responsive'].includes(state.sidebarShow)
     state.sidebarShow = sidebarClosed ? true : 'responsive'
   },
-  openModal (state) {
-    state.openModal = { ...state.modal }
-  },
   set (state, [variable, value]) {
-    console.log(state.modal)
     state[variable] = value
   }
 }

@@ -7,6 +7,14 @@
         <div class="c-body">
           <main class="c-main">
             <CContainer fluid>
+              <CAlert
+                :show="flushMesage().countDown"
+                close-button
+                :color="flushMesage().color"
+                fade
+              >
+                {{ flushMesage().message }}
+              </CAlert>
               <transition name="fade" mode="out-in">
                 <Nuxt />
               </transition>
@@ -40,6 +48,9 @@ export default {
     },
     showModal () {
       return this.$store.state.ui.modal
+    },
+    flushMesage () {
+      return this.$store.state.ui.flushMessage
     }
   }
 }
