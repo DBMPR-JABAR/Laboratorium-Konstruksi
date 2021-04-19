@@ -84,6 +84,6 @@ export default {
     // }
   },
   generate: {
-    // dir: '../labkon'
+    dir: '../labkon'
   }
 }
