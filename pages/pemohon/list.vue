@@ -16,27 +16,29 @@
           table-filter
           pagination
         >
-          <template #status="{item}">
+          <template #status="{ item }">
             <td>
               <CBadge :color="status(item.status).color">
                 {{ status(item.status).status }}
               </CBadge>
             </td>
-          </template><template #UPTD="{item}">
+          </template>
+          <template #UPTD="{ item }">
             <td>
               {{ item.uptd_id }}
             </td>
           </template>
-          <template #aksi="{item}">
+          <template #aksi="{ item }">
             <td>
-              <NuxtLink :to="{path:'/pemohon/edit/'+item.id_pemohon,params: {slug:item.id_pemohon}}">
+              <NuxtLink
+                :to="{
+                  path: '/pemohon/edit/' + item.id_pemohon,
+                  params: { slug: item.id_pemohon },
+                }"
+              >
                 <CIcon name="cil-pencil" />
               </NuxtLink>
-            </td>
-            <td>
-              <NuxtLink :to="{path:'/pemohon/edit/'+item.id_pemohon,params: {slug:item.id_pemohon}}">
-                <CIcon name="cis-trash" />
-              </NuxtLink>
+              <CIcon name="cil-x-circle" class="text-danger" @click.native="$store.commit('ui/set', ['modal', {open: true, title: 'Konfirmasi Hapus Data',message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`, onClick: () => onDelete(item.id_pemohon)}])" />
             </td>
           </template>
         </CDataTable>
@@ -58,21 +60,26 @@
           table-filter
           pagination
         >
-          <template #status="{item}">
+          <template #status="{ item }">
             <td>
               <CBadge :color="status(item.status).color">
                 {{ status(item.status).status }}
               </CBadge>
             </td>
-          </template><template #UPTD="{item}">
+          </template><template #UPTD="{ item }">
             <td>
               {{ item.uptd_id }}
             </td>
           </template>
-          <template #aksi="{item}">
+          <template #aksi="{ item }">
             <td>
-              <NuxtLink :to="{path:'/pemohon/edit/'+item.id_pemohon,params: {slug:item.id_pemohon}}">
-                <CIcon name="cil-pencil" />
+              <NuxtLink
+                :to="{
+                  path: '/pemohon/edit/' + item.id_pemohon,
+                  params: { slug: item.id_pemohon },
+                }"
+              >
+                <CIcon name="cil-x-circle" class="text-danger" @click.native="$store.commit('ui/set', ['modal', {open: true, title: 'Konfirmasi Hapus Data',message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`, onClick: () => onDelete(item.id_pemohon)}])" />
               </NuxtLink>
             </td>
           </template>
@@ -83,12 +90,31 @@
 </template>
 
 <script>
-const fieldsInternal = ['nama_penanggung_jawab', 'email_penanggung_jawab', 'no_telp_penanggung_jawab', 'nip', 'UPTD', 'status', 'aksi']
-const fieldsMasyarakat = ['nama_penanggung_jawab', 'email_penanggung_jawab', 'no_telp_penanggung_jawab', 'nip', 'nama_perusahaan', 'email_perusahaan', 'no_telp_perusahaan', 'status', 'aksi']
+const fieldsInternal = [
+  'nama_penanggung_jawab',
+  'email_penanggung_jawab',
+  'no_telp_penanggung_jawab',
+  'nip',
+  'UPTD',
+  'status',
+  'aksi'
+]
+const fieldsMasyarakat = [
+  'nama_penanggung_jawab',
+  'email_penanggung_jawab',
+  'no_telp_penanggung_jawab',
+  'nip',
+  'nama_perusahaan',
+  'email_perusahaan',
+  'no_telp_perusahaan',
+  'status',
+  'aksi'
+]
 export default {
   layout: 'TheContainer',
   data () {
     return {
+      dangerModal: false,
       fieldsInternal,
       fieldsMasyarakat,
       daftarPemohon: []
@@ -104,23 +130,41 @@ export default {
     async initDaftarPemohon () {
       const { data } = await this.$axios.get('labkon/daftar_pemohon')
       console.log(this.$auth.user)
+      this.daftarPemohon = []
       data.daftar_pemohon.forEach((row) => {
         this.daftarPemohon.push(row)
       })
+      this.dataLoaded = true
       return this.daftarPemohon
     },
     status (status) {
       let className
       switch (Number(status)) {
-        case 3 : className = { status: 'Selesai', color: 'success' }; break
-        case 2 : className = { status: 'On Proggress', color: 'primary' }; break
-        case 1 : className = { status: 'Waiting List', color: 'warning' }; break
-        default : className = { status: 'Belum Divalidasi', color: 'secondary' }; break
+        case 3:
+          className = { status: 'Selesai', color: 'success' }
+          break
+        case 2:
+          className = { status: 'On Proggress', color: 'primary' }
+          break
+        case 1:
+          className = { status: 'Waiting List', color: 'warning' }
+          break
+        default:
+          className = { status: 'Belum Divalidasi', color: 'secondary' }
+          break
       }
       return className
     },
     getDaftarPemohon (type) {
-      return type === 'internal' ? this.daftarPemohon.filter(data => data.uptd_id != null) : this.daftarPemohon.filter(data => data.uptd_id == null)
+      return type === 'internal'
+        ? this.daftarPemohon.filter(data => data.uptd_id != null)
+        : this.daftarPemohon.filter(data => data.uptd_id == null)
+    },
+    async onDelete (id) {
+      const { data } = await this.$axios.get('labkon/daftar_pemohon/delete/' + id)
+      if (data.status === 'success') {
+        this.initDaftarPemohon()
+      }
     }
   }
 }

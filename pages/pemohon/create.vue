@@ -110,7 +110,7 @@ export default {
   methods: {
     async insert () {
       const { data } = await this.$axios.post('labkon/daftar_pemohon/create', this.form)
-      console.log(data)
+      if (data.status === 'success') { this.$router.push({ path: '/pemohon/list' }) }
     },
     async init () {
       const { data } = await this.$axios.get('uptd_list')
