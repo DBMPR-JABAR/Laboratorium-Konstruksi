@@ -11,7 +11,6 @@
             type="text"
             description="Silahkan masukan nama perusahaan."
             label="Nama Perusahaan"
-            placeholder="Masukan nama perusahaan..."
             required
           /><CInput
             v-model="form.email_perusahaan"
@@ -19,7 +18,6 @@
             description="Silahkan masukan email perusahaan."
             autocomplete="email"
             label="Email Perusahaan"
-            placeholder="Masukan email perusahaan..."
             required
           />
           <CInput
@@ -27,7 +25,6 @@
             type="number"
             description="Silahkan masukan no. telp perusahaan."
             label="No. Telp Perusahaan"
-            placeholder="Masukan no. telp perusahaan..."
             required
           />
         </div>
@@ -36,7 +33,6 @@
           type="text"
           description="Silahkan masukan nama penanggung jawab."
           label="Nama Penanggung Jawab"
-          placeholder="Masukan nama penanggung jawab..."
           required
         /><CInput
           v-model="form.email_penanggung_jawab"
@@ -44,7 +40,6 @@
           description="Silahkan masukan email penanggung jawab."
           autocomplete="email"
           label="Email Penanggung Jawab"
-          placeholder="Masukan email penanggung jawab..."
           required
         />
         <CInput
@@ -52,7 +47,6 @@
           type="number"
           description="Silahkan masukan no. telp penanggung jawab."
           label="No. Telp Penanggung Jawab"
-          placeholder="Masukan no. telp penanggung jawab..."
           required
         />
         <CInput
@@ -60,10 +54,10 @@
           type="number"
           description="Silahkan masukan nip/nik penanggung jawab."
           label="NIP/NIK Penanggung Jawab"
-          placeholder="Masukan nip/nik penanggung jawab..."
           required
         />
         <CSelect
+          v-show="isInternal()"
           :value.sync="form.uptd_id"
           description="Silahkan pilih UPTD."
           label="UPTD"
@@ -100,7 +94,7 @@ export default {
         email_penanggung_jawab: '',
         no_telp_penanggung_jawab: '',
         nip: '',
-        uptd_id: 1
+        uptd_id: null
       }
     }
   },
@@ -108,6 +102,9 @@ export default {
     this.init()
   },
   methods: {
+    isInternal () {
+      return this.$auth.user.role === 'internal'
+    },
     async insert () {
       const { data } = await this.$axios.post('labkon/daftar_pemohon/create', this.form)
       if (data.status === 'success') {
@@ -116,19 +113,21 @@ export default {
           'flushMessage', {
             color: 'success',
             open: true,
-            message: 'Berhasil memnambah data pemohon.'
+            message: 'Berhasil menambah data pemohon.'
           }
         ])
       }
     },
     async init () {
-      const { data } = await this.$axios.get('uptd_list')
-      this.uptdOptions = data.uptd_list.map((uptd) => {
-        return {
-          value: uptd.id,
-          label: uptd.nama
-        }
-      })
+      if (this.isInternal) {
+        const { data } = await this.$axios.get('uptd_list')
+        this.uptdOptions = data.uptd_list.map((uptd) => {
+          return {
+            value: uptd.id,
+            label: uptd.nama
+          }
+        })
+      }
     }
   }
 }
