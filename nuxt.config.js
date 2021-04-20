@@ -67,7 +67,7 @@ export default {
   build: {},
 
   router: {
-    base: '/labkon/',
+    base: String(process.env.TARGET) === 'server' ? '/' : '/labkon/',
     // mode: 'hash',
     linkActiveClass: 'active',
     routeNameSplitter: '/',
@@ -85,6 +85,6 @@ export default {
     // }
   },
   generate: {
-    dir: '../labkon'
+    dir: String(process.env.TARGET) === 'server' ? './dist' : '../labkon'
   }
 }
