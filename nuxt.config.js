@@ -43,7 +43,10 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    ['nuxt-gmaps', {
+      key: process.env.GOOGLE_API_KEY
+    }]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
