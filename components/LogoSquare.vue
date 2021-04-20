@@ -13,7 +13,7 @@
       fill="#2F495E"
     />
   </svg> -->
-  <img class="NuxtLogo" height="30" src="/img/square.png">
+  <img class="NuxtLogo" height="30" src="./img/square.png">
 </template>
 
 <style>
