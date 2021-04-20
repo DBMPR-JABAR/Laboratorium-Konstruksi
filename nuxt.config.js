@@ -70,7 +70,8 @@ export default {
     base: '/labkon/',
     // mode: 'hash',
     linkActiveClass: 'active',
-    routeNameSplitter: '/'
+    routeNameSplitter: '/',
+    middleware: ['auth']
     // extendRoutes (routes, resolve) {
     //   routes.push({
     //     name: 'Pengujian',
