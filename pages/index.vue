@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div>
-      <Logo :height="75" />
+      <NuxtLink to="/dashboard">
+        <Logo :height="75" />
+      </NuxtLink>
       <h1 class="title">
         Selamat Datang di Labolatorium Kontruksi
       </h1>

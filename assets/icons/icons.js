@@ -50,6 +50,7 @@ import {
   cilGlobeAlt,
   cilGrid,
   cilFile,
+  cilBalanceScale,
   cilJustifyCenter,
   cilLaptop,
   cilLayers,
@@ -81,6 +82,7 @@ export const iconsSet = Object.assign(
   {},
   { logo },
   {
+    cilBalanceScale,
     cilArrowRight,
     cilBan,
     cilBasket,

@@ -6,7 +6,7 @@ export default {
   head: {
     title: 'Labolatorium Kontruksi',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'id_ID'
     },
     meta: [
       { charset: 'utf-8' },

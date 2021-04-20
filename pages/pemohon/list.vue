@@ -54,6 +54,16 @@
                   ])
                 "
               />
+              <NuxtLink
+                key="bahan_uji"
+                class="text-warning"
+                :to="{
+                  path: '/pemohon/bahan_uji/create',
+                  params: { id: item.id_pemohon },
+                }"
+              >
+                <CIcon name="cil-balance-scale" />
+              </NuxtLink>
             </td>
           </template>
         </CDataTable>
@@ -89,6 +99,7 @@
           <template #aksi="{ item }">
             <td>
               <NuxtLink
+                key="edit"
                 :to="{
                   path: '/pemohon/edit/' + item.id_pemohon,
                   params: { slug: item.id_pemohon },
