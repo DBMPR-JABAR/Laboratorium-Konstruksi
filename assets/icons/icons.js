@@ -29,6 +29,8 @@ import {
   cifEs,
   cifPl,
   cilArrowRight,
+  cilArrowThickFromTop,
+  cilArrowThickTop,
   cilBan,
   cilBasket,
   cilBell,
@@ -73,7 +75,8 @@ import {
   cilUser,
   cilUserFemale,
   cilUserFollow,
-  cilXCircle
+  cilXCircle,
+  cilPrint
 } from '@coreui/icons'
 
 import { logo } from './logo'
@@ -82,6 +85,9 @@ export const iconsSet = Object.assign(
   {},
   { logo },
   {
+    cilArrowThickTop,
+    cilPrint,
+    cilArrowThickFromTop,
     cilBalanceScale,
     cilArrowRight,
     cilBan,

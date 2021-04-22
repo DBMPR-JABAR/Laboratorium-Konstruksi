@@ -58,11 +58,57 @@
                   ])
                 "
               />
+              <CIcon
+                name="cil-arrow-thick-from-top"
+                class="text-warning"
+                @click.native="uploadModal(item.id_permohonan)"
+              />
             </td>
           </template>
         </CDataTable>
       </CCardBody>
     </CCard>
+    <CModal
+      title="Upload Surat Permohonan"
+      color="success"
+      :show.sync="uploadModalIsOpen"
+    >
+      <CInputFile
+        ref="suratPermohonan"
+        label="Upload Surat Permohonan"
+        description="Upload Surat Permohonan yang telah ditandatangani"
+        horizontal
+        custom
+        @change="handleFileUpload()"
+      />
+
+      <template #footer>
+        <CButton
+          type="button"
+          size="sm"
+          color="warning"
+          @click.native="print()"
+        >
+          <CIcon
+            name="cil-print"
+            class="text-white"
+          />
+          <span class="text-white">Cetak Surat Permohonan</span>
+        </CButton>
+        <CButton
+          type="button"
+          size="sm"
+          color="success"
+          @click.native="upload()"
+        >
+          <CIcon
+            name="cil-arrow-thick-top"
+            class="text-white"
+          />
+          <span class="text-white">Upload</span>
+        </CButton>
+      </template>
+    </CModal>
   </div>
 </template>
 
@@ -80,9 +126,11 @@ export default {
   layout: 'TheContainer',
   data () {
     return {
-      dangerModal: false,
+      uploadModalIsOpen: false,
       fields,
-      daftarPermohonan: []
+      daftarPermohonan: [],
+      suratPermohonan: null,
+      idPermohonan: ''
     }
   },
   created () {
@@ -133,6 +181,19 @@ export default {
           }
         ])
       }
+    },
+    uploadModal (idPermohonan) {
+      this.idPermohonan = idPermohonan
+      this.uploadModalIsOpen = true
+    },
+    print () {
+      this.$router.push({ path: '/permohonan/surat_permohonan/' + this.idPermohonan })
+    },
+    upload () {
+      console.log(this.suratPermohonan)
+    },
+    handleFileUpload () {
+      this.suratPermohonan = this.$refs.suratPermohonan.files[0]
     }
   }
 }
