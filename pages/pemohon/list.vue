@@ -59,7 +59,7 @@
                 class="text-warning"
                 :to="{
                   path: '/pemohon/bahan_uji/create',
-                  params: { id: item.id_pemohon },
+                  query: { id: item.id_pemohon },
                 }"
               >
                 <CIcon name="cil-balance-scale" />

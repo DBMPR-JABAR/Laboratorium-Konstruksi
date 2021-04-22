@@ -29,6 +29,13 @@
           />
         </div>
         <CInput
+          v-model="form.nip"
+          type="number"
+          description="Silahkan masukan nip/nik penanggung jawab."
+          label="NIP/NIK Penanggung Jawab"
+          required
+        />
+        <CInput
           v-model="form.nama_penanggung_jawab"
           type="text"
           description="Silahkan masukan nama penanggung jawab."
@@ -47,13 +54,6 @@
           type="number"
           description="Silahkan masukan no. telp penanggung jawab."
           label="No. Telp Penanggung Jawab"
-          required
-        />
-        <CInput
-          v-model="form.nip"
-          type="number"
-          description="Silahkan masukan nip/nik penanggung jawab."
-          label="NIP/NIK Penanggung Jawab"
           required
         />
         <CSelect
