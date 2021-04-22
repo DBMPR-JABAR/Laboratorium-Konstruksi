@@ -16,6 +16,11 @@
           table-filter
           pagination
         >
+          <template #ID_Pemohon="{ item }">
+            <td>
+              {{ (item.id_pemohon).replaceAll('-','/') }}
+            </td>
+          </template>
           <template #status="{ item }">
             <td>
               <CBadge :color="status(item.status).color">
@@ -133,6 +138,7 @@
 
 <script>
 const fieldsInternal = [
+  'ID_Pemohon',
   'nama_penanggung_jawab',
   'email_penanggung_jawab',
   'no_telp_penanggung_jawab',
@@ -142,6 +148,7 @@ const fieldsInternal = [
   'aksi'
 ]
 const fieldsMasyarakat = [
+  'ID_Pemohon',
   'nama_penanggung_jawab',
   'email_penanggung_jawab',
   'no_telp_penanggung_jawab',
