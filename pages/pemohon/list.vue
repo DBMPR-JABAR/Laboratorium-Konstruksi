@@ -18,7 +18,7 @@
         >
           <template #ID_Pemohon="{ item }">
             <td>
-              {{ (item.id_pemohon).replaceAll('-','/') }}
+              {{ item.id_pemohon }}
             </td>
           </template>
           <template #status="{ item }">
@@ -59,16 +59,6 @@
                   ])
                 "
               />
-              <NuxtLink
-                key="bahan_uji"
-                class="text-warning"
-                :to="{
-                  path: '/pemohon/bahan_uji/create',
-                  query: { id: item.id_pemohon },
-                }"
-              >
-                <CIcon name="cil-balance-scale" />
-              </NuxtLink>
             </td>
           </template>
         </CDataTable>
@@ -144,7 +134,7 @@ const fieldsInternal = [
   'no_telp_penanggung_jawab',
   'nip',
   'UPTD',
-  'status',
+  // 'status',
   'aksi'
 ]
 const fieldsMasyarakat = [
@@ -156,7 +146,7 @@ const fieldsMasyarakat = [
   'nama_perusahaan',
   'email_perusahaan',
   'no_telp_perusahaan',
-  'status',
+  // 'status',
   'aksi'
 ]
 export default {

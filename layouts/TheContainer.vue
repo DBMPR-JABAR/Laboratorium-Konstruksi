@@ -51,7 +51,17 @@ export default {
       return this.$store.state.ui.modal
     },
     flushMesage () {
-      return this.$store.state.ui.flushMessage
+      const flushMesage = this.$store.state.ui.flushMessage
+      if (flushMesage.open) {
+        setTimeout(() => {
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              open: false
+            }
+          ])
+        }, 3000)
+      }
+      return flushMesage
     },
     flushMesageEvent (status) {
       if (status === false) { this.$store.commit('ui/set', ['flushMessage', { open: false }]) }
