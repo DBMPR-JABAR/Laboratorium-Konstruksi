@@ -25,9 +25,7 @@
                 :show="showModal().open"
                 @update:show="closeModal"
               >
-                <div
-                  v-html="showModal().message"
-                />
+                {{ showModal().message }}
               </cmodal>
             </CContainer>
           </main>

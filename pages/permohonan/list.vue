@@ -59,6 +59,7 @@
                 "
               />
               <CIcon
+                v-show="Number(item.status) === 1"
                 name="cil-arrow-thick-from-top"
                 class="text-warning"
                 @click.native="uploadModal(item.id_permohonan)"
@@ -79,7 +80,7 @@
         description="Upload Surat Permohonan yang telah ditandatangani"
         horizontal
         custom
-        @change="handleFileUpload()"
+        @change="handleFileUpload"
       />
 
       <template #footer>
@@ -87,7 +88,7 @@
           type="button"
           size="sm"
           color="warning"
-          @click.native="print()"
+          @click="print()"
         >
           <CIcon
             name="cil-print"
@@ -99,7 +100,7 @@
           type="button"
           size="sm"
           color="success"
-          @click.native="upload()"
+          @click="upload()"
         >
           <CIcon
             name="cil-arrow-thick-top"
@@ -187,13 +188,23 @@ export default {
       this.uploadModalIsOpen = true
     },
     print () {
-      this.$router.push({ path: '/permohonan/surat_permohonan/' + this.idPermohonan })
+      this.$router.push({ path: '/permohonan/surat_permohonan/', query: { id: this.idPermohonan } })
     },
-    upload () {
-      console.log(this.suratPermohonan)
+    async  upload () {
+      const fd = new FormData()
+      fd.append('surat_permohonan', this.suratPermohonan)
+      const { data } = await this.$axios.post('/labkon/permohonan/upload_surat_permohonan/' + this.idPermohonan, fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      if (data.status === 'success') {
+        this.uploadModalIsOpen = false
+        this.initDaftarPermohonan()
+      }
     },
-    handleFileUpload () {
-      this.suratPermohonan = this.$refs.suratPermohonan.files[0]
+    handleFileUpload (files) {
+      this.suratPermohonan = files[0]
     }
   }
 }
