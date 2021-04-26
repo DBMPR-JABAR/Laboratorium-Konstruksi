@@ -10,7 +10,7 @@ const options = {
   ],
   styles: [
     'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-    '/css/surat_permohonan_labkon.css'
+    '/css/formulir_pengujian_labkon.css'
   ]
 }
 

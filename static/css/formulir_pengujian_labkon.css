@@ -26,13 +26,20 @@ html {
 }
 
 @media print {
-body,
+html,body,
   .page {
       margin: 0;
       box-shadow: 0;
       width: 21cm;
       height: 29.7cm;
       size: 21cm 29.7cm;
+  }
+
+  #formulir_pengujian_labkon {
+  }
+
+  #cetak {
+      display: none
   }
 }
 
@@ -48,23 +55,6 @@ body,
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 1.5px
-}
-
-#cetak {
-  display: none
-}
-
-@media print {
-  #cetak {
-      display: none
-  }
-  body, html {
-  margin: 0;
-  padding: 0;
-  width: 21cm;
-  height: 29.7cm;
-  font-size: 8px;
-  }
 }
 
 .form-group .row {
@@ -121,4 +111,12 @@ input {
 
 table {
   font-size: 12px
+}
+
+.border {
+  border-color: black
+}
+
+.no_border {
+  border: none !important
 }

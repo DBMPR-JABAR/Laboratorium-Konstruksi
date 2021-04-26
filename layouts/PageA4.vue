@@ -1,8 +1,6 @@
 <template>
   <client-only>
-    <div class="page">
-      <Nuxt />
-    </div>
+    <Nuxt />
   </client-only>
 </template>
 <style scoped>

@@ -19,6 +19,12 @@
             autocomplete="email"
             label="Email Perusahaan"
             required
+          /><CInput
+            v-model="form.alamat_perusahaan"
+            type="text"
+            description="Silahkan masukan alamat perusahaan."
+            label="Alamat Perusahaan"
+            required
           />
           <CInput
             v-model="form.no_telp_perusahaan"
@@ -31,29 +37,35 @@
         <CInput
           v-model="form.nip"
           type="number"
-          description="Silahkan masukan nip/nik penanggung jawab."
-          label="NIP/NIK Penanggung Jawab"
+          description="Silahkan masukan nip/nik."
+          label="NIP/NIK Pemohon"
           required
         />
         <CInput
           v-model="form.nama_penanggung_jawab"
           type="text"
-          description="Silahkan masukan nama penanggung jawab."
-          label="Nama Penanggung Jawab"
+          description="Silahkan masukan nama pemohon."
+          label="Nama Pemohon"
           required
         /><CInput
           v-model="form.email_penanggung_jawab"
           type="email"
-          description="Silahkan masukan email penanggung jawab."
+          description="Silahkan masukan email pemohon."
           autocomplete="email"
-          label="Email Penanggung Jawab"
+          label="Email Pemohon"
+          required
+        /><CInput
+          v-model="form.alamat_penanggung_jawab"
+          type="text"
+          description="Silahkan masukan alamat pemohon."
+          label="Alamat Pemohon"
           required
         />
         <CInput
           v-model="form.no_telp_penanggung_jawab"
           type="number"
-          description="Silahkan masukan no. telp penanggung jawab."
-          label="No. Telp Penanggung Jawab"
+          description="Silahkan masukan no. telp pemohon."
+          label="No. Telp Pemohon"
           required
         />
         <CSelect
@@ -87,6 +99,8 @@ export default {
         label: 'Pilih UPTD'
       }],
       form: {
+        alamat_perusahaan: '',
+        alamat_penanggung_jawab: '',
         nama_perusahaan: '',
         email_perusahaan: '',
         no_telp_perusahaan: '',

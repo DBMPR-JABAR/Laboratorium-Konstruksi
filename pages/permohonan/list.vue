@@ -2,7 +2,7 @@
   <div>
     <CCard>
       <CCardHeader>
-        <CIcon name="cil-grid" /> Daftar Permohonan Internal
+        <CIcon name="cil-grid" /> Daftar Permohonan
       </CCardHeader>
       <CCardBody>
         <CDataTable
@@ -70,7 +70,7 @@
       </CCardBody>
     </CCard>
     <CModal
-      title="Upload Surat Permohonan"
+      title="Upload Dokumen Persyaratan"
       color="success"
       :show.sync="uploadModalIsOpen"
     >
@@ -80,7 +80,15 @@
         description="Upload Surat Permohonan yang telah ditandatangani"
         horizontal
         custom
-        @change="handleFileUpload"
+        @change="updateSuratPermohonan"
+      />
+      <CInputFile
+        ref="formulirPengujian"
+        label="Upload Formulir Pengujian"
+        description="Upload Formulir Pengujian yang telah ditandatangani"
+        horizontal
+        custom
+        @change="updateFormulirPermohonan"
       />
 
       <template #footer>
@@ -94,7 +102,7 @@
             name="cil-print"
             class="text-white"
           />
-          <span class="text-white">Cetak Surat Permohonan</span>
+          <span class="text-white">Cetak Formulir Pengujian</span>
         </CButton>
         <CButton
           type="button"
@@ -131,6 +139,7 @@ export default {
       fields,
       daftarPermohonan: [],
       suratPermohonan: null,
+      formulirPermohonan: null,
       idPermohonan: ''
     }
   },
@@ -188,12 +197,13 @@ export default {
       this.uploadModalIsOpen = true
     },
     print () {
-      this.$router.push({ path: '/permohonan/surat_permohonan/', query: { id: this.idPermohonan } })
+      this.$router.push({ path: '/permohonan/formulir_pengujian/', query: { id: this.idPermohonan } })
     },
     async  upload () {
       const fd = new FormData()
       fd.append('surat_permohonan', this.suratPermohonan)
-      const { data } = await this.$axios.post('/labkon/permohonan/upload_surat_permohonan/' + this.idPermohonan, fd, {
+      fd.append('formulir_permohonan', this.formulirPermohonan)
+      const { data } = await this.$axios.post('/labkon/permohonan/upload_dokumen_persyaratan_permohonan/' + this.idPermohonan, fd, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -203,8 +213,11 @@ export default {
         this.initDaftarPermohonan()
       }
     },
-    handleFileUpload (files) {
+    updateSuratPermohonan (files) {
       this.suratPermohonan = files[0]
+    },
+    updateFormulirPermohonan (files) {
+      this.formulirPermohonan = files[0]
     }
   }
 }
