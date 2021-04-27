@@ -91,7 +91,7 @@
     >
       <CInputFile
         ref="suratPermohonan"
-        label="Upload Surat Permohonan"
+        label="Surat Permohonan"
         description="Upload surat permohonan atau surat pengantar dari perusahaan atau UPTD"
         horizontal
         custom
@@ -100,7 +100,7 @@
       />
       <CInputFile
         ref="formulirPengujian"
-        label="Upload Formulir Pengujian"
+        label="Formulir Pengujian"
         description="Upload Formulir Pengujian yang telah ditandatangani"
         horizontal
         custom
