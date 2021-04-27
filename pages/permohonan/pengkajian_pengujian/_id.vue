@@ -105,10 +105,10 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="button" size="sm" color="danger">
+        <CButton type="button" size="sm" color="danger" @click="onReject">
           <CIcon name="cil-x-circle" /> Ada yang kurang
         </CButton>
-        <CButton type="button" size="sm" color="success">
+        <CButton type="button" size="sm" color="success" @click="onSubmit">
           <CIcon name="cil-check-circle" /> Lanjut
         </CButton>
         <CButton type="reset" size="sm" color="warning">
@@ -148,11 +148,40 @@ export default {
       document.body.removeChild(element)
     },
     updateForm (value, event) {
+      console.log(value)
       this.form = {
         ...this.form,
         [event.target.name]: value
       }
       console.log(this.form)
+    },
+    async onSubmit () {
+      const status = await this.$axios.put('/labkon/permohonan/update_status_permohonan/' + this.id, { status: 3 })
+      const pengkajian = await this.$axios.put('/labkon/permohonan/pengkajian_permohonan/' + this.id, this.form)
+      if (status.data.status === 'success' && pengkajian.data.status === 'success') {
+        this.$router.push({ path: '/permohonan/list' })
+        this.$store.commit('ui/set', [
+          'flushMessage', {
+            color: 'success',
+            open: true,
+            message: 'Berhasil menyetujui data permohonan.'
+          }
+        ])
+      }
+    },
+    async onReject () {
+      const { data } = await this.$axios.put('/labkon/permohonan/update_status_permohonan/' + this.id, { status: 0 })
+      console.log(data)
+      if (data.status === 'success') {
+        this.$router.push({ path: '/permohonan/list' })
+        this.$store.commit('ui/set', [
+          'flushMessage', {
+            color: 'success',
+            open: true,
+            message: 'Status permohonan menjadi pending.'
+          }
+        ])
+      }
     }
   }
 }

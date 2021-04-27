@@ -51,6 +51,7 @@
           <template #aksi="{ item }">
             <td>
               <NuxtLink
+                v-show="Number(item.status) === 1"
                 :to="{
                   path: '/permohonan/insert',
                   query: { id: item.id_permohonan }
@@ -58,7 +59,7 @@
               >
                 <CIcon name="cil-pencil" />
               </NuxtLink>
-              <CIcon
+              <!-- <CIcon
                 name="cil-x-circle"
                 class="text-danger"
                 @click.native="
@@ -72,7 +73,7 @@
                     },
                   ])
                 "
-              />
+              /> -->
               <CIcon
                 v-show="Number(item.status) === 1"
                 name="cil-arrow-thick-from-top"
@@ -231,6 +232,7 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       })
+      console.log(data)
       if (data.status === 'success') {
         this.uploadModalIsOpen = false
         this.initDaftarPermohonan()
