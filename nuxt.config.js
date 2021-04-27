@@ -28,7 +28,8 @@ export default {
   plugins: [{ src: '~/plugins/coreui-vue.js', mode: 'client' },
     { src: '~/plugins/icons.js', mode: 'client' },
     { src: '~/plugins/vue-select.js', mode: 'client' },
-    { src: '~/plugins/html-to-paper.js', mode: 'client' }
+    { src: '~/plugins/html-to-paper.js', mode: 'client' },
+    { src: '~/plugins/vue-pdf.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

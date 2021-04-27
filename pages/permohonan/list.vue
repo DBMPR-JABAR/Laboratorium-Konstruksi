@@ -81,10 +81,7 @@
               />
               <NuxtLink
                 v-show="Number(item.status) === 2"
-                :to="{
-                  path: '/permohonan/pengkajian_pengujian/',
-                  params: { slug: item.id_permohonan }
-                }"
+                :to="'/permohonan/pengkajian_pengujian/'+item.id_permohonan"
               >
                 <CIcon name="cil-zoom" class="text-success" />
               </NuxtLink>

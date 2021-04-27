@@ -1,0 +1,4 @@
+API_URL=http://localhost/temanjabar/public/api/
+MODE=development
+TARGET=server
+GOOGLE_API_KEY=AIzaSyDq3Ai_KpVZ9NqzcJD9H9A5m0M1-zI6Qzc
