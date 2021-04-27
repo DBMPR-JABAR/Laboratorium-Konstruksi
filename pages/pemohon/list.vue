@@ -21,6 +21,23 @@
               {{ item.id_pemohon }}
             </td>
           </template>
+          
+           <template #nama="{ item }">
+            <td>
+              {{ item.nama_penanggung_jawab }}
+            </td>
+          </template>
+          <template #email="{ item }">
+            <td>
+              {{ item.email_penanggung_jawab }}
+            </td>
+          </template>
+          <template #nomor_telpon="{ item }">
+            <td>
+              {{ item.no_telp_penanggung_jawab }}
+            </td>
+          </template>
+          
           <template #status="{ item }">
             <td>
               <CBadge :color="status(item.status).color">
