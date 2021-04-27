@@ -77,7 +77,7 @@
       <CInputFile
         ref="suratPermohonan"
         label="Upload Surat Permohonan"
-        description="Upload Surat Permohonan yang telah ditandatangani"
+        description="Upload surat permohonan atau surat pengantar dari perusahaan atau UPTD"
         horizontal
         custom
         @change="updateSuratPermohonan"
