@@ -25,7 +25,7 @@
       <div class="col-1" />
       <div class="col-10 judul text-center font-weight-bold">
         <p>FORMULIR PERMOHONAN PENGUJIAN</p>
-        <p>UPTD LABLATORIUM KONTRUKSI</p>
+        <p>UPTD LABORATORIUM BAHAN KONTRUKSI</p>
         <p>DINAS BINA MARGA DAN PENATAAN RUANG PROVINSI JAWA BARAT</p>
       </div>
       <div class="col-1">
@@ -100,14 +100,14 @@
           :key="key"
           class="table table-sm table-bordered border"
         >
-          <thead>
+          <thead v-if="bahan_uji[0]">
             <tr>
               <th colspan="2">
-                {{ bahan_uji[0].nama_bahan }}
+                {{ bahan_uji[0] ? bahan_uji[0].nama_bahan: '-' }}
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="bahan_uji[0]">
             <tr
               v-for="(option) in bahan_uji"
               :key="`${key}_${option.id}`"
@@ -127,14 +127,14 @@
           :key="key"
           class="table table-sm table-bordered"
         >
-          <thead>
+          <thead v-if="bahan_uji[0]">
             <tr>
               <th colspan="2">
-                {{ bahan_uji[0].nama_bahan }}
+                {{ bahan_uji[0] ? bahan_uji[0].nama_bahan: '-' }}
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="bahan_uji[0]">
             <tr
               v-for="(option) in bahan_uji"
               :key="`${key}_${option.id}`"
@@ -150,7 +150,7 @@
       </div>
     </div>
     <div class="row">
-      <table class=" col-6 pl-4">
+      <table class=" col-7 pl-4">
         <tbody>
           <tr>
             <td style="width: 50%">
@@ -304,8 +304,9 @@ export default {
   },
   computed: {
     waktuPengambilanSampel () {
-      const waktuPengambilanSampel = String(this.form.tanggal_pengambilan_sampel).replaceAll('-', '/')
-      return waktuPengambilanSampel
+      const date = new Date(this.form.tanggal_pengambilan_sampel)
+      const dateFormated = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+      return dateFormated
     }
   },
   methods: {
