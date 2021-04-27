@@ -215,8 +215,10 @@
                 class="dotted"
                 readonly
               >
-              <p class="text-danger">
-                Ket : Jika sampel selama tiga bulan tidak diambil maka akan kami musnahkan
+              <p>
+                <i><small class="text-danger">
+                  Ket : Jika sampel selama tiga bulan tidak diambil maka akan kami musnahkan
+                </small></i>
               </p>
             </td>
           </tr>
