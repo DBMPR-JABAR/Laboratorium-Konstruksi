@@ -31,7 +31,7 @@
               {{ item.email_penanggung_jawab }}
             </td>
           </template>
-          <template #no_telp="{ item }">
+          <template #nomor_telpon="{ item }">
             <td>
               {{ item.no_telp_penanggung_jawab }}
             </td>
@@ -92,7 +92,7 @@
       <CInputFile
         ref="suratPermohonan"
         label="Surat Permohonan"
-        description="Upload surat permohonan atau surat pengantar dari perusahaan atau UPTD"
+        description="Upload surat permohonan atau surat pengantar dari UPTD/Perusahaan"
         horizontal
         custom
         accept="image/*,application/pdf"
