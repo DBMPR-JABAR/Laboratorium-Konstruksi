@@ -21,6 +21,21 @@
               {{ item.id_permohonan.replaceAll('-','/') }}
             </td>
           </template>
+          <template #nama="{ item }">
+            <td>
+              {{ item.nama_penanggung_jawab }}
+            </td>
+          </template>
+          <template #email="{ item }">
+            <td>
+              {{ item.email_penanggung_jawab }}
+            </td>
+          </template>
+          <template #no_telp="{ item }">
+            <td>
+              {{ item.no_telp_penanggung_jawab }}
+            </td>
+          </template>
           <template #status="{ item }">
             <td>
               <CBadge :color="status(item.status).color">
@@ -80,6 +95,7 @@
         description="Upload Surat Permohonan yang telah ditandatangani"
         horizontal
         custom
+        accept="image/*,application/pdf"
         @change="updateSuratPermohonan"
       />
       <CInputFile
@@ -88,6 +104,7 @@
         description="Upload Formulir Pengujian yang telah ditandatangani"
         horizontal
         custom
+        accept="image/*,application/pdf"
         @change="updateFormulirPermohonan"
       />
 
@@ -124,9 +141,9 @@
 <script>
 const fields = [
   'No_Permohonan',
-  'nama_penanggung_jawab',
-  'email_penanggung_jawab',
-  'no_telp_penanggung_jawab',
+  'nama',
+  'email',
+  'no_telp',
   'nip',
   'status',
   'aksi'
@@ -213,11 +230,17 @@ export default {
         this.initDaftarPermohonan()
       }
     },
-    updateSuratPermohonan (files) {
-      this.suratPermohonan = files[0]
+    updateSuratPermohonan (files, event) {
+      if (files.length > 0) {
+        this.suratPermohonan = files[0]
+        event.target.labels[1].innerText = String(files[0].name).substring(0, 30)
+      }
     },
-    updateFormulirPermohonan (files) {
-      this.formulirPermohonan = files[0]
+    updateFormulirPermohonan (files, event) {
+      if (files.length > 0) {
+        this.formulirPermohonan = files[0]
+        event.target.labels[1].innerText = String(files[0].name).substring(0, 30)
+      }
     }
   }
 }
