@@ -5,7 +5,7 @@
         <strong>Dokumen Persyaratan</strong>
       </CCardHeader>
       <CCardBody>
-        <CTabs variant="pills" vertical>
+        <CTabs>
           <CTab active>
             <template slot="title">
               Surat Permohonan
@@ -16,7 +16,7 @@
             <template slot="title">
               Formulir Permohonan
             </template>
-            <img width="100%" :src="'http://124.81.122.132/temanjabar/public/storage/'+document.formulir_formulir" alt="Formulir Permohonan" @click="downloadDocument(document.surat_permohonan,`surat_permohonan_${id}`)">
+            <img width="100%" :src="'http://124.81.122.132/temanjabar/public/storage/'+document.formulir_permohonan" alt="Formulir Permohonan" @click="downloadDocument(document.surat_permohonan,`surat_permohonan_${id}`)">
           </CTab>
         </CTabs>
       </CCardBody>
