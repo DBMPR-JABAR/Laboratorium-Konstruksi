@@ -31,7 +31,7 @@
               {{ item.email_penanggung_jawab }}
             </td>
           </template>
-          <template #nomor_telpon="{ item }">
+          <template #no_telp="{ item }">
             <td>
               {{ item.no_telp_penanggung_jawab }}
             </td>
