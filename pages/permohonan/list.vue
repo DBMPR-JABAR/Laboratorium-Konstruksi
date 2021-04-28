@@ -86,6 +86,11 @@
               >
                 <CIcon name="cil-zoom" class="text-success" />
               </NuxtLink>
+              <CIcon
+                name="cil-control"
+                class="text-success"
+                @click.native="riwayatModal(item.id_permohonan)"
+              />
             </td>
           </template>
         </CDataTable>
@@ -142,6 +147,36 @@
         </CButton>
       </template>
     </CModal>
+
+    <CModal
+      size="xl"
+      title="Riwayat Permohonan"
+      color="success"
+      :show.sync="riwayatModalIsOpen"
+    >
+      <ul class="timeline">
+        <li v-for="(riwayat, key) in riwayatPermohonan" :key="key">
+          <div :class="key % 2 === 0 ? 'direction-r' : 'direction-l'">
+            <div class="flag-wrapper">
+              <span :class="`hexa ${riwayatClass(riwayat.type_keterangan,riwayat.keterangan).hexa}`" />
+              <span class="flag ">{{ riwayat.type_keterangan }}</span>
+              <span class="time-wrapper "><span :class="`time ${riwayatClass(riwayat.type_keterangan,riwayat.keterangan).hexa}`">{{ printDate(riwayat.created_at) }}</span></span>
+            </div>
+            <div class="desc" v-html="riwayatDesc(riwayat.keterangan)" />
+          </div>
+        </li>
+      </ul>
+      <template #footer>
+        <CButton
+          type="button"
+          class="btn btn-success"
+          color="success"
+          @click="{riwayatModalIsOpen = false}"
+        >
+          <span class="text-white">Ok</span>
+        </CButton>
+      </template>
+    </CModal>
   </div>
 </template>
 
@@ -160,11 +195,14 @@ export default {
   data () {
     return {
       uploadModalIsOpen: false,
+      riwayatModalIsOpen: false,
       fields,
       daftarPermohonan: [],
       suratPermohonan: null,
       formulirPermohonan: null,
-      idPermohonan: ''
+      idPermohonan: '',
+      accordion: 0,
+      riwayatPermohonan: null
     }
   },
   created () {
@@ -220,6 +258,12 @@ export default {
       this.idPermohonan = idPermohonan
       this.uploadModalIsOpen = true
     },
+    async riwayatModal (idPermohonan) {
+      const { data } = await this.$axios.get('labkon/permohonan/riwayat_permohonan/' + idPermohonan)
+      this.riwayatPermohonan = data.data.riwayat_permohonan
+      console.log(this.riwayatPermohonan)
+      this.riwayatModalIsOpen = true
+    },
     print () {
       this.$router.push({ path: '/permohonan/formulir_pengujian/', query: { id: this.idPermohonan } })
     },
@@ -249,7 +293,384 @@ export default {
         this.formulirPermohonan = files[0]
         event.target.labels[1].innerText = String(files[0].name).substring(0, 30)
       }
+    },
+    printDate (d) {
+      const date = new Date(d)
+      return date.toLocaleDateString()
+    },
+    riwayatClass (type, keterangan) {
+      let hexaClassName = 'success_hexa'
+      let backgroudTimeClassName = 'success_bg_time'
+      if (String(type).toLowerCase().includes('pengkajian permohonan')) {
+        if (String(keterangan).toLowerCase().includes('menunda')) {
+          hexaClassName = 'danger_hexa'
+          backgroudTimeClassName = 'danger_bg_time'
+        }
+      }
+      if (String(type).toLowerCase().includes('perubahan data permohonan') || String(type).toLowerCase().includes('upload dokumen persyaratan permohonan')) {
+        hexaClassName = 'warning_hexa'
+        backgroudTimeClassName = 'warning_bg_time'
+      }
+      return { hexa: hexaClassName, bg_time: backgroudTimeClassName }
+    },
+    riwayatDesc (keterangan) {
+      const explode = keterangan.split(':')
+      if (explode.length > 0) {
+        let tmp = ''
+        for (let i = 0; i < explode.length; i++) {
+          i === 0 ? tmp += explode[i] : tmp += `<span class="${String(keterangan).toLowerCase().includes('menunda') ? 'text-danger' : 'text-success'}">${explode[i]}</span>`
+        }
+        return tmp
+      }
+      return keterangan
     }
   }
 }
 </script>
+<style scoped>
+.hexa{
+  border: 0px;
+  float: left;
+  text-align: center;
+  height: 35px;
+  width: 60px;
+  font-size: 22px;
+  background: #f0f0f0;
+  color: #3c3c3c;
+  position: relative;
+  margin-top: 15px;
+}
+
+.hexa:before{
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-bottom: 15px solid #f0f0f0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  top: -15px;
+}
+
+.hexa:after{
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-top: 15px solid #f0f0f0;
+  bottom: -15px;
+}
+
+.timeline {
+  position: relative;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 20px;
+  list-style-type: none;
+}
+
+.timeline:before {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  content: ' ';
+  display: block;
+  width: 2px;
+  height: 100%;
+  margin-left: -1px;
+  background: rgb(213,213,213);
+  background: -moz-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(100%,rgba(125,185,232,1)));
+  background: -webkit-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: -o-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: -ms-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: linear-gradient(to bottom, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  z-index: 5;
+}
+
+.timeline li {
+  padding: 1em 0;
+}
+
+.timeline .hexa {
+  width: 16px;
+  height: 10px;
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  margin-left:auto;
+  margin-right:auto;
+  top: -30px;
+  margin-top: 0;
+
+}
+
+.timeline .hexa:before {
+  border-left-width: 8px;
+  border-right-width: 8px;
+  top: -4px;
+}
+
+.timeline .hexa:after {
+  border-left-width: 8px;
+  border-right-width: 8px;
+  bottom: -4px;
+}
+
+.timeline .success_hexa{
+  background: #2eb85c;
+}
+
+.timeline .success_hexa:before {
+  border-bottom: 4px solid #2eb85c;
+}
+
+.timeline .success_hexa::after {
+   border-top: 4px solid #2eb85c;
+}
+
+.timeline .warning_hexa{
+  background:  #f9b115
+}
+
+.timeline .warning_hexa:after {
+   border-top: 4px solid #f9b115
+}
+
+.timeline .warning_hexa:before {
+  border-bottom: 4px solid #f9b115
+}
+.timeline .danger_hexa{
+  background:  red
+}
+
+.timeline .danger_hexa:after {
+   border-top: 4px solid red
+}
+
+.timeline .danger_hexa:before {
+  border-bottom: 4px solid red
+}
+
+.direction-l,
+.direction-r {
+  float: none;
+  width: 100%;
+  text-align: center;
+}
+
+.flag-wrapper {
+  text-align: center;
+  position: relative;
+}
+
+.flag {
+  position: relative;
+  display: inline;
+  background: rgb(255,255,255);
+  font-weight: 600;
+  z-index: 15;
+  padding: 6px 10px;
+  text-align: left;
+  border-radius: 5px;
+}
+
+.direction-l .flag:after,
+.direction-r .flag:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -15px;
+  height: 0;
+  width: 0;
+  margin-left: -8px;
+  border: solid transparent;
+  border-bottom-color: rgb(255,255,255);
+  border-width: 8px;
+  pointer-events: none;
+}
+
+.direction-l .flag {
+  -webkit-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+}
+
+.direction-r .flag {
+  -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+}
+
+.time-wrapper {
+  display: block;
+  position: relative;
+  margin: 4px 0 0 0;
+  z-index: 14;
+  line-height: 1em;
+  vertical-align: middle;
+  color: #fff;
+}
+
+.direction-l .time-wrapper {
+  float: none;
+}
+
+.direction-r .time-wrapper {
+  float: none;
+}
+
+.time {
+  display: inline-block;
+  padding: 8px;
+}
+
+.success_bg_time {
+  background: #2eb85c;
+}
+
+.warning_bg_time {
+  background: #f9b115
+}
+
+.danger_bg_time {
+  background: red;
+}
+
+.desc {
+  position: relative;
+  margin: 1em 0 0 0;
+  padding: 1em;
+  background: rgb(254,254,254);
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.20);
+  -moz-box-shadow: 0 0 1px rgba(0,0,0,0.20);
+  box-shadow: 0 0 1px rgba(0,0,0,0.20);
+  z-index: 15;
+}
+
+.direction-l .desc,
+.direction-r .desc {
+  position: relative;
+  margin: 1em 1em 0 1em;
+  padding: 1em;
+  z-index: 15;
+}
+
+@media(min-width: 768px){
+  .timeline {
+    width: 660px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  .timeline li:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+
+  .timeline .hexa {
+    left: -28px;
+    right: auto;
+    top: 8px;
+  }
+
+  .timeline .direction-l .hexa {
+    left: auto;
+    right: -28px;
+  }
+
+  .direction-l {
+    position: relative;
+    width: 310px;
+    float: left;
+    text-align: right;
+  }
+
+  .direction-r {
+    position: relative;
+    width: 310px;
+    float: right;
+    text-align: left;
+  }
+
+  .flag-wrapper {
+    display: inline-block;
+  }
+
+  .flag {
+    font-size: 18px;
+  }
+
+  .direction-l .flag:after {
+    left: auto;
+    right: -16px;
+    top: 50%;
+    margin-top: -8px;
+    border: solid transparent;
+    border-left-color: rgb(254,254,254);
+    border-width: 8px;
+  }
+
+  .direction-r .flag:after {
+    top: 50%;
+    margin-top: -8px;
+    border: solid transparent;
+    border-right-color: rgb(254,254,254);
+    border-width: 8px;
+    left: -8px;
+  }
+
+  .time-wrapper {
+    display: inline;
+    vertical-align: middle;
+    margin: 0;
+  }
+
+  .direction-l .time-wrapper {
+    float: left;
+  }
+
+  .direction-r .time-wrapper {
+    float: right;
+  }
+
+  .time {
+    padding: 5px 10px;
+  }
+
+  .direction-r .desc {
+    margin: 1em 0 0 0.75em;
+  }
+}
+
+@media(min-width: 992px){
+  .timeline {
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  .direction-l {
+    position: relative;
+    width: 380px;
+    float: left;
+    text-align: right;
+  }
+
+  .direction-r {
+    position: relative;
+    width: 380px;
+    float: right;
+    text-align: left;
+  }
+}
+</style>
