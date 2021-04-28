@@ -158,7 +158,7 @@ export default {
   methods: {
     downloadDocument (link, filename) {
       const element = document.createElement('a')
-      element.setAttribute('href', `http://124.81.122.132/temanjabar/public/storage/persyaratan_permohonan_labkon/${link}`)
+      element.setAttribute('href', `http://124.81.122.132/temanjabar/public/storage/${link}`)
       element.setAttribute('download', filename)
       element.style.display = 'none'
       document.body.appendChild(element)
