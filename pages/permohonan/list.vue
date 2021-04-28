@@ -99,19 +99,19 @@
       <CInputFile
         ref="suratPermohonan"
         label="Surat Permohonan"
-        description="Upload surat permohonan atau surat pengantar dari UPTD/Perusahaan"
+        description="Upload surat permohonan atau surat pengantar dari UPTD/Perusahaan (PNG,JPG,JPEG)"
         horizontal
         custom
-        accept="image/*,application/pdf"
+        accept="image/*"
         @change="updateSuratPermohonan"
       />
       <CInputFile
         ref="formulirPengujian"
         label="Formulir Pengujian"
-        description="Upload Formulir Pengujian yang telah ditandatangani"
+        description="Upload Formulir Pengujian yang telah ditandatangani (PNG,JPG,JPEG)"
         horizontal
         custom
-        accept="image/*,application/pdf"
+        accept="image/*"
         @change="updateFormulirPermohonan"
       />
 
