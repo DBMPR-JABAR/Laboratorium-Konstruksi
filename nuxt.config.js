@@ -1,7 +1,9 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: process.env.TARGET || 'static',
-
+  publicRuntimeConfig: {
+    storageUrl: process.env.STORAGE_URL || 'http://124.81.122.132/temanjabar/public/storage/'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Labolatorium Kontruksi',

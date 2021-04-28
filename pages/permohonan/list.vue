@@ -51,7 +51,7 @@
           <template #aksi="{ item }">
             <td>
               <NuxtLink
-                v-show="Number(item.status) === 1"
+                v-show="Number(item.status) === 1 || Number(item.status) === 0"
                 :to="{
                   path: '/permohonan/insert',
                   query: { id: item.id_permohonan }
@@ -75,7 +75,7 @@
                 "
               /> -->
               <CIcon
-                v-show="Number(item.status) === 1"
+                v-show="Number(item.status) === 1 || Number(item.status) === 0"
                 name="cil-arrow-thick-from-top"
                 class="text-warning"
                 @click.native="uploadModal(item.id_permohonan)"

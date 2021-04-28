@@ -10,13 +10,13 @@
             <template slot="title">
               Surat Permohonan
             </template>
-            <img width="100%" :src="'http://124.81.122.132/temanjabar/public/storage/'+document.surat_permohonan" alt="Surat Permohonan" @click="downloadDocument(document.surat_permohonan, `surat_permohonan_${id}`)">
+            <img width="100%" :src="storageUrl(document.surat_permohonan)" alt="Surat Permohonan" @click="downloadDocument(document.surat_permohonan, `surat_permohonan_${id}`)">
           </CTab>
           <CTab>
             <template slot="title">
               Formulir Permohonan
             </template>
-            <img width="100%" :src="'http://124.81.122.132/temanjabar/public/storage/'+document.formulir_permohonan" alt="Formulir Permohonan" @click="downloadDocument(document.formulir_permohonan,`formulir_permohonan_${id}`)">
+            <img width="100%" :src="storageUrl(document.formulir_permohonan)" alt="Formulir Permohonan" @click="downloadDocument(document.formulir_permohonan,`formulir_permohonan_${id}`)">
           </CTab>
         </CTabs>
       </CCardBody>
@@ -156,9 +156,12 @@ export default {
     }
   },
   methods: {
+    storageUrl (link) {
+      return this.$config.storageUrl + link
+    },
     downloadDocument (link, filename) {
       const element = document.createElement('a')
-      element.setAttribute('href', `http://124.81.122.132/temanjabar/public/storage/${link}`)
+      element.setAttribute('href', this.storageUrl(link))
       element.setAttribute('download', filename)
       element.style.display = 'none'
       document.body.appendChild(element)
