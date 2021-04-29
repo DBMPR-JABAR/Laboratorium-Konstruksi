@@ -240,7 +240,11 @@ export default {
       let className
       switch (Number(status)) {
         case 6:
+          className = { status: 'Selesai', color: 'success' }
+          break
         case 5:
+          className = { status: 'Selesai', color: 'success' }
+          break
         case 4:
           className = { status: 'Selesai', color: 'success' }
           break
