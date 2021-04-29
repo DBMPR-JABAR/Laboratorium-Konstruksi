@@ -91,6 +91,24 @@
                 class="text-success"
                 @click.native="riwayatModal(item.id_permohonan)"
               />
+              <NuxtLink
+                v-show="Number(item.status) === 3"
+                :to="'/permohonan/status_proggress/'+item.id_permohonan"
+              >
+                <CIcon name="cil-loop-circular" class="text-warning" />
+              </NuxtLink>
+              <NuxtLink
+                v-show="Number(item.status) === 4"
+                :to="'/permohonan/formulir_pengaduan/'+item.id_permohonan"
+              >
+                <CIcon name="cil-note-add" class="text-warning" />
+              </NuxtLink>
+              <NuxtLink
+                v-show="Number(item.status) === 4"
+                :to="'/permohonan/quesioner/'+item.id_permohonan"
+              >
+                <CIcon name="cil-clipboard" class="text-info" />
+              </NuxtLink>
             </td>
           </template>
         </CDataTable>
@@ -221,6 +239,8 @@ export default {
     status (status) {
       let className
       switch (Number(status)) {
+        case 6:
+        case 5:
         case 4:
           className = { status: 'Selesai', color: 'success' }
           break
@@ -307,7 +327,9 @@ export default {
           backgroudTimeClassName = 'danger_bg_time'
         }
       }
-      if (String(type).toLowerCase().includes('perubahan data permohonan') || String(type).toLowerCase().includes('upload dokumen persyaratan permohonan')) {
+      if (String(type).toLowerCase().includes('perubahan data permohonan') ||
+      String(type).toLowerCase().includes('upload dokumen persyaratan permohonan') ||
+      String(type).toLowerCase().includes('perubahan status proggress')) {
         hexaClassName = 'warning_hexa'
         backgroudTimeClassName = 'warning_bg_time'
       }

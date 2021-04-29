@@ -1,3 +1,4 @@
+import webpack from 'webpack'
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: process.env.TARGET || 'static',
@@ -31,7 +32,8 @@ export default {
     { src: '~/plugins/icons.js', mode: 'client' },
     { src: '~/plugins/vue-select.js', mode: 'client' },
     { src: '~/plugins/html-to-paper.js', mode: 'client' },
-    { src: '~/plugins/vue-pdf.js', mode: 'client' }
+    { src: '~/plugins/vue-pdf.js', mode: 'client' },
+    { src: '~/plugins/bootstrap-vue.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -71,7 +73,15 @@ export default {
     }
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    plugins: [
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+      })
+    ]
+  },
 
   router: {
     base: String(process.env.TARGET) === 'server' ? '/' : '/labkon/',
