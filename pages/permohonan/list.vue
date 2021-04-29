@@ -340,15 +340,17 @@ export default {
       return { hexa: hexaClassName, bg_time: backgroudTimeClassName }
     },
     riwayatDesc (keterangan) {
-      const explode = keterangan.split(':')
-      if (explode.length > 0) {
-        let tmp = ''
-        for (let i = 0; i < explode.length; i++) {
-          i === 0 ? tmp += explode[i] : tmp += `<span class="${String(keterangan).toLowerCase().includes('menunda') ? 'text-danger' : 'text-success'}">${explode[i]}</span>`
+      if (keterangan) {
+        const explode = keterangan.split(':')
+        if (explode.length > 0) {
+          let tmp = ''
+          for (let i = 0; i < explode.length; i++) {
+            i === 0 ? tmp += explode[i] : tmp += `<span class="${String(keterangan).toLowerCase().includes('menunda') ? 'text-danger' : 'text-success'}">${explode[i]}</span>`
+          }
+          return tmp
         }
-        return tmp
-      }
-      return keterangan
+        return keterangan
+      } else { return '-' }
     }
   }
 }
