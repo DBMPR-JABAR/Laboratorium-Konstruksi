@@ -11,7 +11,7 @@
           fixed
           :items="daftarPermohonan"
           :fields="fields"
-          :items-per-page="5"
+          :items-per-page="10"
           column-filter
           table-filter
           pagination
