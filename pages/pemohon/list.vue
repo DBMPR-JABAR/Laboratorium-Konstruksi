@@ -1,6 +1,17 @@
 <template>
   <div>
     <CCard>
+      <CCardBody>
+        <NuxtLink
+          to="/pemohon/create/"
+        >
+          <CButton type="button" size="sm" color="primary">
+            <CIcon name="cil-plus" /> Tambah Pemohon
+          </CButton>
+        </NuxtLink>
+      </CCardBody>
+    </CCard>
+    <CCard>
       <CCardHeader>
         <CIcon name="cil-grid" /> Daftar Pemohon Internal
       </CCardHeader>

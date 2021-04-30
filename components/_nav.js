@@ -20,26 +20,20 @@ export default [
         _name: 'CSidebarNavItem',
         name: 'Daftar Pemohon',
         to: '/pemohon/list',
-        icon: 'cil-list'
+        icon: 'cil-people'
       },
       {
         _name: 'CSidebarNavItem',
         name: 'Daftar Permohonan',
         to: '/permohonan/list',
         icon: 'cil-list'
-      },
-      {
-        _name: 'CSidebarNavItem',
-        name: 'Input Data Pemohon',
-        to: '/pemohon/create',
-        icon: 'cil-pencil'
-      },
-      {
-        _name: 'CSidebarNavItem',
-        name: 'Input Permohonan',
-        to: '/permohonan/insert',
-        icon: 'cil-pencil'
       }
+      // {
+      //   _name: 'CSidebarNavItem',
+      //   name: 'Input Permohonan',
+      //   to: '/permohonan/insert',
+      //   icon: 'cil-pencil'
+      // }
       // {
       //   _name: 'CSidebarNavItem',
       //   name: 'Typography',
