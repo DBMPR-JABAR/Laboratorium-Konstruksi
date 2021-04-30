@@ -5,7 +5,7 @@
         <Logo :height="75" />
       </NuxtLink>
       <h1 class="title">
-        Selamat Datang di UPTD Laboratorium Bahan Kontruksi
+        Selamat Datang di UPTD Laboratorium Bahan Konstruksi
       </h1>
     </div>
   </div>
