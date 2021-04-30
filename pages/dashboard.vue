@@ -6,7 +6,7 @@
           <CCol sm="12">
             <Logo class="img-fluid" width="50%" />
             <h1 class="title">
-              Selamat Datang di Labolatorium Kontruksi
+              Selamat Datang di UPTD Laboratorium Bahan Kontruksi
             </h1>
           </CCol>
         </CRow>
