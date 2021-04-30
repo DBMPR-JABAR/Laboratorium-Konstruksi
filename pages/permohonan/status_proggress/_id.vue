@@ -52,7 +52,6 @@ export default {
   async asyncData ({ $axios, params }) {
     const { id } = params
     const { data } = await $axios.get('/labkon/permohonan/catatan_status_progress_last/' + id)
-    console.log(data.data.last_status)
     let form = {}
     if (data.data.last_status.type_keterangan === 'Perubahan Status Proggress') {
       form = {

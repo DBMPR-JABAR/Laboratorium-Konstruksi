@@ -177,7 +177,6 @@ export default {
     async onSubmit () {
       this.form.status = 3
       const { data } = await this.$axios.put('/labkon/permohonan/pengkajian_permohonan/' + this.id, this.form)
-      console.log(data)
       if (data.status === 'success') {
         this.$router.push({ path: '/permohonan/list' })
         this.$store.commit('ui/set', [
@@ -191,9 +190,7 @@ export default {
     },
     async onReject () {
       this.form.status = 0
-      console.log(this.form)
       const { data } = await this.$axios.put('/labkon/permohonan/pengkajian_permohonan/' + this.id, this.form)
-      console.log(data)
       if (data.status === 'success') {
         this.$router.push({ path: '/permohonan/list' })
         this.$store.commit('ui/set', [

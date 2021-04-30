@@ -270,7 +270,6 @@ export default {
   async asyncData ({ $axios, query }) {
     const { id } = query
     const { data } = await $axios.get('/labkon/permohonan/cetak_formulir_data/' + id)
-    console.log(data)
     const form = data.data.permohonan
     const date = new Date(form.created_at)
     const dateFormated = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
@@ -300,8 +299,6 @@ export default {
       return key % 2 === 1
     })
 
-    console.log(bahanUjiFilterLeft, bahanUjiFilterRight)
-    console.log(bahanUjiFilter)
     return { form, dateFormated, checked, checkBoxPengujian, bahanUjiFilter, bahanUjiFilterLeft, bahanUjiFilterRight }
   },
   computed: {

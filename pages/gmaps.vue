@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     onClick (maps) {
-      console.log(maps)
       this.locations.push({ lat: maps.event.Va.x, lng: maps.event.Va.y, icon: 'img/square.png' })
       this.$forceUpdate()
     }

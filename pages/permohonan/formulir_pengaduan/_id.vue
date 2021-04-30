@@ -1,30 +1,11 @@
 <template>
   <div id="formulir_pengujian_labkon" class="page">
     <div class="row g-3">
-      <div class="col-8" />
-      <div class="col-4  mb-2 mt-0 d-flex justify-content-end">
-        <table class="border">
-          <tr class="border">
-            <td class="border p-1">
-              Tgl
-            </td>
-            <td class="border p-1">
-              {{ dateFormated }}
-            </td>
-          </tr>
-          <tr>
-            <td class="border p-1">
-              No Permohonan
-            </td>
-            <td class="border p-1">
-              {{ form.id_permohonan }}
-            </td>
-          </tr>
-        </table>
+      <div class="col-2 p-0">
+        <LogoSquare class="float-right" :height="65" />
       </div>
-      <div class="col-1" />
-      <div class="col-10 judul text-center font-weight-bold">
-        <p>FORMULIR PERMOHONAN PENGUJIAN</p>
+      <div class="col-9 judul text-center font-weight-bold">
+        <p>FORMULIR PENGADUAN PENGUJIAN SAMPEL LABORATORIUM </p>
         <p>UPTD LABORATORIUM BAHAN KONTRUKSI</p>
         <p>DINAS BINA MARGA DAN PENATAAN RUANG PROVINSI JAWA BARAT</p>
       </div>
@@ -35,11 +16,17 @@
       </div>
     </div>
     <div class="row">
-      <table id="table_judul" class=" col-12 pl-4">
-        <h5>Pemohon :</h5>
+      <hr class="col-12">
+      <p class="col-12 mb-2">
+        Pada hari ini, {{ date.weekday }} tanggal {{ date.date }} bulan {{ date.monthname }}, tahun {{ date.year }}.
+      </p>
+      <p class="col-12">
+        Kami yang bertanda tangan dibawah ini:
+      </p>
+      <table class="col-12 p-4">
         <tbody>
           <tr>
-            <td style="width: 20%">
+            <td style="width: 20%" class="pl-5">
               Nama
             </td>
             <td style="width: 2%">
@@ -52,13 +39,13 @@
                 type="text"
                 class="dotted"
                 readonly
-                :value="form.nama_penanggung_jawab || '-'"
+                :value="form.nama_penanggung_jawab"
               >
             </td>
             <td />
           </tr>
           <tr>
-            <td>
+            <td class="pl-5">
               Alamat
             </td>
             <td>
@@ -70,100 +57,44 @@
                 name="alamat"
                 type="text"
                 class="dotted"
-                :value="form.alamat_perusahaan || form.alamat_penanggung_jawab || '-'"
+                :value="form.alamat_penanggung_jawab"
                 readonly
               >
             </td>
           </tr>
           <tr>
-            <td>
-              Perusahaan
+            <td class="pl-5">
+              Jabatan
             </td>
             <td>
               :
             </td>
             <td>
-              <input id="perusahaan" type="text" class="dotted" readonly :value="form.nama_perusahaan || '-'">
+              <input
+                id="jabatan"
+                type="text"
+                class="dotted"
+                readonly
+              >
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-    <br>
-    <h5 class="row">
-      Dengan ini memohon untuk dilakukan pengujian :
-    </h5>
-    <div class="row">
-      <div class="col-6">
-        <table
-          v-for="(bahan_uji, key) in bahanUjiFilterLeft"
-          :key="key"
-          class="table table-sm table-bordered border"
-        >
-          <thead v-if="bahan_uji[0]">
-            <tr>
-              <th colspan="2">
-                {{ bahan_uji[0] ? bahan_uji[0].nama_bahan: '-' }}
-              </th>
-            </tr>
-          </thead>
-          <tbody v-if="bahan_uji[0]">
-            <tr
-              v-for="(option) in bahan_uji"
-              :key="`${key}_${option.id}`"
-              md="12"
-            >
-              <td :style="{ width: '10%' }">
-                <input type="checkbox" checked readonly>
-              </td>
-              <td><span>{{ option.nama_pengujian }}</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-6">
-        <table
-          v-for="(bahan_uji, key) in bahanUjiFilterRight"
-          :key="key"
-          class="table table-sm table-bordered"
-        >
-          <thead v-if="bahan_uji[0]">
-            <tr>
-              <th colspan="2">
-                {{ bahan_uji[0] ? bahan_uji[0].nama_bahan: '-' }}
-              </th>
-            </tr>
-          </thead>
-          <tbody v-if="bahan_uji[0]">
-            <tr
-              v-for="(option) in bahan_uji"
-              :key="`${key}_${option.id}`"
-              md="12"
-            >
-              <td :style="{ width: '10%' }">
-                <input type="checkbox" checked readonly>
-              </td>
-              <td><span>{{ option.nama_pengujian }}</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <table class=" col-7 pl-4">
+      <p class="col-12 pt-2">
+        Selanjutnya disebut <b>PIHAK PERTAMA</b>
+      </p><table class="col-12 p-4">
         <tbody>
           <tr>
-            <td style="width: 50%">
-              Waktu Pengambilan Sampel
+            <td style="width: 20%" class="pl-5">
+              Nama
             </td>
             <td style="width: 2%">
               :
             </td>
             <td>
               <input
-                id="waktu_pengambilan_sampel"
-                :value="waktuPengambilanSampel"
-                name="waktu_pengambilan_sampel"
+                id="nama"
+                name="nama"
                 type="text"
                 class="dotted"
                 readonly
@@ -172,17 +103,16 @@
             <td />
           </tr>
           <tr>
-            <td>
-              Lokasi Pengambilan Sampel
+            <td class="pl-5">
+              Alamat
             </td>
             <td>
               :
             </td>
             <td>
               <input
-                id="lokasi_pengambilan_sampel"
-                :value="form.lokasi_pengambilan_sampel"
-                name="lokasi_pengambilan_sampel"
+                id="alamat"
+                name="alamat"
                 type="text"
                 class="dotted"
                 readonly
@@ -190,119 +120,110 @@
             </td>
           </tr>
           <tr>
-            <td>
-              Sampel Diterima
+            <td class="pl-5">
+              Jabatan
             </td>
             <td>
               :
             </td>
             <td>
-              <input type="text" class="dotted" readonly>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table id="table_judul" class=" col-12 pl-4">
-        <tbody>
-          <tr>
-            <td>Kondisi Sampel :</td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" class="dotted" readonly>
               <input
+                id="jabatan"
                 type="text"
                 class="dotted"
                 readonly
               >
-              <p>
-                <i><small class="text-danger">
-                  Ket : Jika sampel selama tiga bulan tidak diambil maka akan kami musnahkan
-                </small></i>
-              </p>
             </td>
           </tr>
         </tbody>
       </table>
-      <table id="table_judul" class="mt-2 col-12 pl-4 text-center align-center">
-        <tbody>
-          <tr>
-            <th style="width: 50%">
-              Petugas Penerima Sampel
-            </th>
-            <th style="width: 50%">
-              Pemohon
-            </th>
-          </tr>
-          <tr>
-            <th colspan="4" style="width: 50%">
-              <br> <br>
-            </th>
-            <th colspan="4" style="width: 50%">
-              <br> <br>
-            </th>
-          </tr>
-          <tr>
-            <th style="width: 50%">
-              (<input
-                class="col-5 dotted"
-                type="text"
-                readonly
-              >)
-            </th>
-            <th style="width: 50%">
-              (<input
-                pos="center"
-                class="col-5 dotted"
-                type="text"
-                readonly
-                :value="form.nama_penanggung_jawab"
-              >)
-            </th>
-          </tr>
-        </tbody>
+      <p class="col-12 pt-2">
+        Selanjutnya disebut <b>PIHAK KEDUA</b>
+      </p>
+      <p class="col-12">
+        PIHAK PERTAMA menyerahkan pengaduan beserta berkas kepada PIHAK KEDUA, dan PIHAK KEDUA menyatakan telah menerima pengaduan dari PIHAK PERTAMA sebagai berikut:
+      </p>
+      <table class="col-12 table table-bordered">
+        <tr>
+          <td colspan="5">
+            <p>Keluhan :</p>
+            <textarea rows="3" readonly style="border:none; width:100%" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <p>Tindak Lanjut :</p>
+            <textarea rows="3" readonly style="border:none; width:100%" />
+          </td>
+        </tr>
       </table>
+      <p class="col-12">
+        Demikianlah berita acara serah terima berkas pengaduan ini diperbuat oleh kedua belah pihak, sejak penandatanganan berita acara ini, maka berkas pengaduan tersebut, menjadi tanggung jawab PIHAK KEDUA untuk ditindaklanjuti.
+      </p>
     </div>
+    <br>
+    <table class="mt-2 col-12 pl-4 text-center align-center">
+      <tbody>
+        <tr>
+          <th style="width: 50%">
+            <small>Yang Menerima,</small>
+            <p>Pihak Pertama</p>
+          </th>
+          <th style="width: 50%">
+            <small>Yang Menyerahkan,</small>
+            <p>Pihak Kedua</p>
+          </th>
+        </tr>
+        <tr>
+          <th colspan="4" style="width: 50%">
+            <br> <br>
+          </th>
+          <th colspan="4" style="width: 50%">
+            <br> <br>
+          </th>
+        </tr>
+        <tr>
+          <th style="width: 50%">
+            (<input
+              class="col-5 dotted text-center"
+              type="text"
+              readonly
+              :value="form.nama_penanggung_jawab"
+            >)
+          </th>
+          <th style="width: 50%">
+            (<input
+              pos="center"
+              class="col-5 dotted text-center"
+              type="text"
+              readonly
+            >)
+          </th>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script>
 export default {
-  async asyncData ({ $axios, query }) {
-    const { id } = query
+  async asyncData ({ $axios, params }) {
+    const { id } = params
     const { data } = await $axios.get('/labkon/permohonan/cetak_formulir_data/' + id)
-    console.log(data)
+
+    const d = new Date()
+    const weekday = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis',
+      'Jumat', 'Sabtu']
+    const monthname = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
+      'September', 'Oktober', 'November', 'Desember']
+    const date = {
+      weekday: weekday[d.getDay()],
+      date: d.getDate(),
+      monthname: monthname[d.getMonth()],
+      year: d.getFullYear()
+    }
     const form = data.data.permohonan
-    const date = new Date(form.created_at)
-    const dateFormated = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
 
-    const namaPengujian = await $axios.get('/labkon/nama_pengujian')
-    const checkBoxPengujian = namaPengujian.data.data.nama_pengujian.reduce((rv, x) => {
-      (rv[x.id_bahan_uji] = rv[x.id_bahan_uji] || []).push({ nama_bahan: x.nama_bahan, nama_pengujian: x.nama_pengujian, id_bahan_uji: x.id_bahan_uji, id: x.id, value: `${x.id_bahan_uji}_${x.id}` })
-      return rv
-    }, {})
-
-    const checked = JSON.parse(form.bahan_uji)
-
-    const titleBahanUji = Object.keys(checkBoxPengujian)
-    const bahanUjiMap = []
-    titleBahanUji.forEach((id) => {
-      bahanUjiMap.push(checkBoxPengujian[id])
-    })
-    const bahanUjiFilter = bahanUjiMap.map((data) => {
-      return data.filter(bahan => checked[bahan.value] === true)
-    }).sort((a, b) => a.length > b.length ? -1 : 1)
-
-    const bahanUjiFilterLeft = bahanUjiFilter.filter((data, key) => {
-      return key % 2 === 0
-    })
-
-    const bahanUjiFilterRight = bahanUjiFilter.filter((data, key) => {
-      return key % 2 === 1
-    })
-
-    console.log(bahanUjiFilterLeft, bahanUjiFilterRight)
-    console.log(bahanUjiFilter)
-    return { form, dateFormated, checked, checkBoxPengujian, bahanUjiFilter, bahanUjiFilterLeft, bahanUjiFilterRight }
+    return { date, form }
   },
   computed: {
     waktuPengambilanSampel () {
@@ -364,10 +285,6 @@ export default {
             }
         }
 
-        input[pos='center'] {
-            text-align: center;
-        }
-
         #logo {
             height: 3cm;
         }
@@ -377,8 +294,8 @@ export default {
         }
 
         .judul p {
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 14px;
+            font-weight: bolder;
             margin-bottom: 1.5px
         }
 

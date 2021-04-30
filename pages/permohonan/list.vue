@@ -285,7 +285,6 @@ export default {
     async riwayatModal (idPermohonan) {
       const { data } = await this.$axios.get('labkon/permohonan/riwayat_permohonan/' + idPermohonan)
       this.riwayatPermohonan = data.data.riwayat_permohonan
-      console.log(this.riwayatPermohonan)
       this.riwayatModalIsOpen = true
     },
     print () {
@@ -300,7 +299,6 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       })
-      console.log(data)
       if (data.status === 'success') {
         this.uploadModalIsOpen = false
         this.initDaftarPermohonan()

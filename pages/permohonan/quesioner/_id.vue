@@ -66,23 +66,8 @@
 <script>
 export default {
   layout: 'TheContainer',
-  asyncData ({ $axios, params }) {
+  asyncData ({ params }) {
     const { id } = params
-    // const { data } = await $axios.get('/labkon/permohonan/catatan_status_progress_last/' + id)
-    // console.log(data.data.last_status)
-    // let form = {}
-    // if (data.data.last_status.type_keterangan === 'Perubahan Status Proggress') {
-    //   form = {
-    //     type_keterangan: 'Perubahan Status Proggress',
-    //     keterangan: data.data.last_status.keterangan,
-    //     status: 3
-    //   }
-    // } else {
-    //   form = {
-    //     type_keterangan: 'Perubahan Status Proggress',
-    //     status: 3
-    //   }
-    // }
     return { id }
   },
   data () {
@@ -172,7 +157,6 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       })
-      console.log(data)
       if (data.status === 'success') {
         this.$router.push({ path: '/permohonan/list' })
         this.$store.commit('ui/set', [

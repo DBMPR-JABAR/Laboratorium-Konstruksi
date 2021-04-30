@@ -81,9 +81,7 @@ export default {
   },
   methods: {
     async login () {
-      // const response = await this.$api.post('/auth/login', this.form)
       const { data } = await this.$auth.loginWith('local', { data: this.form })
-      console.log(data)
       if (data.data.token.access_token) { this.$router.push({ path: '/dashboard' }) }
     }
   }
