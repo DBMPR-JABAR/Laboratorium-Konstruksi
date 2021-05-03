@@ -14,7 +14,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Bina Marga Labolatorium Kontruksi' }
+      { hid: 'description', name: 'description', content: 'Bina Marga Laboratorium Konstruksi' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -33,7 +33,8 @@ export default {
     { src: '~/plugins/vue-select.js', mode: 'client' },
     { src: '~/plugins/html-to-paper.js', mode: 'client' },
     { src: '~/plugins/vue-pdf.js', mode: 'client' },
-    { src: '~/plugins/bootstrap-vue.js', mode: 'client' }
+    { src: '~/plugins/bootstrap-vue.js', mode: 'client' },
+    { src: '~/plugins/nuxt-leaflet.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -50,9 +51,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    ['nuxt-gmaps', {
-      key: process.env.GOOGLE_API_KEY
-    }]
+    'nuxt-leaflet'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

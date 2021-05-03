@@ -93,6 +93,12 @@
           description="Tanggal Pengambilan Sampel."
           required
         />
+        <div id="map-wrap" style="height: 400px" class="mb-3">
+          <LMap :zoom="14" :center="[-6.878425528801081, 107.57203383222458]" @click="mapsClick">
+            <LTileLayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+            <LMarker v-if="pin" :lat-lng="pin" />
+          </LMap>
+        </div>
         <CInput
           v-model="form.latitude"
           horizontal
@@ -145,6 +151,7 @@ export default {
     // let jumlahBahanUji = []
     // let selectedMetodePengujian = []
     let form = {}
+    let pin = null
     if (id) {
       const permohonan = await $axios.get('labkon/permohonan/show/' + id)
       const dataPermohonan = permohonan.data.data.permohonan
@@ -159,6 +166,10 @@ export default {
         id_pemohon: Number(dataPermohonan.id_pemohon),
         tanggal_pengambilan_sampel: dataPermohonan.tanggal_pengambilan_sampel
       }
+      pin = {
+        lat: dataPermohonan.latitude,
+        lng: dataPermohonan.longitude
+      }
     }
     return {
       checkBoxPengujian,
@@ -168,7 +179,8 @@ export default {
       // jumlahBahanUji,
       // selectedMetodePengujian,
       daftarPemohon,
-      form
+      form,
+      pin
     }
   },
   data () {
@@ -192,6 +204,7 @@ export default {
         }
         if (this.id) {
           const { data } = await this.$axios.put('labkon/permohonan/edit/' + this.id, this.form)
+          console.log(data)
           if (data.status === 'success') {
             this.$router.push({ path: '/permohonan/list' })
             this.$store.commit('ui/set', [
@@ -258,6 +271,11 @@ export default {
     },
     updateSelectedPemohon (value, event) {
       this.form.id_pemohon = value
+    },
+    mapsClick (e) {
+      this.pin = e.latlng
+      this.form.latitude = String(e.latlng.lat)
+      this.form.longitude = String(e.latlng.lng)
     }
   }
 }
