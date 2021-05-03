@@ -110,16 +110,33 @@
               </NuxtLink>
               <NuxtLink
                 v-show="Number(item.status) === 4"
-                :to="'/permohonan/formulir_pengaduan/'+item.id_permohonan"
-              >
-                <CIcon name="cil-note-add" class="text-warning" />
-              </NuxtLink>
-              <NuxtLink
-                v-show="Number(item.status) === 4"
                 :to="'/permohonan/quesioner/'+item.id_permohonan"
               >
                 <CIcon name="cil-clipboard" class="text-info" />
               </NuxtLink>
+              <NuxtLink
+                v-show="Number(item.status) === 5"
+                :to="'/permohonan/formulir_pengaduan/'+item.id_permohonan"
+              >
+                <CIcon name="cil-note-add" class="text-warning" />
+              </NuxtLink>
+              <CIcon
+                v-show="Number(item.status) === 5"
+                name="cil-check"
+                class="text-success"
+                @click.native="
+                  $store.commit('ui/set', [
+                    'modal',
+                    {
+                      color: 'success',
+                      open: true,
+                      title: 'Konfirmasi Selesai',
+                      message: `Yakin tandai permohonan ${item.id_permohonan} sebagai selesai ?`,
+                      onClick: () => setDone(item.id_permohonan),
+                    },
+                  ])
+                "
+              />
             </td>
           </template>
         </CDataTable>
@@ -360,6 +377,27 @@ export default {
         }
         return keterangan
       } else { return '-' }
+    },
+    async setDone (idPermohonan) {
+      const fd = new FormData()
+      fd.append('status', 6)
+      fd.append('type_keterangan', 'Selesai')
+      fd.append('keterangan', 'Permohonan telah selesai')
+      const { data } = await this.$axios.post('/labkon/permohonan/catatan_status_progress/' + idPermohonan, fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      if (data.status === 'success') {
+        this.initDaftarPermohonan()
+        this.$store.commit('ui/set', [
+          'flushMessage', {
+            color: 'success',
+            open: true,
+            message: 'Berhasil melakukan perubahan status proggress permohonan.'
+          }
+        ])
+      }
     }
   }
 }

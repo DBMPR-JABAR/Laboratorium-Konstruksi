@@ -339,7 +339,7 @@ export default {
             box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
             padding: 1cm 1.5cm;
             width: 21cm;
-            size: 21cm 29.7cm;
+            size: 21cm 33cm;
         }
 
         @media print {
@@ -348,8 +348,8 @@ export default {
                 margin: 0;
                 box-shadow: 0;
                 width: 21cm;
-                height: 29.7cm;
-                size: 21cm 29.7cm;
+                height: 33cm;
+                size: 21cm 33cm;
             }
 
             #formulir_pengujian_labkon {

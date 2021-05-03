@@ -21,7 +21,7 @@
               </transition>
               <CModal
                 :title="showModal().title"
-                color="danger"
+                :color="showModal().color"
                 :show="showModal().open"
                 @update:show="closeModal"
               >
