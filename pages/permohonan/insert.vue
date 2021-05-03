@@ -3,7 +3,7 @@
     <CCardHeader>
       <strong>Form Bahan Pengujian Kontruksi</strong>
     </CCardHeader>
-    <CForm novalidate>
+    <CForm ref="form" @submit="insert">
       <CCardBody>
         <CSelect
           v-model="form.id_pemohon"
@@ -111,7 +111,7 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="button" size="sm" color="primary" @click="insert">
+        <CButton type="submit" size="sm" color="primary">
           <CIcon name="cil-check-circle" /> Submit
         </CButton>
         <CButton type="reset" size="sm" color="danger">
@@ -178,39 +178,42 @@ export default {
     }
   },
   methods: {
-    async  insert () {
+    async  insert (e) {
+      e.preventDefault()
+      if (this.$refs.form.checkValidity()) {
       // const jumlahBahanUji = JSON.stringify(this.jumlahBahanUji)
       // const metodePengujian = JSON.stringify(this.selectedMetodePengujian)
-      const bahanUji = JSON.stringify(this.checked)
-      this.form = {
-        ...this.form,
-        bahan_uji: bahanUji
+        const bahanUji = JSON.stringify(this.checked)
+        this.form = {
+          ...this.form,
+          bahan_uji: bahanUji
         // metode_pengujian: metodePengujian,
         // jumlah_bahan_uji: jumlahBahanUji
-      }
-      if (this.id) {
-        const { data } = await this.$axios.put('labkon/permohonan/edit/' + this.id, this.form)
-        if (data.status === 'success') {
-          this.$router.push({ path: '/permohonan/list' })
-          this.$store.commit('ui/set', [
-            'flushMessage', {
-              color: 'success',
-              open: true,
-              message: 'Berhasil memperbaharui data permohonan.'
-            }
-          ])
         }
-      } else {
-        const { data } = await this.$axios.post('labkon/permohonan/create', this.form)
-        if (data.status === 'success') {
-          this.$router.push({ path: '/permohonan/list' })
-          this.$store.commit('ui/set', [
-            'flushMessage', {
-              color: 'success',
-              open: true,
-              message: 'Berhasil menambah data permohonan.'
-            }
-          ])
+        if (this.id) {
+          const { data } = await this.$axios.put('labkon/permohonan/edit/' + this.id, this.form)
+          if (data.status === 'success') {
+            this.$router.push({ path: '/permohonan/list' })
+            this.$store.commit('ui/set', [
+              'flushMessage', {
+                color: 'success',
+                open: true,
+                message: 'Berhasil memperbaharui data permohonan.'
+              }
+            ])
+          }
+        } else {
+          const { data } = await this.$axios.post('labkon/permohonan/create', this.form)
+          if (data.status === 'success') {
+            this.$router.push({ path: '/permohonan/list' })
+            this.$store.commit('ui/set', [
+              'flushMessage', {
+                color: 'success',
+                open: true,
+                message: 'Berhasil menambah data permohonan.'
+              }
+            ])
+          }
         }
       }
     },

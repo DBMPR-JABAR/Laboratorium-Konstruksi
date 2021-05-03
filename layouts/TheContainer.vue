@@ -26,7 +26,7 @@
                 @update:show="closeModal"
               >
                 {{ showModal().message }}
-              </cmodal>
+              </CModal>
             </CContainer>
           </main>
         </div>

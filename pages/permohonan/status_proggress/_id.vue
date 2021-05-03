@@ -4,7 +4,7 @@
       <CCardHeader>
         <strong>Form Proggress Status Pengujian Bahan Kontruksi</strong>
       </CCardHeader>
-      <CForm>
+      <CForm ref="form" @submit="onUpdate">
         <CCardBody>
           <CInput
             :value="id"
@@ -35,7 +35,7 @@
           />
         </CCardBody>
         <CCardFooter>
-          <CButton type="button" size="sm" color="success" @click="onUpdate">
+          <CButton type="submit" size="sm" color="success">
             <CIcon name="cil-check-circle" /> Update
           </CButton>
           <CButton type="button" size="sm" color="secondary" @click="$router.go(-1)">
@@ -78,18 +78,21 @@ export default {
         [event.target.name]: value
       }
     },
-    async onUpdate () {
-      if (this.form.status === 4) { this.form = { ...this.form, type_keterangan: 'Selesai' } }
-      const { data } = await this.$axios.post('/labkon/permohonan/catatan_status_progress/' + this.id, this.form)
-      if (data.status === 'success') {
-        this.$router.push({ path: '/permohonan/list' })
-        this.$store.commit('ui/set', [
-          'flushMessage', {
-            color: 'success',
-            open: true,
-            message: 'Berhasil melakukan perubahan status proggress permohonan.'
-          }
-        ])
+    async onUpdate (e) {
+      e.preventDefault()
+      if (this.$refs.form.checkValidity()) {
+        if (this.form.status === 4) { this.form = { ...this.form, type_keterangan: 'Selesai' } }
+        const { data } = await this.$axios.post('/labkon/permohonan/catatan_status_progress/' + this.id, this.form)
+        if (data.status === 'success') {
+          this.$router.push({ path: '/permohonan/list' })
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'success',
+              open: true,
+              message: 'Berhasil melakukan perubahan status proggress permohonan.'
+            }
+          ])
+        }
       }
     }
   }

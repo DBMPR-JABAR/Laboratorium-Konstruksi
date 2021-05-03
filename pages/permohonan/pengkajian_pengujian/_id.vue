@@ -25,7 +25,7 @@
       <CCardHeader>
         <strong>Form Pengkajian Pengujian Bahan Kontruksi</strong>
       </CCardHeader>
-      <CForm>
+      <CForm ref="form" @submit="submit">
         <CCardBody>
           <CInput
             :value="id"
@@ -115,14 +115,15 @@
             label="Catatan"
             placeholder="Catatan..."
             horizontal
+            required
             rows="5"
           />
         </CCardBody>
         <CCardFooter>
-          <CButton type="button" size="sm" color="danger" @click="onReject">
+          <CButton type="submit" size="sm" color="danger" @click="callbackOnSubmit = onReject">
             <CIcon name="cil-x-circle" /> Ada yang kurang
           </CButton>
-          <CButton type="button" size="sm" color="success" @click="onSubmit">
+          <CButton type="submit" size="sm" color="success" @click="callbackOnSubmit = onSubmit">
             <CIcon name="cil-check-circle" /> Lanjut
           </CButton>
           <CButton type="reset" size="sm" color="warning">
@@ -144,6 +145,7 @@ export default {
   },
   data () {
     return {
+      callbackOnSubmit: null,
       nama_pengujian: [],
       checkedPengujian: [],
       form: {
@@ -173,6 +175,10 @@ export default {
         ...this.form,
         [event.target.name]: value
       }
+    },
+    submit (e) {
+      e.preventDefault()
+      if (this.$refs.form.checkValidity()) { this.callbackOnSubmit() }
     },
     async onSubmit () {
       this.form.status = 3

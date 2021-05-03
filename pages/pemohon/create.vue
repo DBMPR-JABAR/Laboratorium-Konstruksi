@@ -3,9 +3,9 @@
     <CCardHeader>
       <strong>Pendaftaran Pengujian Kontruksi</strong>
     </CCardHeader>
-    <CForm novalidate>
+    <CForm ref="form" @submit="insert">
       <CCardBody>
-        <div v-show="$auth.user.role == 'masyarakat'">
+        <div v-if="$auth.user.role == 'masyarakat'">
           <CInput
             v-model="form.nama_perusahaan"
             type="text"
@@ -78,7 +78,7 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="button" size="sm" color="primary" @click="insert">
+        <CButton type="submit" size="sm" color="primary">
           <CIcon name="cil-check-circle" /> Submit
         </CButton>
         <CButton type="reset" size="sm" color="danger">
@@ -119,17 +119,20 @@ export default {
     isInternal () {
       return this.$auth.user.role === 'internal'
     },
-    async insert () {
-      const { data } = await this.$axios.post('labkon/daftar_pemohon/create', this.form)
-      if (data.status === 'success') {
-        this.$router.push({ path: '/pemohon/list' })
-        this.$store.commit('ui/set', [
-          'flushMessage', {
-            color: 'success',
-            open: true,
-            message: 'Berhasil menambah data pemohon.'
-          }
-        ])
+    async insert (e) {
+      e.preventDefault()
+      if (this.$refs.form.checkValidity()) {
+        const { data } = await this.$axios.post('labkon/daftar_pemohon/create', this.form)
+        if (data.status === 'success') {
+          this.$router.push({ path: '/pemohon/list' })
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'success',
+              open: true,
+              message: 'Berhasil menambah data pemohon.'
+            }
+          ])
+        }
       }
     },
     async init () {

@@ -3,9 +3,9 @@
     <CCardHeader>
       <strong>Pendaftaran Pengujian Kontruksi</strong>
     </CCardHeader>
-    <CForm novalidate>
+    <CForm ref="form" @submit="update">
       <CCardBody>
-        <div v-show="type == 'masyarakat'">
+        <div v-if="type == 'masyarakat'">
           <CInput
             v-model="form.nama_perusahaan"
             type="text"
@@ -78,7 +78,7 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="button" size="sm" color="primary" @click="update">
+        <CButton type="submit" size="sm" color="primary">
           <CIcon name="cil-check-circle" /> Submit
         </CButton>
         <NuxtLink to="/pemohon/list">
@@ -115,17 +115,20 @@ export default {
     this.init()
   },
   methods: {
-    async update () {
-      const { data } = await this.$axios.put('labkon/daftar_pemohon/edit/' + this.form.id_pemohon, this.form)
-      if (data.status === 'success') {
-        this.$store.commit('ui/set', [
-          'flushMessage', {
-            color: 'success',
-            open: true,
-            message: `Berhasil memperbaharui data pemohon ${this.form.id_pemohon}.`
-          }
-        ])
-        this.$router.push({ path: '/pemohon/list' })
+    async update (e) {
+      e.preventDefault()
+      if (this.$refs.form.checkValidity()) {
+        const { data } = await this.$axios.put('labkon/daftar_pemohon/edit/' + this.form.id_pemohon, this.form)
+        if (data.status === 'success') {
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'success',
+              open: true,
+              message: `Berhasil memperbaharui data pemohon ${this.form.id_pemohon}.`
+            }
+          ])
+          this.$router.push({ path: '/pemohon/list' })
+        }
       }
     },
     reset () {

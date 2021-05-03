@@ -4,7 +4,7 @@
       <CCardHeader>
         <strong>Kuisioner Kepuasan Pelanggan Pengujian Bahan Kontruksi</strong>
       </CCardHeader>
-      <CForm>
+      <CForm ref="form" @submit="onSubmit">
         <CCardBody>
           <CInput
             :value="id"
@@ -28,6 +28,7 @@
                   <b-form-rating
                     v-model="form.questions[key].value"
                     show-value
+                    required
                     show-value-max
                     variant="warning"
                     class="mb-2"
@@ -41,6 +42,7 @@
             label="Saran Pelanggan Untuk Meningkatkan Kualitas Pelayanan Kami"
             placeholder="Saran..."
             horizontal
+            required
             rows="5"
           />
           <CTextarea
@@ -52,7 +54,7 @@
           />
         </CCardBody>
         <CCardFooter>
-          <CButton type="button" size="sm" color="success" @click="onSubmit">
+          <CButton type="submit" size="sm" color="success">
             <CIcon name="cil-check-circle" /> Submit
           </CButton>
           <CButton type="button" size="sm" color="secondary" @click="$router.go(-1)">
@@ -147,25 +149,28 @@ export default {
         [event.target.name]: value
       }
     },
-    async onSubmit () {
-      const fd = new FormData()
-      fd.append('saran', this.form.saran)
-      fd.append('keluhan', this.form.keluhan)
-      fd.append('questions', JSON.stringify(this.form.questions))
-      const { data } = await this.$axios.post('/labkon/permohonan/create_questioner/' + this.id, fd, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      if (data.status === 'success') {
-        this.$router.push({ path: '/permohonan/list' })
-        this.$store.commit('ui/set', [
-          'flushMessage', {
-            color: 'success',
-            open: true,
-            message: 'Berhasil mengisi kuesioner.'
+    async onSubmit (e) {
+      e.preventDefault()
+      if (this.$refs.form.checkValidity()) {
+        const fd = new FormData()
+        fd.append('saran', this.form.saran)
+        fd.append('keluhan', this.form.keluhan)
+        fd.append('questions', JSON.stringify(this.form.questions))
+        const { data } = await this.$axios.post('/labkon/permohonan/create_questioner/' + this.id, fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
-        ])
+        })
+        if (data.status === 'success') {
+          this.$router.push({ path: '/permohonan/list' })
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'success',
+              open: true,
+              message: 'Berhasil mengisi kuesioner.'
+            }
+          ])
+        }
       }
     }
   }

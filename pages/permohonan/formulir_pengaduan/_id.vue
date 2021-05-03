@@ -38,7 +38,6 @@
                 name="nama"
                 type="text"
                 class="dotted"
-                readonly
                 :value="form.nama_penanggung_jawab"
               >
             </td>
@@ -58,7 +57,6 @@
                 type="text"
                 class="dotted"
                 :value="form.alamat_penanggung_jawab"
-                readonly
               >
             </td>
           </tr>
@@ -74,7 +72,6 @@
                 id="jabatan"
                 type="text"
                 class="dotted"
-                readonly
               >
             </td>
           </tr>
@@ -97,7 +94,6 @@
                 name="nama"
                 type="text"
                 class="dotted"
-                readonly
               >
             </td>
             <td />
@@ -115,7 +111,6 @@
                 name="alamat"
                 type="text"
                 class="dotted"
-                readonly
               >
             </td>
           </tr>
@@ -131,7 +126,6 @@
                 id="jabatan"
                 type="text"
                 class="dotted"
-                readonly
               >
             </td>
           </tr>
@@ -147,13 +141,13 @@
         <tr>
           <td colspan="5">
             <p>Keluhan :</p>
-            <textarea rows="3" readonly style="border:none; width:100%" />
+            <textarea rows="3" style="border:none; width:100%" />
           </td>
         </tr>
         <tr>
           <td colspan="5">
             <p>Tindak Lanjut :</p>
-            <textarea rows="3" readonly style="border:none; width:100%" />
+            <textarea rows="3" style="border:none; width:100%" />
           </td>
         </tr>
       </table>
@@ -187,7 +181,6 @@
             (<input
               class="col-5 dotted text-center"
               type="text"
-              readonly
               :value="form.nama_penanggung_jawab"
             >)
           </th>
@@ -196,7 +189,6 @@
               pos="center"
               class="col-5 dotted text-center"
               type="text"
-              readonly
             >)
           </th>
         </tr>

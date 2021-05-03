@@ -147,25 +147,32 @@
       color="success"
       :show.sync="uploadModalIsOpen"
     >
-      <CInputFile
-        ref="suratPermohonan"
-        label="Surat Permohonan"
-        description="Upload surat permohonan atau surat pengantar dari UPTD/Perusahaan (PNG,JPG,JPEG)"
-        horizontal
-        custom
-        accept="image/*"
-        @change="updateSuratPermohonan"
-      />
-      <CInputFile
-        ref="formulirPengujian"
-        label="Formulir Pengujian"
-        description="Upload Formulir Pengujian yang telah ditandatangani (PNG,JPG,JPEG)"
-        horizontal
-        custom
-        accept="image/*"
-        @change="updateFormulirPermohonan"
-      />
-
+      <CForm
+        ref="formUploadModal"
+      >
+        <CInputFile
+          ref="suratPermohonan"
+          name="surat_permohonan"
+          required
+          label="Surat Permohonan"
+          description="Upload surat permohonan atau surat pengantar dari UPTD/Perusahaan (PNG,JPG,JPEG)"
+          horizontal
+          custom
+          accept="image/*"
+          @change="updateSuratPermohonan"
+        />
+        <CInputFile
+          ref="formulirPengujian"
+          name="formulir_pengujian"
+          required
+          label="Formulir Pengujian"
+          description="Upload Formulir Pengujian yang telah ditandatangani (PNG,JPG,JPEG)"
+          horizontal
+          custom
+          accept="image/*"
+          @change="updateFormulirPermohonan"
+        />
+      </CForm>
       <template #footer>
         <CButton
           type="button"
@@ -183,7 +190,7 @@
           type="button"
           size="sm"
           color="success"
-          @click="upload()"
+          @click="upload"
         >
           <CIcon
             name="cil-arrow-thick-top"
@@ -318,18 +325,27 @@ export default {
     print () {
       this.$router.push({ path: '/permohonan/formulir_pengujian/', query: { id: this.idPermohonan } })
     },
-    async  upload () {
-      const fd = new FormData()
-      fd.append('surat_permohonan', this.suratPermohonan)
-      fd.append('formulir_permohonan', this.formulirPermohonan)
-      const { data } = await this.$axios.post('/labkon/permohonan/upload_dokumen_persyaratan_permohonan/' + this.idPermohonan, fd, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+    async upload (e) {
+      e.preventDefault()
+      if (this.suratPermohonan === null) {
+        this.$refs.formUploadModal.surat_permohonan.focus()
+      }
+      if (this.formulirPermohonan === null) {
+        this.$refs.formUploadModal.formulir_pengujian.focus()
+      }
+      if (this.$refs.formUploadModal.checkValidity()) {
+        const fd = new FormData()
+        fd.append('surat_permohonan', this.suratPermohonan)
+        fd.append('formulir_permohonan', this.formulirPermohonan)
+        const { data } = await this.$axios.post('/labkon/permohonan/upload_dokumen_persyaratan_permohonan/' + this.idPermohonan, fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        if (data.status === 'success') {
+          this.uploadModalIsOpen = false
+          this.initDaftarPermohonan()
         }
-      })
-      if (data.status === 'success') {
-        this.uploadModalIsOpen = false
-        this.initDaftarPermohonan()
       }
     },
     updateSuratPermohonan (files, event) {
