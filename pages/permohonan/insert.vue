@@ -94,7 +94,7 @@
           required
         />
         <div id="map-wrap" style="height: 400px" class="mb-3">
-          <LMap :zoom="14" :center="[-6.878425528801081, 107.57203383222458]" @click="mapsClick">
+          <LMap :zoom="14" :center="pin||[-6.878425528801081, 107.57203383222458]" @click="mapsClick">
             <LTileLayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
             <LMarker v-if="pin" :lat-lng="pin" />
           </LMap>
