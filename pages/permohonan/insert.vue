@@ -94,7 +94,7 @@
           required
         />
         <div id="map-wrap" style="height: 400px" class="mb-3">
-          <LMap :zoom="14" :center="pin||[-6.878425528801081, 107.57203383222458]" @click="mapsClick">
+          <LMap :zoom="14" :center="centerMap" @click="mapClick">
             <LTileLayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
             <LMarker v-if="pin" :lat-lng="pin" />
           </LMap>
@@ -152,6 +152,7 @@ export default {
     // let selectedMetodePengujian = []
     let form = {}
     let pin = null
+    let centerMap = [-6.878425528801081, 107.57203383222458]
     if (id) {
       const permohonan = await $axios.get('labkon/permohonan/show/' + id)
       const dataPermohonan = permohonan.data.data.permohonan
@@ -170,6 +171,7 @@ export default {
         lat: dataPermohonan.latitude,
         lng: dataPermohonan.longitude
       }
+      centerMap = pin
     }
     return {
       checkBoxPengujian,
@@ -180,13 +182,15 @@ export default {
       // selectedMetodePengujian,
       daftarPemohon,
       form,
-      pin
+      pin,
+      centerMap
     }
   },
   data () {
     return {
       nama_pengujian: [],
       checkedPengujian: []
+      // centerMap: [-6.878425528801081, 107.57203383222458]
     }
   },
   methods: {
@@ -272,7 +276,7 @@ export default {
     updateSelectedPemohon (value, event) {
       this.form.id_pemohon = value
     },
-    mapsClick (e) {
+    mapClick (e) {
       this.pin = e.latlng
       this.form.latitude = String(e.latlng.lat)
       this.form.longitude = String(e.latlng.lng)
