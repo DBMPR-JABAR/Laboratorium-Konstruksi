@@ -11,7 +11,7 @@
         </NuxtLink>
       </CCardBody>
     </CCard>
-    <CCard>
+    <CCard v-if="$auth.user.role == 'internal'">
       <CCardHeader>
         <CIcon name="cil-grid" /> Daftar Pemohon Internal
       </CCardHeader>
@@ -92,7 +92,7 @@
         </CDataTable>
       </CCardBody>
     </CCard>
-    <CCard>
+    <CCard v-if="$auth.user.role == 'masyarakat'">
       <CCardHeader>
         <CIcon name="cil-grid" /> Daftar Pemohon External
       </CCardHeader>
@@ -108,6 +108,11 @@
           table-filter
           pagination
         >
+          <template #ID_Pemohon="{ item }">
+            <td>
+              {{ item.id_pemohon }}
+            </td>
+          </template>
           <template #status="{ item }">
             <td>
               <CBadge :color="status(item.status).color">
@@ -189,6 +194,7 @@ export default {
   },
   created () {
     this.initDaftarPemohon()
+    console.log(this.$auth.user)
   },
   methods: {
     fields (type) {

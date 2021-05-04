@@ -65,10 +65,25 @@ export default {
         status: 3
       }
     }
-    return { id, form }
+
+    const perubahanStatusPengujianData = await $axios.get('has_access/Perubahan Status Pengujian')
+    const perubahanStatusPengujian = perubahanStatusPengujianData.data.data.permission
+    return { id, form, perubahanStatusPengujian }
   },
   data () {
     return {
+    }
+  },
+  beforeMount () {
+    if (this.perubahanStatusPengujian.update === false) {
+      this.$router.push({ path: '/permohonan/list' })
+      this.$store.commit('ui/set', [
+        'flushMessage', {
+          color: 'danger',
+          open: true,
+          message: 'Anda tidak memiliki akses.'
+        }
+      ])
     }
   },
   methods: {

@@ -92,7 +92,7 @@
                 @click.native="uploadModal(item.id_permohonan)"
               />
               <NuxtLink
-                v-show="Number(item.status) === 2"
+                v-show="Number(item.status) === 2 && pengkajianPermission.update"
                 :to="'/permohonan/pengkajian_pengujian/'+item.id_permohonan"
               >
                 <CIcon name="cil-zoom" class="text-success" />
@@ -103,7 +103,7 @@
                 @click.native="riwayatModal(item.id_permohonan)"
               />
               <NuxtLink
-                v-show="Number(item.status) === 3"
+                v-show="Number(item.status) === 3 && perubahanStatusPengujian.update"
                 :to="'/permohonan/status_proggress/'+item.id_permohonan"
               >
                 <CIcon name="cil-loop-circular" class="text-warning" />
@@ -115,13 +115,13 @@
                 <CIcon name="cil-clipboard" class="text-info" />
               </NuxtLink>
               <NuxtLink
-                v-show="Number(item.status) === 5"
+                v-show="Number(item.status) === 5 && perubahanStatusPengujian.update"
                 :to="'/permohonan/formulir_pengaduan/'+item.id_permohonan"
               >
                 <CIcon name="cil-note-add" class="text-warning" />
               </NuxtLink>
               <CIcon
-                v-show="Number(item.status) === 5"
+                v-show="Number(item.status) === 5 && perubahanStatusPengujian.update"
                 name="cil-check"
                 class="text-success"
                 @click.native="
@@ -245,6 +245,14 @@ const fields = [
 ]
 export default {
   layout: 'TheContainer',
+  async asyncData ({ $axios }) {
+    const pengkajianPermissionData = await $axios.get('has_access/Pengkajian Pengujian')
+    const pengkajianPermission = pengkajianPermissionData.data.data.permission
+    const perubahanStatusPengujianData = await $axios.get('has_access/Perubahan Status Pengujian')
+    const perubahanStatusPengujian = perubahanStatusPengujianData.data.data.permission
+
+    return { pengkajianPermission, perubahanStatusPengujian }
+  },
   data () {
     return {
       uploadModalIsOpen: false,

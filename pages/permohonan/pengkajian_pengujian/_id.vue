@@ -137,11 +137,13 @@
 <script>
 export default {
   layout: 'TheContainer',
-  async asyncData ({ $axios, params }) {
+  async asyncData ({ $axios, params, $router, $store }) {
+    const pengkajianPermissionData = await $axios.get('has_access/Pengkajian Pengujian')
+    const pengkajianPermission = pengkajianPermissionData.data.data.permission
     const { id } = params
     const documentPersyaratan = await $axios.get('/labkon/permohonan/dokumen_persyaratan_permohonan/' + id)
     const document = documentPersyaratan.data.data.dokumen_persyaratan
-    return { id, document }
+    return { id, document, pengkajianPermission }
   },
   data () {
     return {
@@ -155,6 +157,18 @@ export default {
         'Formulir Permohonan'
       ],
       activeTab: 1
+    }
+  },
+  beforeMount () {
+    if (this.pengkajianPermission.update === false) {
+      this.$router.push({ path: '/permohonan/list' })
+      this.$store.commit('ui/set', [
+        'flushMessage', {
+          color: 'danger',
+          open: true,
+          message: 'Anda tidak memiliki akses.'
+        }
+      ])
     }
   },
   methods: {

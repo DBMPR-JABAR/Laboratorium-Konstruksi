@@ -18,7 +18,7 @@
     <div class="row">
       <hr class="col-12">
       <p class="col-12 mb-2">
-        Pada hari ini, {{ date.weekday }} tanggal {{ date.date }} bulan {{ date.monthname }}, tahun {{ date.year }}.
+        Pada hari ini, {{ form.date.weekday }} tanggal {{ form.date.date }} bulan {{ form.date.monthname }}, tahun {{ form.date.year }}.
       </p>
       <p class="col-12">
         Kami yang bertanda tangan dibawah ini:
@@ -35,10 +35,10 @@
             <td>
               <input
                 id="nama"
+                v-model="form.nama_penanggung_jawab"
                 name="nama"
                 type="text"
                 class="dotted"
-                :value="form.nama_penanggung_jawab"
               >
             </td>
             <td />
@@ -53,10 +53,10 @@
             <td>
               <input
                 id="alamat"
+                v-model="form.alamat_penanggung_jawab"
                 name="alamat"
                 type="text"
                 class="dotted"
-                :value="form.alamat_penanggung_jawab"
               >
             </td>
           </tr>
@@ -70,6 +70,7 @@
             <td>
               <input
                 id="jabatan"
+                v-model="form.jabatan"
                 type="text"
                 class="dotted"
               >
@@ -90,7 +91,8 @@
             </td>
             <td>
               <input
-                id="nama"
+                id="nama_pihak_kedua"
+                v-model="form.nama_pihak_kedua"
                 name="nama"
                 type="text"
                 class="dotted"
@@ -107,7 +109,8 @@
             </td>
             <td>
               <input
-                id="alamat"
+                id="alamat_pihak_kedua"
+                v-model="form.alamat_pihak_kedua"
                 name="alamat"
                 type="text"
                 class="dotted"
@@ -123,7 +126,8 @@
             </td>
             <td>
               <input
-                id="jabatan"
+                id="jabatan_pihak_kedua"
+                v-model="form.jabatan_pihak_kedua"
                 type="text"
                 class="dotted"
               >
@@ -141,13 +145,13 @@
         <tr>
           <td colspan="5">
             <p>Keluhan :</p>
-            <textarea rows="3" style="border:none; width:100%" />
+            <textarea v-model="form.keluhan" rows="3" style="border:none; width:100%" />
           </td>
         </tr>
         <tr>
           <td colspan="5">
             <p>Tindak Lanjut :</p>
-            <textarea rows="3" style="border:none; width:100%" />
+            <textarea v-model="form.tindak_lanjut" rows="3" style="border:none; width:100%" />
           </td>
         </tr>
       </table>
@@ -179,13 +183,14 @@
         <tr>
           <th style="width: 50%">
             (<input
+              v-model="form.nama_penanggung_jawab"
               class="col-5 dotted text-center"
               type="text"
-              :value="form.nama_penanggung_jawab"
             >)
           </th>
           <th style="width: 50%">
             (<input
+              v-model="form.nama_pihak_kedua"
               pos="center"
               class="col-5 dotted text-center"
               type="text"
@@ -200,22 +205,34 @@
 export default {
   async asyncData ({ $axios, params }) {
     const { id } = params
-    const { data } = await $axios.get('/labkon/permohonan/cetak_formulir_data/' + id)
-
-    const d = new Date()
-    const weekday = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis',
-      'Jumat', 'Sabtu']
-    const monthname = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
-      'September', 'Oktober', 'November', 'Desember']
-    const date = {
-      weekday: weekday[d.getDay()],
-      date: d.getDate(),
-      monthname: monthname[d.getMonth()],
-      year: d.getFullYear()
+    const exitsData = await $axios.get('/labkon/permohonan/formulir_pengaduan_data_exits/' + id)
+    let form
+    let exits = false
+    if (exitsData.data.data.pengaduan) {
+      if (exitsData.data.data.pengaduan.json) {
+        form = JSON.parse(exitsData.data.data.pengaduan.json)
+        exits = true
+      }
+    } else {
+      const { data } = await $axios.get('/labkon/permohonan/cetak_formulir_data/' + id)
+      const d = new Date()
+      const weekday = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis',
+        'Jumat', 'Sabtu']
+      const monthname = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
+        'September', 'Oktober', 'November', 'Desember']
+      const date = {
+        weekday: weekday[d.getDay()],
+        date: d.getDate(),
+        monthname: monthname[d.getMonth()],
+        year: d.getFullYear()
+      }
+      form = data.data.permohonan
+      form.date = date
     }
-    const form = data.data.permohonan
 
-    return { date, form }
+    const perubahanStatusPengujianData = await $axios.get('has_access/Perubahan Status Pengujian')
+    const perubahanStatusPengujian = perubahanStatusPengujianData.data.data.permission
+    return { form, perubahanStatusPengujian, exits }
   },
   computed: {
     waktuPengambilanSampel () {
@@ -224,10 +241,36 @@ export default {
       return dateFormated
     }
   },
+  beforeMount () {
+    if (this.perubahanStatusPengujian.update === false) {
+      this.$router.push({ path: '/permohonan/list' })
+      this.$store.commit('ui/set', [
+        'flushMessage', {
+          color: 'danger',
+          open: true,
+          message: 'Anda tidak memiliki akses.'
+        }
+      ])
+    }
+  },
   methods: {
     print () {
       window.print()
+      console.log(this.form)
       // this.$htmlToPaper('formulir_pengujian_labkon')
+      this.savePrintData()
+    },
+    async savePrintData () {
+      const fd = new FormData()
+      fd.append('status', 6)
+      fd.append('type_keterangan', 'Cetak Formulir Pengaduan')
+      fd.append('keterangan', this.exits ? 'Memperbaharui dan mencetak formulir pengaduan' : 'Mencetak formulir pengaduan')
+      fd.append('json', JSON.stringify(this.form))
+      await this.$axios.post('/labkon/permohonan/catatan_status_progress/' + this.form.id_permohonan, fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
     }
   }
 }
