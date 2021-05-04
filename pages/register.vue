@@ -164,7 +164,7 @@ export default {
             this.errors.show = false
           }, 1000)
         } else {
-          const { data } = await this.$axios.post('/auth/register_labkon', this.form)
+          const { data } = await this.$axios.post('/auth/register', this.form)
           if (data.status !== 'success') {
             this.errors.message = data.data.message
             this.errors.show = true
