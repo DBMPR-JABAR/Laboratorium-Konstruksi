@@ -6,13 +6,15 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-                <CForm>
+                <CForm ref="form" @submit="login" @keypress="loginUseKey">
                   <h1>Login</h1>
                   <p class="text-muted">
                     Masuk menggunakan akun Teman Jabar
                   </p>
                   <CInput
                     v-model="form.email"
+                    type="email"
+                    required
                     placeholder="Email"
                     autocomplete="email"
                   >
@@ -22,6 +24,7 @@
                   </CInput>
                   <CInput
                     v-model="form.password"
+                    required
                     placeholder="Password"
                     type="password"
                     autocomplete="curent-password"
@@ -31,8 +34,13 @@
                     </template>
                   </CInput>
                   <CRow>
+                    <CCol col="12">
+                      <p v-show="credentialsError" class="text-danger">
+                        <small>Email atau password salah.</small>
+                      </p>
+                    </CCol>
                     <CCol col="6" class="text-left">
-                      <CButton color="primary" class="px-4" @click="login">
+                      <CButton type="submit" color="primary" class="px-4">
                         Login
                       </CButton>
                     </CCol>
@@ -76,13 +84,38 @@ export default {
       form: {
         email: '',
         password: ''
-      }
+      },
+      credentialsError: false
     }
   },
   methods: {
-    async login () {
+    async login (e) {
+      e.preventDefault()
+      const isValid = this.$refs.form.checkValidity()
+      console.log(isValid)
+
       const { data } = await this.$auth.loginWith('local', { data: this.form })
-      if (data.data.token.access_token) { this.$router.push({ path: '/dashboard' }) }
+      console.log(data)
+      if (data.status === 'false') {
+        this.credentialsError = true
+        setTimeout(() => {
+          this.credentialsError = false
+        }, 2000)
+      } else if (data.status === 'success') {
+        if (data.data.token.access_token) {
+          this.$router.push({ path: '/dashboard' })
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'success',
+              open: true,
+              message: 'Selamat datang.'
+            }
+          ])
+        }
+      }
+    },
+    loginUseKey (e) {
+      if (e.key === 'Enter') { this.login() }
     }
   }
 }
