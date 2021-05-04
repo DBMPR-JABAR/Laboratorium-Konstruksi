@@ -48,8 +48,8 @@
                       <!-- <CButton color="link" class="px-0">
                         Forgot password?
                       </CButton> -->
-                      <CButton color="link" class="d-lg-none">
-                        Comming Soon!
+                      <CButton color="link" class="d-lg-none" to="/register">
+                        Daftar
                       </CButton>
                     </CCol>
                   </CRow>
@@ -65,8 +65,8 @@
               <CCardBody>
                 <h2>Registrasi</h2>
                 <p>Silahkan hubungi admin untuk mendapatkan akun.</p>
-                <CButton color="light" variant="outline" size="lg" disabled>
-                  Comming Soon!
+                <CButton color="light" variant="outline" size="lg" to="/register">
+                  Daftar
                 </CButton>
               </CCardBody>
             </CCard>
