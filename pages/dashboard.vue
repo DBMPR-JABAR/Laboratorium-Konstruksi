@@ -4,7 +4,7 @@
       <CCardBody>
         <CRow>
           <CCol sm="12">
-            <Logo class="img-fluid" width="50%" />
+            <LogoHitam class="img-fluid" width="50%" />
             <h1 class="title">
               Selamat Datang di UPTD Laboratorium Bahan Konstruksi
             </h1>

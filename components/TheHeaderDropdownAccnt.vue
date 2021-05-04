@@ -6,7 +6,7 @@
     add-menu-classes="pt-0"
   >
     <template #toggler>
-      <CHeaderNavLink>
+      <!-- <CHeaderNavLink>
         <div class="c-avatar">
           <img
             src="/img/avatars/6.jpg"
@@ -14,12 +14,15 @@
             class="c-avatar-img "
           >
         </div>
-      </CHeaderNavLink>
+      </CHeaderNavLink> -->
+      <CHeaderNavItem class="px-3">
+        <CIcon name="cil-options" />
+      </CHeaderNavItem>
     </template>
     <CDropdownHeader tag="div" class="text-center" color="light">
-      <strong>Account</strong>
+      <strong>{{ $auth.user.name }} </strong>
     </CDropdownHeader>
-    <CDropdownItem>
+    <!-- <CDropdownItem>
       <CIcon name="cil-bell" /> Updates
       <CBadge color="info" class="mfs-auto">
         {{ itemsCount }}
@@ -71,8 +74,8 @@
     <CDropdownDivider />
     <CDropdownItem>
       <CIcon name="cil-shield-alt" /> Lock Account
-    </CDropdownItem>
-    <CDropdownItem>
+    </CDropdownItem> -->
+    <CDropdownItem @click="logout">
       <CIcon name="cil-lock-locked" /> Logout
     </CDropdownItem>
   </CDropdown>
@@ -83,6 +86,12 @@ export default {
   data () {
     return {
       itemsCount: 42
+    }
+  },
+  methods: {
+    async logout () {
+      const log = await this.$auth.logout()
+      console.log(log)
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <NuxtLink to="/dashboard">
-        <Logo :height="75" />
+        <LogoHitam :height="75" />
       </NuxtLink>
       <h1 class="title">
         Selamat Datang di UPTD Laboratorium Bahan Konstruksi
