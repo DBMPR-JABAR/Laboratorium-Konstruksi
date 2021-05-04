@@ -53,6 +53,15 @@
                 <p v-show="errors.show" class="text-danger">
                   <small>{{ errors.message }}</small>
                 </p>
+                <CProgress
+                  v-show="loading"
+                  :value="100"
+                  :max="100"
+                  animated
+                  color="success"
+                  striped
+                  class="mb-2"
+                />
                 <CButton type="submit" color="success" block>
                   Buat akun
                 </CButton>
@@ -134,6 +143,7 @@ export default {
   auth: false,
   data () {
     return {
+      loading: false,
       form: {
         name: '',
         email: '',
@@ -164,14 +174,17 @@ export default {
             this.errors.show = false
           }, 1000)
         } else {
+          this.loading = true
           const { data } = await this.$axios.post('/auth/register', this.form)
           if (data.status !== 'success') {
+            this.loading = false
             this.errors.message = data.data.message
             this.errors.show = true
             setTimeout(() => {
               this.errors.show = false
             }, 2000)
           } else {
+            this.loading = false
             this.kode_otp = data.data.kode_otp
             this.mode_verif = true
             this.setCountdown()
@@ -218,7 +231,7 @@ export default {
     },
     setCountdown () {
       this.disabled = true
-      this.countdown = 5
+      this.countdown = 60
       this.interval = setInterval(() => {
         this.countdown = this.countdown - 1
         if (this.countdown === 0) {
