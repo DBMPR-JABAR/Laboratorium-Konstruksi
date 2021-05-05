@@ -10,13 +10,25 @@
             <template slot="title">
               Surat Permohonan
             </template>
-            <img width="100%" :src="storageUrl(document.surat_permohonan)" alt="Surat Permohonan" @click="downloadDocument(document.surat_permohonan, `surat_permohonan_${id}`)">
+            <img
+              width="50%"
+              class="rounded mx-auto d-block border"
+              :src="storageUrl(document.surat_permohonan)"
+              alt="Surat Permohonan"
+              @click="downloadDocument(document.surat_permohonan, `surat_permohonan_${id}`)"
+            >
           </CTab>
           <CTab>
             <template slot="title">
               Formulir Permohonan
             </template>
-            <img width="100%" :src="storageUrl(document.formulir_permohonan)" alt="Formulir Permohonan" @click="downloadDocument(document.formulir_permohonan,`formulir_permohonan_${id}`)">
+            <img
+              width="50%"
+              class="rounded mx-auto d-block border"
+              :src="storageUrl(document.formulir_permohonan)"
+              alt="Formulir Permohonan"
+              @click="downloadDocument(document.formulir_permohonan,`formulir_permohonan_${id}`)"
+            >
           </CTab>
         </CTabs>
       </CCardBody>
@@ -179,6 +191,7 @@ export default {
       const element = document.createElement('a')
       element.setAttribute('href', this.storageUrl(link))
       element.setAttribute('download', filename)
+      element.setAttribute('target', '_blank')
       element.style.display = 'none'
       document.body.appendChild(element)
       element.click()

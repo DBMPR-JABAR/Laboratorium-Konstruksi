@@ -70,7 +70,8 @@
               >
                 <CIcon name="cil-pencil" />
               </NuxtLink>
-              <!-- <CIcon
+              <CIcon
+                v-show="pengkajianPermission.update"
                 name="cil-x-circle"
                 class="text-danger"
                 @click.native="
@@ -84,7 +85,7 @@
                     },
                   ])
                 "
-              /> -->
+              />
               <CIcon
                 v-show="Number(item.status) === 1 || Number(item.status) === 0"
                 name="cil-arrow-thick-from-top"
@@ -114,12 +115,12 @@
               >
                 <CIcon name="cil-clipboard" class="text-info" />
               </NuxtLink>
-              <NuxtLink
+              <CIcon
                 v-show="Number(item.status) === 5 && perubahanStatusPengujian.update"
-                :to="'/permohonan/formulir_pengaduan/'+item.id_permohonan"
-              >
-                <CIcon name="cil-note-add" class="text-warning" />
-              </NuxtLink>
+                name="cil-note-add"
+                class="text-warning"
+                @click.native="printFormulirPengaduan(item.id_permohonan)"
+              />
               <CIcon
                 v-show="Number(item.status) === 5 && perubahanStatusPengujian.update"
                 name="cil-check"
@@ -331,7 +332,12 @@ export default {
       this.riwayatModalIsOpen = true
     },
     print () {
-      this.$router.push({ path: '/permohonan/formulir_pengujian/', query: { id: this.idPermohonan } })
+      const routeData = this.$router.resolve({ path: '/permohonan/formulir_pengujian/' + this.idPermohonan })
+      window.open(routeData.href, '_blank')
+    },
+    printFormulirPengaduan (idPermohonan) {
+      const routeData = this.$router.resolve({ path: '/permohonan/formulir_pengaduan/' + idPermohonan })
+      window.open(routeData.href, '_blank')
     },
     async upload (e) {
       e.preventDefault()

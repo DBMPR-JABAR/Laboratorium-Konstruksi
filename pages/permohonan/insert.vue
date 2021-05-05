@@ -60,18 +60,16 @@
                       <CCol md="12">
                         <CInput
                           v-model="addPengujianForm[id_bahan_uji].nama_pengujian"
+                          :name="`add_pengujian_input_${id_bahan_uji}`"
                           style="width:100%"
                           horizontal
-                          name="nama_pengujian_baru"
+                          placeholder="Masukan nama pengujian."
                           type="text"
-                          description="Masukan nama pengujian."
+                          description="Masukan nama pengujian min 4 huruf."
                         />
-                        <CButton :ref="`add_pengujian_button_${id_bahan_uji}`" type="button" size="sm" color="success" @click="addPengujianName(id_bahan_uji,checkBoxPengujian[id_bahan_uji][0].nama_bahan)">
-                          <CIcon name="cil-check-circle" /> <span
-                            <
-                            CButton
-                          />
-                        </cbutton>
+                        <CButton type="button" size="sm" color="success" @click="addPengujianName(id_bahan_uji,checkBoxPengujian[id_bahan_uji][0].nama_bahan)">
+                          <CIcon name="cil-check-circle" /> <span :ref="`add_pengujian_button_${id_bahan_uji}`">Tambah</span>
+                        </CButton>
                       </CCol>
                     </CRow>
                   </CCol>
@@ -313,22 +311,27 @@ export default {
       this.form.latitude = String(e.latlng.lat)
       this.form.longitude = String(e.latlng.lng)
     },
-    addPengujianName (idBahanUji, namaBahan) {
-      // const { data } = await this.$axios.post('/labkon/tambah_nama_pengujian', this.addPengujianForm[idBahanUji])
-      // console.log(data)
-      const id = 111
-      console.log(this.addPengujianForm[idBahanUji])
-      const data = {
-        id,
-        id_bahan_uji: idBahanUji,
-        nama_bahan: namaBahan,
-        nama_pengujian: this.addPengujianForm[idBahanUji].nama_pengujian,
-        value: `${idBahanUji}_${id}`
+    async addPengujianName (idBahanUji, namaBahan) {
+      const fieldInput = this.$refs.form[`add_pengujian_input_${idBahanUji}`]
+      const addButton = this.$refs[`add_pengujian_button_${idBahanUji}`][0]
+      if (this.addPengujianForm[idBahanUji].nama_pengujian.length < 4) {
+        fieldInput.focus()
+      } else {
+        addButton.innerText = 'Loading..'
+        const { data } = await this.$axios.post('/labkon/tambah_nama_pengujian', this.addPengujianForm[idBahanUji])
+        if (data.status === 'success') {
+          const newData = {
+            id: data.data.nama_pengujian.id,
+            id_bahan_uji: idBahanUji,
+            nama_bahan: namaBahan,
+            nama_pengujian: this.addPengujianForm[idBahanUji].nama_pengujian,
+            value: `${idBahanUji}_${data.data.nama_pengujian.id}`
+          }
+          this.checkBoxPengujian[idBahanUji].push(newData)
+          this.addPengujianForm[idBahanUji].nama_pengujian = ''
+          addButton.innerText = 'Tambah'
+        }
       }
-      this.checkBoxPengujian[idBahanUji].push(data)
-      console.log(this.checkBoxPengujian[idBahanUji])
-      console.log(this.$refs[`add_pengujian_button_${idBahanUji}`])
-      this.$refs[`add_pengujian_button_${idBahanUji}`][0].innerText = 'fafs'
     }
   }
 }

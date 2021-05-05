@@ -267,8 +267,8 @@
 </template>
 <script>
 export default {
-  async asyncData ({ $axios, query }) {
-    const { id } = query
+  async asyncData ({ $axios, params }) {
+    const { id } = params
     const { data } = await $axios.get('/labkon/permohonan/cetak_formulir_data/' + id)
     const form = data.data.permohonan
     const date = new Date(form.created_at)
@@ -276,7 +276,13 @@ export default {
 
     const namaPengujian = await $axios.get('/labkon/nama_pengujian')
     const checkBoxPengujian = namaPengujian.data.data.nama_pengujian.reduce((rv, x) => {
-      (rv[x.id_bahan_uji] = rv[x.id_bahan_uji] || []).push({ nama_bahan: x.nama_bahan, nama_pengujian: x.nama_pengujian, id_bahan_uji: x.id_bahan_uji, id: x.id, value: `${x.id_bahan_uji}_${x.id}` })
+      (rv[x.id_bahan_uji] = rv[x.id_bahan_uji] || []).push({
+        nama_bahan: x.nama_bahan,
+        nama_pengujian: x.nama_pengujian,
+        id_bahan_uji: x.id_bahan_uji,
+        id: x.id,
+        value: `${x.id_bahan_uji}_${x.id}`
+      })
       return rv
     }, {})
 
