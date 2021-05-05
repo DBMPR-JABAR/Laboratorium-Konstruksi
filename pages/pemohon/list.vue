@@ -11,7 +11,7 @@
         </NuxtLink>
       </CCardBody>
     </CCard>
-    <CCard v-if="$auth.user.role == 'internal'">
+    <CCard v-if="$auth.user.role == 'internal' || semuaDataPermission.view">
       <CCardHeader>
         <CIcon name="cil-grid" /> Daftar Pemohon Internal
       </CCardHeader>
@@ -92,7 +92,7 @@
         </CDataTable>
       </CCardBody>
     </CCard>
-    <CCard v-if="$auth.user.role == 'masyarakat'">
+    <CCard v-if="$auth.user.role == 'masyarakat' || semuaDataPermission.view">
       <CCardHeader>
         <CIcon name="cil-grid" /> Daftar Pemohon External
       </CCardHeader>
@@ -184,6 +184,11 @@ const fieldsMasyarakat = [
 ]
 export default {
   layout: 'TheContainer',
+  async asyncData ({ $axios }) {
+    const semuaDataPermissionData = await $axios.get('has_access/Semua Data Laboratorium Konstruksi')
+    const semuaDataPermission = semuaDataPermissionData.data.data.permission
+    return { semuaDataPermission }
+  },
   data () {
     return {
       dangerModal: false,

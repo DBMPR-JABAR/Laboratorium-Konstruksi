@@ -51,6 +51,31 @@
                     </CRow>
                   </CCol>
                 </CRow>
+                <CRow form class="form-group">
+                  <CCol tag="label" sm="3" class="col-form-label">
+                    Tidak ada dalam daftar pengujian {{ checkBoxPengujian[id_bahan_uji][0].nama_bahan }} ?
+                  </CCol>
+                  <CCol sm="9" class="">
+                    <CRow>
+                      <CCol md="12">
+                        <CInput
+                          v-model="addPengujianForm[id_bahan_uji].nama_pengujian"
+                          style="width:100%"
+                          horizontal
+                          name="nama_pengujian_baru"
+                          type="text"
+                          description="Masukan nama pengujian."
+                        />
+                        <CButton :ref="`add_pengujian_button_${id_bahan_uji}`" type="button" size="sm" color="success" @click="addPengujianName(id_bahan_uji,checkBoxPengujian[id_bahan_uji][0].nama_bahan)">
+                          <CIcon name="cil-check-circle" /> <span
+                            <
+                            CButton
+                          />
+                        </cbutton>
+                      </CCol>
+                    </CRow>
+                  </CCol>
+                </CRow>
                 <!-- <CInput
                   :value="jumlahBahanUji[id_bahan_uji]"
                   horizontal
@@ -136,7 +161,7 @@ export default {
     // const getMetodePengujian = await $axios.get('/labkon/metode_pengujian')
     // const metodePengujian = getMetodePengujian.data.data.metode_pengujian
     const checkBoxPengujian = namaPengujian.data.data.nama_pengujian.reduce((rv, x) => {
-      (rv[x.id_bahan_uji] = rv[x.id_bahan_uji] || []).push({ nama_bahan: x.nama_bahan, nama_pengujian: x.nama_pengujian, id_bahan_uji: x.id_bahan_uji, id: x.id, value: `${x.id_bahan_uji}_${x.id}` })
+      if (x.status === 'aktif' && x.status_bahan === 'aktif') { (rv[x.id_bahan_uji] = rv[x.id_bahan_uji] || []).push({ nama_bahan: x.nama_bahan, nama_pengujian: x.nama_pengujian, id_bahan_uji: x.id_bahan_uji, id: x.id, value: `${x.id_bahan_uji}_${x.id}` }) }
       return rv
     }, {})
     const pemohon = await $axios.get('labkon/daftar_pemohon')
@@ -173,6 +198,13 @@ export default {
       }
       centerMap = pin
     }
+    const addPengujianForm = []
+    Object.keys(checkBoxPengujian).forEach((id) => {
+      addPengujianForm[id] = {
+        id_bahan_uji: id,
+        nama_pengujian: ''
+      }
+    })
     return {
       checkBoxPengujian,
       checked,
@@ -180,6 +212,7 @@ export default {
       // metodePengujian,
       // jumlahBahanUji,
       // selectedMetodePengujian,
+      addPengujianForm,
       daftarPemohon,
       form,
       pin,
@@ -190,7 +223,6 @@ export default {
     return {
       nama_pengujian: [],
       checkedPengujian: []
-      // centerMap: [-6.878425528801081, 107.57203383222458]
     }
   },
   methods: {
@@ -280,6 +312,23 @@ export default {
       this.pin = e.latlng
       this.form.latitude = String(e.latlng.lat)
       this.form.longitude = String(e.latlng.lng)
+    },
+    addPengujianName (idBahanUji, namaBahan) {
+      // const { data } = await this.$axios.post('/labkon/tambah_nama_pengujian', this.addPengujianForm[idBahanUji])
+      // console.log(data)
+      const id = 111
+      console.log(this.addPengujianForm[idBahanUji])
+      const data = {
+        id,
+        id_bahan_uji: idBahanUji,
+        nama_bahan: namaBahan,
+        nama_pengujian: this.addPengujianForm[idBahanUji].nama_pengujian,
+        value: `${idBahanUji}_${id}`
+      }
+      this.checkBoxPengujian[idBahanUji].push(data)
+      console.log(this.checkBoxPengujian[idBahanUji])
+      console.log(this.$refs[`add_pengujian_button_${idBahanUji}`])
+      this.$refs[`add_pengujian_button_${idBahanUji}`][0].innerText = 'fafs'
     }
   }
 }
