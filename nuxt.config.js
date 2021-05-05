@@ -9,7 +9,7 @@ export default {
   head: {
     title: 'Labolatorium Kontruksi',
     htmlAttrs: {
-      lang: 'id_ID'
+      lang: 'id'
     },
     meta: [
       { charset: 'utf-8' },

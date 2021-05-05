@@ -112,9 +112,8 @@
           horizontal
           name="tanggal_pengambilan"
           type="date"
-          value="00-00-0000"
           label="Tanggal Pengambilan Sampel"
-          description="Tanggal Pengambilan Sampel."
+          description="Tanggal Pengambilan Sampel (mohon perhatikan format tanggal)."
           required
         />
         <div id="map-wrap" style="height: 400px" class="mb-3">
