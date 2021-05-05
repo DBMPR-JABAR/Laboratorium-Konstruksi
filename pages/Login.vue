@@ -92,25 +92,24 @@ export default {
     async login (e) {
       e.preventDefault()
       const isValid = this.$refs.form.checkValidity()
-      console.log(isValid)
-
-      const { data } = await this.$auth.loginWith('local', { data: this.form })
-      console.log(data)
-      if (data.status === 'false') {
-        this.credentialsError = true
-        setTimeout(() => {
-          this.credentialsError = false
-        }, 2000)
-      } else if (data.status === 'success') {
-        if (data.data.token.access_token) {
-          this.$router.push({ path: '/dashboard' })
-          this.$store.commit('ui/set', [
-            'flushMessage', {
-              color: 'success',
-              open: true,
-              message: 'Selamat datang.'
-            }
-          ])
+      if (isValid) {
+        const { data } = await this.$auth.loginWith('local', { data: this.form })
+        if (data.status === 'false') {
+          this.credentialsError = true
+          setTimeout(() => {
+            this.credentialsError = false
+          }, 2000)
+        } else if (data.status === 'success') {
+          if (data.data.token.access_token) {
+            this.$router.push({ path: '/dashboard' })
+            this.$store.commit('ui/set', [
+              'flushMessage', {
+                color: 'success',
+                open: true,
+                message: 'Selamat datang.'
+              }
+            ])
+          }
         }
       }
     },

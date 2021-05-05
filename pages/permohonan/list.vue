@@ -278,7 +278,6 @@ export default {
         this.daftarPermohonan.push(row)
       })
       this.dataLoaded = true
-      console.log(this.daftarPermohonan)
       return this.daftarPermohonan
     },
     status (status) {
@@ -357,7 +356,6 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         })
-        console.log(data)
         if (data.status === 'success') {
           this.uploadModalIsOpen = false
           this.initDaftarPermohonan()

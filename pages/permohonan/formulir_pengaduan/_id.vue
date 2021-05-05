@@ -256,7 +256,6 @@ export default {
   methods: {
     print () {
       window.print()
-      console.log(this.form)
       // this.$htmlToPaper('formulir_pengujian_labkon')
       this.savePrintData()
     },

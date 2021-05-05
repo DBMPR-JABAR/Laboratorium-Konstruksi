@@ -199,7 +199,6 @@ export default {
   },
   created () {
     this.initDaftarPemohon()
-    console.log(this.$auth.user)
   },
   methods: {
     fields (type) {

@@ -90,8 +90,7 @@ export default {
   },
   methods: {
     async logout () {
-      const log = await this.$auth.logout()
-      console.log(log)
+      await this.$auth.logout()
     }
   }
 }

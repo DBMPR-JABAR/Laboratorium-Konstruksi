@@ -25,7 +25,6 @@ export default ({
   asyncData ({ query, params }) {
     const { from } = params
     const { token } = query
-    console.log(from)
     return { token, from }
   },
   async created () {

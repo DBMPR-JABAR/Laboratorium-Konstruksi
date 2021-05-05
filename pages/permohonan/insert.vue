@@ -238,7 +238,6 @@ export default {
         }
         if (this.id) {
           const { data } = await this.$axios.put('labkon/permohonan/edit/' + this.id, this.form)
-          console.log(data)
           if (data.status === 'success') {
             this.$router.push({ path: '/permohonan/list' })
             this.$store.commit('ui/set', [
