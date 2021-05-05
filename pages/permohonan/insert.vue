@@ -153,13 +153,15 @@
 <script>
 export default {
   layout: 'TheContainer',
-  async asyncData ({ $axios, query }) {
+  async asyncData ({ $axios, query, $auth }) {
     const { id } = query
     const namaPengujian = await $axios.get('/labkon/nama_pengujian')
     // const getMetodePengujian = await $axios.get('/labkon/metode_pengujian')
     // const metodePengujian = getMetodePengujian.data.data.metode_pengujian
     const checkBoxPengujian = namaPengujian.data.data.nama_pengujian.reduce((rv, x) => {
-      if (x.status === 'aktif' && x.status_bahan === 'aktif') { (rv[x.id_bahan_uji] = rv[x.id_bahan_uji] || []).push({ nama_bahan: x.nama_bahan, nama_pengujian: x.nama_pengujian, id_bahan_uji: x.id_bahan_uji, id: x.id, value: `${x.id_bahan_uji}_${x.id}` }) }
+      const showAt = String(x.show_at).split(',').filter(value => String(value) === String($auth.user.id))
+      const show = showAt.length === 1
+      if ((x.status === 'aktif' && x.status_bahan === 'aktif') || show) { (rv[x.id_bahan_uji] = rv[x.id_bahan_uji] || []).push({ nama_bahan: x.nama_bahan, nama_pengujian: x.nama_pengujian, id_bahan_uji: x.id_bahan_uji, id: x.id, value: `${x.id_bahan_uji}_${x.id}` }) }
       return rv
     }, {})
     const pemohon = await $axios.get('labkon/daftar_pemohon')
@@ -326,7 +328,8 @@ export default {
             nama_pengujian: this.addPengujianForm[idBahanUji].nama_pengujian,
             value: `${idBahanUji}_${data.data.nama_pengujian.id}`
           }
-          this.checkBoxPengujian[idBahanUji].push(newData)
+          const exits = this.checkBoxPengujian[idBahanUji].filter(data => data.nama_pengujian === this.addPengujianForm[idBahanUji].nama_pengujian)
+          if (exits.length === 0) { this.checkBoxPengujian[idBahanUji].push(newData) }
           this.addPengujianForm[idBahanUji].nama_pengujian = ''
           addButton.innerText = 'Tambah'
         }
