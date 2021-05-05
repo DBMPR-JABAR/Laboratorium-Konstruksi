@@ -111,7 +111,7 @@
           v-model="form.tanggal_pengambilan_sampel"
           horizontal
           name="tanggal_pengambilan"
-          type="date"
+          type="date-locale"
           label="Tanggal Pengambilan Sampel"
           description="Tanggal Pengambilan Sampel."
           required
