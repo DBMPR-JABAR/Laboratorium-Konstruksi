@@ -79,7 +79,8 @@ export default {
         jQuery: 'jquery',
         'window.jQuery': 'jquery'
       })
-    ]
+    ],
+    transpile: ['@coreui']
   },
 
   router: {
