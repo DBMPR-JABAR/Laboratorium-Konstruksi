@@ -2,7 +2,7 @@
   <div>
     <CCard>
       <CCardHeader>
-        <strong>Form Proggress Status Pengujian Bahan Kontruksi</strong>
+        <strong>Form Status Progres  Pengujian Bahan Kontruksi</strong>
       </CCardHeader>
       <CForm ref="form" @submit="onUpdate">
         <CCardBody>

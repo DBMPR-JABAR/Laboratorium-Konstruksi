@@ -63,30 +63,39 @@
           </template>
           <template #aksi="{ item }">
             <td>
-              <NuxtLink
-                :to="{
-                  path: '/pemohon/edit/' + item.id_pemohon,
-                  params: { slug: item.id_pemohon },
-                  query: { type: 'internal' },
-                }"
-              >
-                <CIcon name="cil-pencil" />
-              </NuxtLink>
-              <CIcon
-                name="cil-x-circle"
-                class="text-danger"
-                @click.native="
-                  $store.commit('ui/set', [
-                    'modal',
-                    {
-                      open: true,
-                      title: 'Konfirmasi Hapus Data',
-                      message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`,
-                      onClick: () => onDelete(item.id_pemohon),
-                    },
-                  ])
-                "
-              />
+              <CButtonGroup size="sm" vertical>
+                <CButton
+                  type="button"
+                  size="sm"
+                  color="info"
+                  :to="{
+                    path: '/pemohon/edit/' + item.id_pemohon,
+                    params: { slug: item.id_pemohon },
+                    query: { type: 'internal' },
+                  }"
+                >
+                  <CIcon name="cil-pencil" />&nbsp;Edit
+                </CButton>
+
+                <CButton
+                  type="button"
+                  size="sm"
+                  color="danger"
+                  @click="
+                    $store.commit('ui/set', [
+                      'modal',
+                      {
+                        open: true,
+                        title: 'Konfirmasi Hapus Data',
+                        message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`,
+                        onClick: () => onDelete(item.id_pemohon),
+                      },
+                    ])
+                  "
+                >
+                  <CIcon name="cil-x-circle" />&nbsp; Hapus
+                </CButton>
+              </CButtonGroup>
             </td>
           </template>
         </CDataTable>
@@ -126,31 +135,39 @@
           </template>
           <template #aksi="{ item }">
             <td>
-              <NuxtLink
-                key="edit"
-                :to="{
-                  path: '/pemohon/edit/' + item.id_pemohon,
-                  params: { slug: item.id_pemohon },
-                  query: { type: 'masyarakat' },
-                }"
-              >
-                <CIcon name="cil-pencil" />
-              </NuxtLink>
-              <CIcon
-                name="cil-x-circle"
-                class="text-danger"
-                @click.native="
-                  $store.commit('ui/set', [
-                    'modal',
-                    {
-                      open: true,
-                      title: 'Konfirmasi Hapus Data',
-                      message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`,
-                      onClick: () => onDelete(item.id_pemohon),
-                    },
-                  ])
-                "
-              />
+              <CButtonGroup size="sm" vertical>
+                <CButton
+                  type="button"
+                  size="sm"
+                  color="info"
+                  :to="{
+                    path: '/pemohon/edit/' + item.id_pemohon,
+                    params: { slug: item.id_pemohon },
+                    query: { type: 'masyarakat' },
+                  }"
+                >
+                  <CIcon name="cil-pencil" />&nbsp;Edit
+                </CButton>
+
+                <CButton
+                  type="button"
+                  size="sm"
+                  color="danger"
+                  @click="
+                    $store.commit('ui/set', [
+                      'modal',
+                      {
+                        open: true,
+                        title: 'Konfirmasi Hapus Data',
+                        message: `Anda yakin akan menghapus data pemohon ${item.id_pemohon} ?`,
+                        onClick: () => onDelete(item.id_pemohon),
+                      },
+                    ])
+                  "
+                >
+                  <CIcon name="cil-x-circle" />&nbsp; Hapus
+                </CButton>
+              </CButtonGroup>
             </td>
           </template>
         </CDataTable>

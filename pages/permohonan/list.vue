@@ -61,83 +61,106 @@
           </template>
           <template #aksi="{ item }">
             <td>
-              <NuxtLink
-                v-show="Number(item.status) === 1 || Number(item.status) === 0"
-                :to="{
-                  path: '/permohonan/insert',
-                  query: { id: item.id_permohonan }
-                }"
-              >
-                <CIcon name="cil-pencil" />
-              </NuxtLink>
-              <CIcon
-                v-show="pengkajianPermission.update"
-                name="cil-x-circle"
-                class="text-danger"
-                @click.native="
-                  $store.commit('ui/set', [
-                    'modal',
-                    {
-                      open: true,
-                      title: 'Konfirmasi Hapus Data',
-                      message: `Anda yakin akan menghapus data pemohon ${item.id_permohonan} ?`,
-                      onClick: () => onDelete(item.id_permohonan),
-                    },
-                  ])
-                "
-              />
-              <CIcon
-                v-show="Number(item.status) === 1 || Number(item.status) === 0"
-                name="cil-arrow-thick-from-top"
-                class="text-warning"
-                @click.native="uploadModal(item.id_permohonan)"
-              />
-              <NuxtLink
-                v-show="Number(item.status) === 2 && pengkajianPermission.update"
-                :to="'/permohonan/pengkajian_pengujian/'+item.id_permohonan"
-              >
-                <CIcon name="cil-zoom" class="text-success" />
-              </NuxtLink>
-              <CIcon
-                name="cil-control"
-                class="text-success"
-                @click.native="riwayatModal(item.id_permohonan)"
-              />
-              <NuxtLink
-                v-show="Number(item.status) === 3 && perubahanStatusPengujian.update"
-                :to="'/permohonan/status_proggress/'+item.id_permohonan"
-              >
-                <CIcon name="cil-loop-circular" class="text-warning" />
-              </NuxtLink>
-              <NuxtLink
-                v-show="Number(item.status) === 4"
-                :to="'/permohonan/quesioner/'+item.id_permohonan"
-              >
-                <CIcon name="cil-clipboard" class="text-info" />
-              </NuxtLink>
-              <CIcon
-                v-show="Number(item.status) === 5 && perubahanStatusPengujian.update"
-                name="cil-note-add"
-                class="text-warning"
-                @click.native="printFormulirPengaduan(item.id_permohonan)"
-              />
-              <CIcon
-                v-show="Number(item.status) === 5 && perubahanStatusPengujian.update"
-                name="cil-check"
-                class="text-success"
-                @click.native="
-                  $store.commit('ui/set', [
-                    'modal',
-                    {
-                      color: 'success',
-                      open: true,
-                      title: 'Konfirmasi Selesai',
-                      message: `Yakin tandai permohonan ${item.id_permohonan} sebagai selesai ?`,
-                      onClick: () => setDone(item.id_permohonan),
-                    },
-                  ])
-                "
-              />
+              <CButtonGroup size="sm">
+                <CButton
+                  v-if="Number(item.status) === 1 || Number(item.status) === 0"
+                  type="button"
+                  color="info"
+                  :to="{
+                    path: '/permohonan/insert',
+                    query: { id: item.id_permohonan }
+                  }"
+                >
+                  <CIcon name="cil-pencil" />&nbsp;Edit
+                </CButton>
+                <CButton
+                  v-if="Number(item.status) === 1 || Number(item.status) === 0"
+                  color="warning"
+                  class="text-white"
+                  @click="uploadModal(item.id_permohonan)"
+                >
+                  <CIcon name="cil-arrow-thick-from-top" />&nbsp;Upload
+                </CButton>
+
+                <CButton
+                  v-if="Number(item.status) === 2 && pengkajianPermission.update"
+                  :to="'/permohonan/pengkajian_pengujian/'+item.id_permohonan"
+                  color="warning"
+                  class="text-white"
+                >
+                  <CIcon name="cil-zoom" />&nbsp;Pengkajian
+                </CButton>
+                <CButton
+                  class="text-white"
+                  color="success"
+                  @click="riwayatModal(item.id_permohonan)"
+                >
+                  <CIcon name="cil-control" />&nbsp;Historis
+                </CButton>
+                <CButton
+                  v-if="Number(item.status) === 3 && perubahanStatusPengujian.update"
+                  color="warning"
+                  :to="'/permohonan/status_proggress/'+item.id_permohonan"
+                  class="text-white"
+                >
+                  <CIcon name="cil-loop-circular" />&nbsp;Status Progres
+                </CButton>
+                <CButton
+                  v-if="Number(item.status) === 4"
+                  :to="'/permohonan/quesioner/'+item.id_permohonan"
+                  class="text-white"
+                  color="info"
+                >
+                  <CIcon name="cil-clipboard" />&nbsp;Kuesioner
+                </CButton>
+
+                <CButton
+                  v-if="Number(item.status) === 5 && perubahanStatusPengujian.update"
+                  class="text-white"
+                  color="warning"
+                  @click="printFormulirPengaduan(item.id_permohonan)"
+                >
+                  <CIcon name="cil-note-add" />&nbsp;Pengaduan
+                </CButton>
+                <CButton
+                  v-if="Number(item.status) === 5 && perubahanStatusPengujian.update"
+                  class="text-white"
+                  color="success"
+                  @click="
+                    $store.commit('ui/set', [
+                      'modal',
+                      {
+                        color: 'success',
+                        open: true,
+                        title: 'Konfirmasi Selesai',
+                        message: `Yakin tandai permohonan ${item.id_permohonan} sebagai selesai ?`,
+                        onClick: () => setDone(item.id_permohonan),
+                      },
+                    ])
+                  "
+                >
+                  <CIcon name="cil-check" />&nbsp;Selesai
+                </CButton>
+                <CButton
+                  v-if="pengkajianPermission.update"
+                  color="danger"
+                  @click="
+                    $store.commit('ui/set', [
+                      'modal',
+                      {
+                        open: true,
+                        title: 'Konfirmasi Hapus Data',
+                        message: `Anda yakin akan menghapus data pemohon ${item.id_permohonan} ?`,
+                        onClick: () => onDelete(item.id_permohonan),
+                      },
+                    ])
+                  "
+                >
+                  <CIcon
+                    name="cil-x-circle"
+                  />&nbsp;Hapus
+                </CButton>
+              </CButtonGroup>
             </td>
           </template>
         </CDataTable>
