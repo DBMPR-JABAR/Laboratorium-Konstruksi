@@ -132,10 +132,10 @@
           />
         </CCardBody>
         <CCardFooter>
-          <CButton type="submit" size="sm" color="danger" @click="callbackOnSubmit = onReject">
+          <CButton type="submit" name="submit_reject" size="sm" color="danger" @click="callbackOnSubmit = onReject">
             <CIcon name="cil-x-circle" /> Ada yang kurang
           </CButton>
-          <CButton type="submit" size="sm" color="success" @click="callbackOnSubmit = onSubmit">
+          <CButton type="submit" size="sm" name="submit" color="success" @click="callbackOnSubmit = onSubmit">
             <CIcon name="cil-check-circle" /> Lanjut
           </CButton>
           <CButton type="reset" size="sm" color="warning">
@@ -208,9 +208,12 @@ export default {
       if (this.$refs.form.checkValidity()) { this.callbackOnSubmit() }
     },
     async onSubmit () {
+      const submitButton = this.$refs.form.submit
+      submitButton.disabled = true
       this.form.status = 3
       const { data } = await this.$axios.put('/labkon/permohonan/pengkajian_permohonan/' + this.id, this.form)
       if (data.status === 'success') {
+        submitButton.disabled = false
         this.$router.push({ path: '/permohonan/list' })
         this.$store.commit('ui/set', [
           'flushMessage', {
@@ -219,9 +222,20 @@ export default {
             message: 'Berhasil menyetujui data permohonan.'
           }
         ])
+      } else {
+        submitButton.disabled = true
+        this.$store.commit('ui/set', [
+          'flushMessage', {
+            color: 'success',
+            open: true,
+            message: 'Terjadi kesalahan saat menyetujui data permohonan.'
+          }
+        ])
       }
     },
     async onReject () {
+      const submitButton = this.$refs.form.submit_reject
+      submitButton.disabled = true
       this.form.status = 0
       const { data } = await this.$axios.put('/labkon/permohonan/pengkajian_permohonan/' + this.id, this.form)
       if (data.status === 'success') {
@@ -231,6 +245,15 @@ export default {
             color: 'success',
             open: true,
             message: 'Berhasil menolak dengan catatan perbaikan data permohonan.'
+          }
+        ])
+      } else {
+        submitButton.disabled = false
+        this.$store.commit('ui/set', [
+          'flushMessage', {
+            color: 'danger',
+            open: true,
+            message: 'Terjadi kesalahan saat menolak data permohonan.'
           }
         ])
       }

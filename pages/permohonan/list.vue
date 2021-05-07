@@ -211,6 +211,7 @@
           <span class="text-white">Cetak Formulir Pengujian</span>
         </CButton>
         <CButton
+          ref="upload_button"
           type="button"
           size="sm"
           color="success"
@@ -343,6 +344,14 @@ export default {
             message: `Berhasil menghapus data permohonan ${id}.`
           }
         ])
+      } else {
+        this.$store.commit('ui/set', [
+          'flushMessage', {
+            color: 'danger',
+            open: true,
+            message: `Terjadi kesalahan saat menghapus data permohonan ${id}.`
+          }
+        ])
       }
     },
     uploadModal (idPermohonan) {
@@ -363,6 +372,7 @@ export default {
       window.open(routeData.href, '_blank')
     },
     async upload (e) {
+      const submitButton = this.$refs.upload_button
       e.preventDefault()
       if (this.suratPermohonan === null) {
         this.$refs.formUploadModal.surat_permohonan.focus()
@@ -371,6 +381,7 @@ export default {
         this.$refs.formUploadModal.formulir_pengujian.focus()
       }
       if (this.$refs.formUploadModal.checkValidity()) {
+        submitButton.disabled = true
         const fd = new FormData()
         fd.append('surat_permohonan', this.suratPermohonan)
         fd.append('formulir_permohonan', this.formulirPermohonan)
@@ -380,8 +391,11 @@ export default {
           }
         })
         if (data.status === 'success') {
-          this.uploadModalIsOpen = false
+          submitButton.disabled = true
           this.initDaftarPermohonan()
+          this.uploadModalIsOpen = false
+        } else {
+          submitButton.disabled = false
         }
       }
     },

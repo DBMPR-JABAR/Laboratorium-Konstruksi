@@ -78,7 +78,7 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="submit" size="sm" color="primary">
+        <CButton type="submit" name="submit" size="sm" color="primary">
           <CIcon name="cil-check-circle" /> Submit
         </CButton>
         <CButton type="reset" size="sm" color="danger">
@@ -120,8 +120,10 @@ export default {
       return this.$auth.user.role === 'internal'
     },
     async insert (e) {
+      const submitButton = e.target.elements.submit
       e.preventDefault()
       if (this.$refs.form.checkValidity()) {
+        submitButton.disabled = true
         const { data } = await this.$axios.post('labkon/daftar_pemohon/create', this.form)
         if (data.status === 'success') {
           this.$router.push({ path: '/pemohon/list' })
@@ -132,6 +134,15 @@ export default {
               message: 'Berhasil menambah data pemohon.'
             }
           ])
+        } else {
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'danger',
+              open: true,
+              message: 'Terjadi kesalahan.'
+            }
+          ])
+          submitButton.disabled = false
         }
       }
     },

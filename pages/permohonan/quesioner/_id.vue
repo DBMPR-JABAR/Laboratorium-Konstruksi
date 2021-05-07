@@ -54,7 +54,7 @@
           />
         </CCardBody>
         <CCardFooter>
-          <CButton type="submit" size="sm" color="success">
+          <CButton type="submit" name="submit" size="sm" color="success">
             <CIcon name="cil-check-circle" /> Submit
           </CButton>
           <CButton type="button" size="sm" color="secondary" @click="$router.go(-1)">
@@ -151,7 +151,9 @@ export default {
     },
     async onSubmit (e) {
       e.preventDefault()
+      const submitButton = e.target.elements.submit
       if (this.$refs.form.checkValidity()) {
+        submitButton.disabled = true
         const fd = new FormData()
         fd.append('saran', this.form.saran)
         fd.append('keluhan', this.form.keluhan)
@@ -168,6 +170,15 @@ export default {
               color: 'success',
               open: true,
               message: 'Berhasil mengisi kuesioner.'
+            }
+          ])
+        } else {
+          submitButton.disabled = false
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'danger',
+              open: true,
+              message: 'Terjadi kesalahan saat mengisi kuesioner.'
             }
           ])
         }

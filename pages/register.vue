@@ -62,7 +62,7 @@
                   striped
                   class="mb-2"
                 />
-                <CButton type="submit" color="success" block>
+                <CButton type="submit" name="submit" color="success" block>
                   Buat akun
                 </CButton>
               </CForm>
@@ -105,17 +105,17 @@
                 <CButton type="submit" color="success" block>
                   Verifikasi
                 </CButton>
+                <CButton
+                  class="mt-2"
+                  type="submit"
+                  color="info"
+                  block
+                  :disabled="disabled"
+                  @click="reRegister"
+                >
+                  Kirim ulang Verifikasi {{ countdown>0 ? `(${countdown})` : '' }}
+                </CButton>
               </CForm>
-              <CButton
-                class="mt-2"
-                type="submit"
-                color="info"
-                block
-                :disabled="disabled"
-                @click="reRegister"
-              >
-                Kirim ulang Verifikasi {{ countdown>0 ? `(${countdown})` : '' }}
-              </CButton>
             </CCardBody>
             <!-- <CCardFooter class="p-4">
               <CRow>
@@ -165,11 +165,13 @@ export default {
   methods: {
     async register (e) {
       e.preventDefault()
-
+      const submitButton = e.target.elements.submit
       if (this.$refs.form.checkValidity()) {
+        submitButton.disabled = true
         if (this.form.password !== this.form.retypePassword) {
           this.errors.message = 'Password harus sama!'
           this.errors.show = true
+          submitButton.disabled = false
           setTimeout(() => {
             this.errors.show = false
           }, 1000)
@@ -177,6 +179,7 @@ export default {
           this.loading = true
           const { data } = await this.$axios.post('/auth/register', this.form)
           if (data.status !== 'success') {
+            submitButton.disabled = false
             this.loading = false
             this.errors.message = data.data.message
             this.errors.show = true
@@ -184,6 +187,7 @@ export default {
               this.errors.show = false
             }, 2000)
           } else {
+            submitButton.disabled = false
             this.loading = false
             this.kode_otp = data.data.kode_otp
             this.mode_verif = true

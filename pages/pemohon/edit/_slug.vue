@@ -78,7 +78,7 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="submit" size="sm" color="primary">
+        <CButton type="submit" name="submit" size="sm" color="primary">
           <CIcon name="cil-check-circle" /> Submit
         </CButton>
         <NuxtLink to="/pemohon/list">
@@ -116,8 +116,10 @@ export default {
   },
   methods: {
     async update (e) {
+      const submitButton = e.target.elements.submit
       e.preventDefault()
       if (this.$refs.form.checkValidity()) {
+        submitButton.disabled = true
         const { data } = await this.$axios.put('labkon/daftar_pemohon/edit/' + this.form.id_pemohon, this.form)
         if (data.status === 'success') {
           this.$store.commit('ui/set', [
@@ -128,6 +130,15 @@ export default {
             }
           ])
           this.$router.push({ path: '/pemohon/list' })
+        } else {
+          submitButton.disabled = false
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'danger',
+              open: true,
+              message: `Terjadi kesalahan saat memperbaharui data pemohon ${this.form.id_pemohon}.`
+            }
+          ])
         }
       }
     },

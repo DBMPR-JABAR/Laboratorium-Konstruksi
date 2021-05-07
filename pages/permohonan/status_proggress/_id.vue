@@ -35,7 +35,7 @@
           />
         </CCardBody>
         <CCardFooter>
-          <CButton type="submit" size="sm" color="success">
+          <CButton type="submit" name="submit" size="sm" color="success">
             <CIcon name="cil-check-circle" /> Update
           </CButton>
           <CButton type="button" size="sm" color="secondary" @click="$router.go(-1)">
@@ -95,7 +95,9 @@ export default {
     },
     async onUpdate (e) {
       e.preventDefault()
+      const submitButton = e.target.elements.submit
       if (this.$refs.form.checkValidity()) {
+        submitButton.disabled = true
         if (this.form.status === 4) { this.form = { ...this.form, type_keterangan: 'Selesai' } }
         const { data } = await this.$axios.post('/labkon/permohonan/catatan_status_progress/' + this.id, this.form)
         if (data.status === 'success') {
@@ -105,6 +107,14 @@ export default {
               color: 'success',
               open: true,
               message: 'Berhasil melakukan perubahan status proggress permohonan.'
+            }
+          ])
+        } else {
+          this.$store.commit('ui/set', [
+            'flushMessage', {
+              color: 'danger',
+              open: true,
+              message: 'Terjadi kesalahan saat melakukan perubahan status proggress permohonan.'
             }
           ])
         }

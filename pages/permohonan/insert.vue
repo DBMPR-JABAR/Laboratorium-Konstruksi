@@ -140,7 +140,7 @@
         />
       </CCardBody>
       <CCardFooter>
-        <CButton type="submit" size="sm" color="primary">
+        <CButton type="submit" size="sm" color="primary" name="submit">
           <CIcon name="cil-check-circle" /> Submit
         </CButton>
         <CButton type="reset" size="sm" color="danger">
@@ -227,10 +227,12 @@ export default {
   },
   methods: {
     async  insert (e) {
+      const submitButton = e.target.elements.submit
       e.preventDefault()
       if (this.$refs.form.checkValidity()) {
-      // const jumlahBahanUji = JSON.stringify(this.jumlahBahanUji)
-      // const metodePengujian = JSON.stringify(this.selectedMetodePengujian)
+        submitButton.disabled = true
+        // const jumlahBahanUji = JSON.stringify(this.jumlahBahanUji)
+        // const metodePengujian = JSON.stringify(this.selectedMetodePengujian)
         const bahanUji = JSON.stringify(this.checked)
         this.form = {
           ...this.form,
@@ -249,6 +251,15 @@ export default {
                 message: 'Berhasil memperbaharui data permohonan.'
               }
             ])
+          } else {
+            submitButton.disabled = false
+            this.$store.commit('ui/set', [
+              'flushMessage', {
+                color: 'success',
+                open: true,
+                message: 'Terjadi kesalahan saat memperbaharui data permohonan.'
+              }
+            ])
           }
         } else {
           const { data } = await this.$axios.post('labkon/permohonan/create', this.form)
@@ -259,6 +270,15 @@ export default {
                 color: 'success',
                 open: true,
                 message: 'Berhasil menambah data permohonan.'
+              }
+            ])
+          } else {
+            submitButton.disabled = false
+            this.$store.commit('ui/set', [
+              'flushMessage', {
+                color: 'success',
+                open: true,
+                message: 'Terjadi kesalahan saat menambah data permohonan.'
               }
             ])
           }
