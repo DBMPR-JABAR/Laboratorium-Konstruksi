@@ -29,6 +29,16 @@ export default [
         _attrs: { id: 'side_bar_daftar_permohonan' },
         to: '/permohonan/list',
         icon: 'cil-list'
+      },
+      {
+        _name: 'CSidebarNavTitle',
+        _children: ['Dokumentasi']
+      },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Panduan Pendaftaran',
+        to: '/dokumentasi/pendaftaran',
+        icon: 'cil-people'
       }
       // {
       //   _name: 'CSidebarNavItem',

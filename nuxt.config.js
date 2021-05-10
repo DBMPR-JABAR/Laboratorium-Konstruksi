@@ -36,7 +36,8 @@ export default {
     { src: '~/plugins/vue-pdf.js', mode: 'client' },
     { src: '~/plugins/bootstrap-vue.js', mode: 'client' },
     { src: '~/plugins/nuxt-leaflet.js', mode: 'client' },
-    { src: '~/plugins/vue-tour.js', mode: 'client' }
+    { src: '~/plugins/vue-tour.js', mode: 'client' },
+    { src: '~/plugins/lingallery', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
