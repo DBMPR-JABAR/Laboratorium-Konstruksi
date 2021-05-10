@@ -24,7 +24,8 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~node_modules/@coreui/coreui/scss/coreui',
     '~assets/scss/style.scss',
-    '~node_modules/vue-select/src/scss/vue-select.scss'
+    '~node_modules/vue-select/src/scss/vue-select.scss',
+    '~node_modules/vue-tour/dist/vue-tour.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -34,7 +35,8 @@ export default {
     { src: '~/plugins/html-to-paper.js', mode: 'client' },
     { src: '~/plugins/vue-pdf.js', mode: 'client' },
     { src: '~/plugins/bootstrap-vue.js', mode: 'client' },
-    { src: '~/plugins/nuxt-leaflet.js', mode: 'client' }
+    { src: '~/plugins/nuxt-leaflet.js', mode: 'client' },
+    { src: '~/plugins/vue-tour.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -1,5 +1,6 @@
 <template>
   <div class="c-app">
+    <v-tour name="myTour" :steps="steps" />
     <TheSidebar />
     <client-only>
       <CWrapper>
@@ -38,7 +39,28 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      steps: [
+        {
+          target: '#side_bar_daftar_pemohon',
+          content: 'Discover <strong>Vue Tour</strong>!'
+        },
+        {
+          target: '#side_bar_daftar_permohonan',
+          content: 'An awesome plugin made with Vue.js!'
+        },
+        {
+          target: '#side_bar_daftar_pemohon',
+          content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+          params: {
+            placement: 'top'
+          }
+        }
+      ]
+    }
+  },
+  mounted () {
+    // this.$tours.myTour.start()
   },
   methods: {
     closeModal (status, event, accept) {

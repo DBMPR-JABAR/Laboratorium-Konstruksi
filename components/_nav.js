@@ -19,12 +19,14 @@ export default [
       {
         _name: 'CSidebarNavItem',
         name: 'Daftar Pemohon',
+        _attrs: { id: 'side_bar_daftar_pemohon' },
         to: '/pemohon/list',
         icon: 'cil-people'
       },
       {
         _name: 'CSidebarNavItem',
         name: 'Daftar Permohonan',
+        _attrs: { id: 'side_bar_daftar_permohonan' },
         to: '/permohonan/list',
         icon: 'cil-list'
       }
