@@ -11,7 +11,7 @@
       @click="$store.commit('ui/toggleSidebarDesktop')"
     />
     <CHeaderBrand class="mx-auto d-lg-none" to="/">
-      <Logo :height="48" />
+      <LogoHitam :height="40" />
     </CHeaderBrand>
     <CHeaderNav class="d-md-down-none mr-auto">
       <CHeaderNavItem class="px-3">
