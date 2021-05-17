@@ -141,6 +141,16 @@
                 >
                   <CIcon name="cil-check" />&nbsp;Selesai
                 </CButton>
+
+                <CButton
+                  v-if="Number(item.status) === 6 && perubahanStatusPengujian.update"
+                  class="text-white"
+                  color="warning"
+                  @click="questionerDownload(item.id_permohonan)"
+                >
+                  <CIcon name="cil-clipboard" />&nbsp;Kuesioner
+                </CButton>
+
                 <CButton
                   v-if="pengkajianPermission.update"
                   color="danger"
@@ -465,6 +475,19 @@ export default {
           }
         ])
       }
+    },
+    questionerDownload (idPermohonan) {
+      this.$axios
+        .get('/labkon/permohonan/kuesioner/' + idPermohonan, { responseType: 'blob' })
+        .then(({ data }) => {
+          const downloadUrl = window.URL.createObjectURL(new Blob([data]))
+          const link = document.createElement('a')
+          link.href = downloadUrl
+          link.setAttribute('download', `Kuesioner_${idPermohonan}.xlsx`)
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+        })
     }
   }
 }
