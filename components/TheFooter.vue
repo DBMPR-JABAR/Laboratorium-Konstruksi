@@ -1,7 +1,7 @@
 <template>
   <CFooter :fixed="false">
     <div>
-      <a href="https://124.81.122.131" target="_blank">Teman Jabar</a>
+      <a href="https://124.81.122.131" target="_blank">{{ $auth.user.role === 'internal' ? 'Talikuat':'Teman Jabar' }}</a>
       <span class="ml-1">&copy; {{ new Date().getFullYear() }} Labolatorium Kontruksi.</span>
     </div>
     <!-- <div class="mfs-auto">

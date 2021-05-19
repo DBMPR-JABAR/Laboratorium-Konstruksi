@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     async login (e) {
-      e.preventDefault()
+      if (e) { e.preventDefault() }
       const isValid = this.$refs.form.checkValidity()
       if (isValid) {
         const { data } = await this.$auth.loginWith('local', { data: this.form })
