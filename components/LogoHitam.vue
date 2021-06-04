@@ -1,5 +1,5 @@
 <template>
-  <img class="NuxtLogo" height="30" :src="$auth.user.role === 'internal' ? '/img/talikuat_hitam.png' :'/img/text_hitam.png'">
+  <img class="NuxtLogo" height="30" :src="$auth.user.role === 'internal' ? 'img/talikuat_hitam.png' :'img/text_hitam.png'">
 </template>
 
 <style>
