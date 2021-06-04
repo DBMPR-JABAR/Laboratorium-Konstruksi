@@ -1,13 +1,13 @@
 import webpack from 'webpack'
 export default {
     // Target: https://go.nuxtjs.dev/config-target
-    target: 'static',
+    target: process.env.TARGET || 'static',
     publicRuntimeConfig: {
-        storageUrl: 'http://124.81.122.132/temanjabar/public/storage/'
+        storageUrl: process.env.STORAGE_URL || 'http://124.81.122.132/temanjabar/public/storage/'
     },
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
-        title: 'Laboratorium Konstruksi',
+        title: 'Labolatorium Kontruksi',
         htmlAttrs: {
             lang: 'id'
         },
@@ -59,7 +59,7 @@ export default {
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
     axios: {
-        baseUrl: 'http://124.81.122.132/temanjabar/public/api/'
+        baseUrl: process.env.API_URL || 'http://localhost/temanjabar/public/api/'
     },
 
     // Authorization
@@ -87,7 +87,7 @@ export default {
     },
 
     router: {
-        base: '/labkon/',
+        base: String(process.env.TARGET) === 'server' ? '/' : '/labkon/',
         // mode: 'hash',
         linkActiveClass: 'active',
         routeNameSplitter: '/',
@@ -105,6 +105,6 @@ export default {
             // }
     },
     generate: {
-        dir: '../labkon'
+        dir: String(process.env.TARGET) === 'server' ? './dist' : '../labkon'
     }
 }
