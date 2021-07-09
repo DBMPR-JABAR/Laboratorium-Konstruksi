@@ -18,7 +18,20 @@
     <div class="row">
       <hr class="col-12">
       <p class="col-12 mb-2">
-        Pada hari ini, {{ form.date.weekday }} tanggal {{ form.date.date }} bulan {{ form.date.monthname }}, tahun {{ form.date.year }}.
+        <!-- Pada hari ini, {{ form.date.weekday }} tanggal {{ form.date.date }} bulan {{ form.date.monthname }}, tahun {{ form.date.year }}. -->
+        Pada hari ini, <input
+          type="text"
+          style="width:50px;border:none;"
+        > tanggal <input
+          type="number"
+          style="width:32px;border:none;padding:0;margin:0"
+        > bulan <input
+          type="text"
+          style="width:80px;border:none;"
+        >, tahun <input
+          type="number"
+          style="width:70px;border:none;"
+        >.
       </p>
       <p class="col-12">
         Kami yang bertanda tangan dibawah ini:

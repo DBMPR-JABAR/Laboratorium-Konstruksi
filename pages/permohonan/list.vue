@@ -126,18 +126,7 @@
                   v-if="Number(item.status) === 5 && perubahanStatusPengujian.update"
                   class="text-white"
                   color="success"
-                  @click="
-                    $store.commit('ui/set', [
-                      'modal',
-                      {
-                        color: 'success',
-                        open: true,
-                        title: 'Konfirmasi Selesai',
-                        message: `Yakin tandai permohonan ${item.id_permohonan} sebagai selesai ?`,
-                        onClick: () => setDone(item.id_permohonan),
-                      },
-                    ])
-                  "
+                  @click="uploadModalDone(item.id_permohonan)"
                 >
                   <CIcon name="cil-check" />&nbsp;Selesai
                 </CButton>
@@ -237,6 +226,43 @@
     </CModal>
 
     <CModal
+      title="Upload Dokumen Persyaratan"
+      color="success"
+      :show.sync="uploadModalDoneIsOpen"
+    >
+      <CForm
+        ref="formUploadDoneModal"
+      >
+        <CInputFile
+          ref="hasilPengujian"
+          name="hasil_pengujian"
+          required
+          label="Hasil Pengujian"
+          description="Upload Dokumen Hasil Pengujian"
+          horizontal
+          custom
+          accept="application/pdf"
+          @change="updateHasilPengujian"
+        />
+      </CForm>
+      <template #footer>
+        <CButton
+          ref="upload_done_button"
+          type="button"
+          size="sm"
+          color="success"
+          @click="uploadDone"
+        >
+          <CIcon
+            name="cil-check"
+            class="text-white"
+          />
+          <span class="text-white">Tandai Selesai</span>
+        </CButton>
+      </template>
+    </CModal>
+
+    <CModal
       size="xl"
       title="Riwayat Permohonan"
       color="success"
@@ -290,10 +316,12 @@ export default {
   },
   data () {
     return {
+      uploadModalDoneIsOpen: false,
       uploadModalIsOpen: false,
       riwayatModalIsOpen: false,
       fields,
       daftarPermohonan: [],
+      hasilPengujian: null,
       suratPermohonan: null,
       formulirPermohonan: null,
       idPermohonan: '',
@@ -368,6 +396,10 @@ export default {
       this.idPermohonan = idPermohonan
       this.uploadModalIsOpen = true
     },
+    uploadModalDone (idPermohonan) {
+      this.idPermohonan = idPermohonan
+      this.uploadModalDoneIsOpen = true
+    },
     async riwayatModal (idPermohonan) {
       const { data } = await this.$axios.get('labkon/permohonan/riwayat_permohonan/' + idPermohonan)
       this.riwayatPermohonan = data.data.riwayat_permohonan
@@ -409,9 +441,40 @@ export default {
         }
       }
     },
+    async uploadDone (e) {
+      const submitButton = this.$refs.upload_done_button
+      e.preventDefault()
+      if (this.hasilPengujian === null) {
+        this.$refs.formUploadDoneModal.hasil_pengujian.focus()
+      }
+      if (this.$refs.formUploadDoneModal.checkValidity()) {
+        submitButton.disabled = true
+        const fd = new FormData()
+        fd.append('dokumen_hasil_pengujian', this.hasilPengujian)
+        const { data } = await this.$axios.post('/labkon/permohonan/upload_dokumen_hasil_pengujian/' + this.idPermohonan, fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        if (data.status === 'success') {
+          this.setDone(this.idPermohonan)
+          submitButton.disabled = true
+          this.initDaftarPermohonan()
+          this.uploadModalDoneIsOpen = false
+        } else {
+          submitButton.disabled = false
+        }
+      }
+    },
     updateSuratPermohonan (files, event) {
       if (files.length > 0) {
         this.suratPermohonan = files[0]
+        event.target.labels[1].innerText = String(files[0].name).substring(0, 30)
+      }
+    },
+    updateHasilPengujian (files, event) {
+      if (files.length > 0) {
+        this.hasilPengujian = files[0]
         event.target.labels[1].innerText = String(files[0].name).substring(0, 30)
       }
     },

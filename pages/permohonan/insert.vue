@@ -16,13 +16,23 @@
           @update:value="updateSelectedPemohon"
         />
         <CInput
-          v-show="id"
+          v-model="form.id_permohonan"
           :value="id"
           horizontal
           type="text"
           label="No Pemohonan Sementara"
           description="No Pemohonan Sementara."
-          readonly
+          :readonly="id?true:false"
+        />
+        <CInput
+          v-model="form.created_at"
+          horizontal
+          name="tanggal_permohonan"
+          type="date"
+          label="Tanggal Permohonan"
+          description="Tanggal Permohonan (mohon perhatikan format tanggal)."
+          required
+          :readonly="id?true:false"
         />
         <CCard class="p-3">
           <CRow>
@@ -190,8 +200,16 @@ export default {
         latitude: dataPermohonan.latitude,
         longitude: dataPermohonan.longitude,
         id_pemohon: Number(dataPermohonan.id_pemohon),
-        tanggal_pengambilan_sampel: dataPermohonan.tanggal_pengambilan_sampel
+        tanggal_pengambilan_sampel: dataPermohonan.tanggal_pengambilan_sampel,
+
+        // Manual no dan tanggal
+        created_at: new Date(dataPermohonan.created_at)
+          .toISOString('id', 'yyyy-mm-dd')
+          .replaceAll('/', '-')
+          .substring(0, 10),
+        id_permohonan: dataPermohonan.id_permohonan
       }
+      console.log(form.created_at)
       pin = {
         lat: dataPermohonan.latitude,
         lng: dataPermohonan.longitude
