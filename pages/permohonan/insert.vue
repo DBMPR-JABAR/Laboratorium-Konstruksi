@@ -177,7 +177,7 @@ export default {
     const pemohon = await $axios.get('labkon/daftar_pemohon')
     let daftarPemohon = [{
       value: 0,
-      label: 'Silahkan input data master pengujian'
+      label: 'Silahkan input data pemohon'
     }]
     pemohon.data.daftar_pemohon.forEach((row) => {
       daftarPemohon.push({ value: row.id_pemohon, label: row.nama_penanggung_jawab })
