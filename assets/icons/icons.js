@@ -1,4 +1,5 @@
 import {
+  cilBook,
   cibFacebook,
   cibTwitter,
   cibLinkedin,
@@ -93,6 +94,7 @@ export const iconsSet = Object.assign(
   {},
   { logo },
   {
+    cilBook,
     cilZoom,
     cilArrowThickTop,
     cilPrint,

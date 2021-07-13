@@ -139,7 +139,14 @@
                 >
                   <CIcon name="cil-clipboard" />&nbsp;Kuesioner
                 </CButton>
-
+                <CButton
+                  v-if="Number(item.status) === 6"
+                  class="text-white"
+                  color="info"
+                  @click="hasilUjiDownload(item.id_permohonan)"
+                >
+                  <CIcon name="cil-book" />&nbsp;BHU
+                </CButton>
                 <CButton
                   v-if="pengkajianPermission.update"
                   color="danger"
@@ -550,6 +557,29 @@ export default {
           document.body.appendChild(link)
           link.click()
           link.remove()
+        })
+    },
+    hasilUjiDownload (idPermohonan) {
+      this.$axios
+        .get('/labkon/permohonan/dokumen_hasil_pengujian/' + idPermohonan, { responseType: 'blob' })
+        .then(({ data }) => {
+          if (data) {
+            const downloadUrl = window.URL.createObjectURL(new Blob([data]))
+            const link = document.createElement('a')
+            link.href = downloadUrl
+            link.setAttribute('download', `Hasil_Uji_${idPermohonan}.pdf`)
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+          } else {
+            this.$store.commit('ui/set', [
+              'flushMessage', {
+                color: 'error',
+                open: true,
+                message: 'Anda tidak memiliki akses.'
+              }
+            ])
+          }
         })
     }
   }
