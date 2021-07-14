@@ -2,9 +2,7 @@
   <div>
     <CCard>
       <CCardBody>
-        <NuxtLink
-          to="/permohonan/insert"
-        >
+        <NuxtLink to="/permohonan/insert">
           <CButton type="button" size="sm" color="primary">
             <CIcon name="cil-plus" /> Tambah Permohonan
           </CButton>
@@ -12,9 +10,7 @@
       </CCardBody>
     </CCard>
     <CCard>
-      <CCardHeader>
-        <CIcon name="cil-grid" /> Daftar Permohonan
-      </CCardHeader>
+      <CCardHeader> <CIcon name="cil-grid" /> Daftar Permohonan </CCardHeader>
       <CCardBody>
         <CDataTable
           hover
@@ -29,7 +25,7 @@
         >
           <template #No_Permohonan="{ item }">
             <td>
-              {{ item.id_permohonan.replaceAll('-','/') }}
+              {{ item.id_permohonan.replaceAll("-", "/") }}
             </td>
           </template>
           <template #nama="{ item }">
@@ -68,7 +64,7 @@
                   color="info"
                   :to="{
                     path: '/permohonan/insert',
-                    query: { id: item.id_permohonan }
+                    query: { id: item.id_permohonan },
                   }"
                 >
                   <CIcon name="cil-pencil" />&nbsp;Edit
@@ -83,8 +79,10 @@
                 </CButton>
 
                 <CButton
-                  v-if="Number(item.status) === 2 && pengkajianPermission.update"
-                  :to="'/permohonan/pengkajian_pengujian/'+item.id_permohonan"
+                  v-if="
+                    Number(item.status) === 2 && pengkajianPermission.update
+                  "
+                  :to="'/permohonan/pengkajian_pengujian/' + item.id_permohonan"
                   color="warning"
                   class="text-white"
                 >
@@ -98,16 +96,18 @@
                   <CIcon name="cil-control" />&nbsp;Historis
                 </CButton>
                 <CButton
-                  v-if="Number(item.status) === 3 && perubahanStatusPengujian.update"
+                  v-if="
+                    Number(item.status) === 3 && perubahanStatusPengujian.update
+                  "
                   color="warning"
-                  :to="'/permohonan/status_proggress/'+item.id_permohonan"
+                  :to="'/permohonan/status_proggress/' + item.id_permohonan"
                   class="text-white"
                 >
                   <CIcon name="cil-loop-circular" />&nbsp;Status Progres
                 </CButton>
                 <CButton
                   v-if="Number(item.status) === 4"
-                  :to="'/permohonan/quesioner/'+item.id_permohonan"
+                  :to="'/permohonan/quesioner/' + item.id_permohonan"
                   class="text-white"
                   color="info"
                 >
@@ -115,7 +115,9 @@
                 </CButton>
 
                 <CButton
-                  v-if="Number(item.status) === 5 && perubahanStatusPengujian.update"
+                  v-if="
+                    Number(item.status) === 5 && perubahanStatusPengujian.update
+                  "
                   class="text-white"
                   color="warning"
                   @click="printFormulirPengaduan(item.id_permohonan)"
@@ -123,7 +125,9 @@
                   <CIcon name="cil-note-add" />&nbsp;Pengaduan
                 </CButton>
                 <CButton
-                  v-if="Number(item.status) === 5 && perubahanStatusPengujian.update"
+                  v-if="
+                    Number(item.status) === 5 && perubahanStatusPengujian.update
+                  "
                   class="text-white"
                   color="success"
                   @click="uploadModalDone(item.id_permohonan)"
@@ -132,7 +136,9 @@
                 </CButton>
 
                 <CButton
-                  v-if="Number(item.status) === 6 && perubahanStatusPengujian.update"
+                  v-if="
+                    Number(item.status) === 6 && perubahanStatusPengujian.update
+                  "
                   class="text-white"
                   color="warning"
                   @click="questionerDownload(item.id_permohonan)"
@@ -145,7 +151,7 @@
                   color="info"
                   @click="hasilUjiDownload(item.id_permohonan)"
                 >
-                  <CIcon name="cil-book" />&nbsp;BHU
+                  <CIcon name="cil-book" />&nbsp;Download LHU
                 </CButton>
                 <CButton
                   v-if="pengkajianPermission.update"
@@ -162,9 +168,7 @@
                     ])
                   "
                 >
-                  <CIcon
-                    name="cil-x-circle"
-                  />&nbsp;Hapus
+                  <CIcon name="cil-x-circle" />&nbsp;Hapus
                 </CButton>
               </CButtonGroup>
             </td>
@@ -177,9 +181,7 @@
       color="success"
       :show.sync="uploadModalIsOpen"
     >
-      <CForm
-        ref="formUploadModal"
-      >
+      <CForm ref="formUploadModal">
         <CInputFile
           ref="suratPermohonan"
           name="surat_permohonan"
@@ -204,16 +206,8 @@
         />
       </CForm>
       <template #footer>
-        <CButton
-          type="button"
-          size="sm"
-          color="warning"
-          @click="print()"
-        >
-          <CIcon
-            name="cil-print"
-            class="text-white"
-          />
+        <CButton type="button" size="sm" color="warning" @click="print()">
+          <CIcon name="cil-print" class="text-white" />
           <span class="text-white">Cetak Formulir Pengujian</span>
         </CButton>
         <CButton
@@ -223,23 +217,18 @@
           color="success"
           @click="upload"
         >
-          <CIcon
-            name="cil-arrow-thick-top"
-            class="text-white"
-          />
+          <CIcon name="cil-arrow-thick-top" class="text-white" />
           <span class="text-white">Upload</span>
         </CButton>
       </template>
     </CModal>
 
     <CModal
-      title="Upload Dokumen Persyaratan"
+      title="Upload Laporan Hasil Uji (LHU)"
       color="success"
       :show.sync="uploadModalDoneIsOpen"
     >
-      <CForm
-        ref="formUploadDoneModal"
-      >
+      <CForm ref="formUploadDoneModal">
         <CInputFile
           ref="hasilPengujian"
           name="hasil_pengujian"
@@ -260,10 +249,7 @@
           color="success"
           @click="uploadDone"
         >
-          <CIcon
-            name="cil-check"
-            class="text-white"
-          />
+          <CIcon name="cil-check" class="text-white" />
           <span class="text-white">Tandai Selesai</span>
         </CButton>
       </template>
@@ -279,9 +265,20 @@
         <li v-for="(riwayat, key) in riwayatPermohonan" :key="key">
           <div :class="key % 2 === 0 ? 'direction-r' : 'direction-l'">
             <div class="flag-wrapper">
-              <span :class="`hexa ${riwayatClass(riwayat.type_keterangan,riwayat.keterangan).hexa}`" />
-              <span class="flag ">{{ riwayat.type_keterangan }}</span>
-              <span class="time-wrapper "><span :class="`time ${riwayatClass(riwayat.type_keterangan,riwayat.keterangan).hexa}`">{{ printDate(riwayat.created_at) }}</span></span>
+              <span
+                :class="`hexa ${
+                  riwayatClass(riwayat.type_keterangan, riwayat.keterangan).hexa
+                }`"
+              />
+              <span class="flag">{{ riwayat.type_keterangan }}</span>
+              <span
+                class="time-wrapper"
+              ><span
+                :class="`time ${
+                  riwayatClass(riwayat.type_keterangan, riwayat.keterangan)
+                    .hexa
+                }`"
+              >{{ printDate(riwayat.created_at) }}</span></span>
             </div>
             <div class="desc" v-html="riwayatDesc(riwayat.keterangan)" />
           </div>
@@ -292,7 +289,11 @@
           type="button"
           class="btn btn-success"
           color="success"
-          @click="{riwayatModalIsOpen = false}"
+          @click="
+            {
+              riwayatModalIsOpen = false;
+            }
+          "
         >
           <span class="text-white">Ok</span>
         </CButton>
@@ -314,10 +315,15 @@ const fields = [
 export default {
   layout: 'TheContainer',
   async asyncData ({ $axios }) {
-    const pengkajianPermissionData = await $axios.get('has_access/Pengkajian Pengujian')
+    const pengkajianPermissionData = await $axios.get(
+      'has_access/Pengkajian Pengujian'
+    )
     const pengkajianPermission = pengkajianPermissionData.data.data.permission
-    const perubahanStatusPengujianData = await $axios.get('has_access/Perubahan Status Pengujian')
-    const perubahanStatusPengujian = perubahanStatusPengujianData.data.data.permission
+    const perubahanStatusPengujianData = await $axios.get(
+      'has_access/Perubahan Status Pengujian'
+    )
+    const perubahanStatusPengujian =
+      perubahanStatusPengujianData.data.data.permission
 
     return { pengkajianPermission, perubahanStatusPengujian }
   },
@@ -383,7 +389,8 @@ export default {
       if (data.status === 'success') {
         this.initDaftarPermohonan()
         this.$store.commit('ui/set', [
-          'flushMessage', {
+          'flushMessage',
+          {
             color: 'success',
             open: true,
             message: `Berhasil menghapus data permohonan ${id}.`
@@ -391,7 +398,8 @@ export default {
         ])
       } else {
         this.$store.commit('ui/set', [
-          'flushMessage', {
+          'flushMessage',
+          {
             color: 'danger',
             open: true,
             message: `Terjadi kesalahan saat menghapus data permohonan ${id}.`
@@ -408,16 +416,22 @@ export default {
       this.uploadModalDoneIsOpen = true
     },
     async riwayatModal (idPermohonan) {
-      const { data } = await this.$axios.get('labkon/permohonan/riwayat_permohonan/' + idPermohonan)
+      const { data } = await this.$axios.get(
+        'labkon/permohonan/riwayat_permohonan/' + idPermohonan
+      )
       this.riwayatPermohonan = data.data.riwayat_permohonan
       this.riwayatModalIsOpen = true
     },
     print () {
-      const routeData = this.$router.resolve({ path: '/permohonan/formulir_pengujian/' + this.idPermohonan })
+      const routeData = this.$router.resolve({
+        path: '/permohonan/formulir_pengujian/' + this.idPermohonan
+      })
       window.open(routeData.href, '_blank')
     },
     printFormulirPengaduan (idPermohonan) {
-      const routeData = this.$router.resolve({ path: '/permohonan/formulir_pengaduan/' + idPermohonan })
+      const routeData = this.$router.resolve({
+        path: '/permohonan/formulir_pengaduan/' + idPermohonan
+      })
       window.open(routeData.href, '_blank')
     },
     async upload (e) {
@@ -434,11 +448,16 @@ export default {
         const fd = new FormData()
         fd.append('surat_permohonan', this.suratPermohonan)
         fd.append('formulir_permohonan', this.formulirPermohonan)
-        const { data } = await this.$axios.post('/labkon/permohonan/upload_dokumen_persyaratan_permohonan/' + this.idPermohonan, fd, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        const { data } = await this.$axios.post(
+          '/labkon/permohonan/upload_dokumen_persyaratan_permohonan/' +
+            this.idPermohonan,
+          fd,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        })
+        )
         if (data.status === 'success') {
           submitButton.disabled = true
           this.initDaftarPermohonan()
@@ -458,11 +477,16 @@ export default {
         submitButton.disabled = true
         const fd = new FormData()
         fd.append('dokumen_hasil_pengujian', this.hasilPengujian)
-        const { data } = await this.$axios.post('/labkon/permohonan/upload_dokumen_hasil_pengujian/' + this.idPermohonan, fd, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        const { data } = await this.$axios.post(
+          '/labkon/permohonan/upload_dokumen_hasil_pengujian/' +
+            this.idPermohonan,
+          fd,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        })
+        )
         if (data.status === 'success') {
           this.setDone(this.idPermohonan)
           submitButton.disabled = true
@@ -476,19 +500,28 @@ export default {
     updateSuratPermohonan (files, event) {
       if (files.length > 0) {
         this.suratPermohonan = files[0]
-        event.target.labels[1].innerText = String(files[0].name).substring(0, 30)
+        event.target.labels[1].innerText = String(files[0].name).substring(
+          0,
+          30
+        )
       }
     },
     updateHasilPengujian (files, event) {
       if (files.length > 0) {
         this.hasilPengujian = files[0]
-        event.target.labels[1].innerText = String(files[0].name).substring(0, 30)
+        event.target.labels[1].innerText = String(files[0].name).substring(
+          0,
+          30
+        )
       }
     },
     updateFormulirPermohonan (files, event) {
       if (files.length > 0) {
         this.formulirPermohonan = files[0]
-        event.target.labels[1].innerText = String(files[0].name).substring(0, 30)
+        event.target.labels[1].innerText = String(files[0].name).substring(
+          0,
+          30
+        )
       }
     },
     printDate (d) {
@@ -504,9 +537,13 @@ export default {
           backgroudTimeClassName = 'danger_bg_time'
         }
       }
-      if (String(type).toLowerCase().includes('perubahan data permohonan') ||
-      String(type).toLowerCase().includes('upload dokumen persyaratan permohonan') ||
-      String(type).toLowerCase().includes('perubahan status proggress')) {
+      if (
+        String(type).toLowerCase().includes('perubahan data permohonan') ||
+        String(type)
+          .toLowerCase()
+          .includes('upload dokumen persyaratan permohonan') ||
+        String(type).toLowerCase().includes('perubahan status proggress')
+      ) {
         hexaClassName = 'warning_hexa'
         backgroudTimeClassName = 'warning_bg_time'
       }
@@ -518,37 +555,53 @@ export default {
         if (explode.length > 0) {
           let tmp = ''
           for (let i = 0; i < explode.length; i++) {
-            i === 0 ? tmp += explode[i] : tmp += `<span class="${String(keterangan).toLowerCase().includes('menunda') ? 'text-danger' : 'text-success'}">${explode[i]}</span>`
+            i === 0
+              ? (tmp += explode[i])
+              : (tmp += `<span class="${
+                  String(keterangan).toLowerCase().includes('menunda')
+                    ? 'text-danger'
+                    : 'text-success'
+                }">${explode[i]}</span>`)
           }
           return tmp
         }
         return keterangan
-      } else { return '-' }
+      } else {
+        return '-'
+      }
     },
     async setDone (idPermohonan) {
       const fd = new FormData()
       fd.append('status', 6)
       fd.append('type_keterangan', 'Selesai')
       fd.append('keterangan', 'Permohonan telah selesai')
-      const { data } = await this.$axios.post('/labkon/permohonan/catatan_status_progress/' + idPermohonan, fd, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const { data } = await this.$axios.post(
+        '/labkon/permohonan/catatan_status_progress/' + idPermohonan,
+        fd,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
-      })
+      )
       if (data.status === 'success') {
         this.initDaftarPermohonan()
         this.$store.commit('ui/set', [
-          'flushMessage', {
+          'flushMessage',
+          {
             color: 'success',
             open: true,
-            message: 'Berhasil melakukan perubahan status proggress permohonan.'
+            message:
+              'Berhasil melakukan perubahan status proggress permohonan.'
           }
         ])
       }
     },
     questionerDownload (idPermohonan) {
       this.$axios
-        .get('/labkon/permohonan/kuesioner/' + idPermohonan, { responseType: 'blob' })
+        .get('/labkon/permohonan/kuesioner/' + idPermohonan, {
+          responseType: 'blob'
+        })
         .then(({ data }) => {
           const downloadUrl = window.URL.createObjectURL(new Blob([data]))
           const link = document.createElement('a')
@@ -561,7 +614,9 @@ export default {
     },
     hasilUjiDownload (idPermohonan) {
       this.$axios
-        .get('/labkon/permohonan/dokumen_hasil_pengujian/' + idPermohonan, { responseType: 'blob' })
+        .get('/labkon/permohonan/dokumen_hasil_pengujian/' + idPermohonan, {
+          responseType: 'blob'
+        })
         .then(({ data }) => {
           if (data) {
             const downloadUrl = window.URL.createObjectURL(new Blob([data]))
@@ -573,7 +628,8 @@ export default {
             link.remove()
           } else {
             this.$store.commit('ui/set', [
-              'flushMessage', {
+              'flushMessage',
+              {
                 color: 'error',
                 open: true,
                 message: 'Anda tidak memiliki akses.'
@@ -586,7 +642,7 @@ export default {
 }
 </script>
 <style scoped>
-.hexa{
+.hexa {
   border: 0px;
   float: left;
   text-align: center;
@@ -599,7 +655,7 @@ export default {
   margin-top: 15px;
 }
 
-.hexa:before{
+.hexa:before {
   content: "";
   position: absolute;
   left: 0;
@@ -611,7 +667,7 @@ export default {
   top: -15px;
 }
 
-.hexa:after{
+.hexa:after {
   content: "";
   position: absolute;
   left: 0;
@@ -636,18 +692,54 @@ export default {
   position: absolute;
   left: 50%;
   top: 0;
-  content: ' ';
+  content: " ";
   display: block;
   width: 2px;
   height: 100%;
   margin-left: -1px;
-  background: rgb(213,213,213);
-  background: -moz-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(100%,rgba(125,185,232,1)));
-  background: -webkit-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
-  background: -o-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
-  background: -ms-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
-  background: linear-gradient(to bottom, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: rgb(213, 213, 213);
+  background: -moz-linear-gradient(
+    top,
+    rgba(213, 213, 213, 0) 0%,
+    rgb(213, 213, 213) 8%,
+    rgb(213, 213, 213) 92%,
+    rgba(213, 213, 213, 0) 100%
+  );
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0%, rgba(30, 87, 153, 1)),
+    color-stop(100%, rgba(125, 185, 232, 1))
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(213, 213, 213, 0) 0%,
+    rgb(213, 213, 213) 8%,
+    rgb(213, 213, 213) 92%,
+    rgba(213, 213, 213, 0) 100%
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(213, 213, 213, 0) 0%,
+    rgb(213, 213, 213) 8%,
+    rgb(213, 213, 213) 92%,
+    rgba(213, 213, 213, 0) 100%
+  );
+  background: -ms-linear-gradient(
+    top,
+    rgba(213, 213, 213, 0) 0%,
+    rgb(213, 213, 213) 8%,
+    rgb(213, 213, 213) 92%,
+    rgba(213, 213, 213, 0) 100%
+  );
+  background: linear-gradient(
+    to bottom,
+    rgba(213, 213, 213, 0) 0%,
+    rgb(213, 213, 213) 8%,
+    rgb(213, 213, 213) 92%,
+    rgba(213, 213, 213, 0) 100%
+  );
   z-index: 5;
 }
 
@@ -662,11 +754,10 @@ export default {
   z-index: 5;
   left: 0;
   right: 0;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
   top: -30px;
   margin-top: 0;
-
 }
 
 .timeline .hexa:before {
@@ -681,7 +772,7 @@ export default {
   bottom: -4px;
 }
 
-.timeline .success_hexa{
+.timeline .success_hexa {
   background: #2eb85c;
 }
 
@@ -690,30 +781,30 @@ export default {
 }
 
 .timeline .success_hexa::after {
-   border-top: 4px solid #2eb85c;
+  border-top: 4px solid #2eb85c;
 }
 
-.timeline .warning_hexa{
-  background:  #f9b115
+.timeline .warning_hexa {
+  background: #f9b115;
 }
 
 .timeline .warning_hexa:after {
-   border-top: 4px solid #f9b115
+  border-top: 4px solid #f9b115;
 }
 
 .timeline .warning_hexa:before {
-  border-bottom: 4px solid #f9b115
+  border-bottom: 4px solid #f9b115;
 }
-.timeline .danger_hexa{
-  background:  red
+.timeline .danger_hexa {
+  background: red;
 }
 
 .timeline .danger_hexa:after {
-   border-top: 4px solid red
+  border-top: 4px solid red;
 }
 
 .timeline .danger_hexa:before {
-  border-bottom: 4px solid red
+  border-bottom: 4px solid red;
 }
 
 .direction-l,
@@ -731,7 +822,7 @@ export default {
 .flag {
   position: relative;
   display: inline;
-  background: rgb(255,255,255);
+  background: rgb(255, 255, 255);
   font-weight: 600;
   z-index: 15;
   padding: 6px 10px;
@@ -749,21 +840,23 @@ export default {
   width: 0;
   margin-left: -8px;
   border: solid transparent;
-  border-bottom-color: rgb(255,255,255);
+  border-bottom-color: rgb(255, 255, 255);
   border-width: 8px;
   pointer-events: none;
 }
 
 .direction-l .flag {
-  -webkit-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
-  -moz-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
-  box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -webkit-box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15),
+    0 0 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
+  box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .direction-r .flag {
-  -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
-  -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15),
+    0 0 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .time-wrapper {
@@ -794,7 +887,7 @@ export default {
 }
 
 .warning_bg_time {
-  background: #f9b115
+  background: #f9b115;
 }
 
 .danger_bg_time {
@@ -805,10 +898,10 @@ export default {
   position: relative;
   margin: 1em 0 0 0;
   padding: 1em;
-  background: rgb(254,254,254);
-  -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.20);
-  -moz-box-shadow: 0 0 1px rgba(0,0,0,0.20);
-  box-shadow: 0 0 1px rgba(0,0,0,0.20);
+  background: rgb(254, 254, 254);
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
   z-index: 15;
 }
 
@@ -820,7 +913,7 @@ export default {
   z-index: 15;
 }
 
-@media(min-width: 768px){
+@media (min-width: 768px) {
   .timeline {
     width: 660px;
     margin: 0 auto;
@@ -874,7 +967,7 @@ export default {
     top: 50%;
     margin-top: -8px;
     border: solid transparent;
-    border-left-color: rgb(254,254,254);
+    border-left-color: rgb(254, 254, 254);
     border-width: 8px;
   }
 
@@ -882,7 +975,7 @@ export default {
     top: 50%;
     margin-top: -8px;
     border: solid transparent;
-    border-right-color: rgb(254,254,254);
+    border-right-color: rgb(254, 254, 254);
     border-width: 8px;
     left: -8px;
   }
@@ -910,7 +1003,7 @@ export default {
   }
 }
 
-@media(min-width: 992px){
+@media (min-width: 992px) {
   .timeline {
     width: 800px;
     margin: 0 auto;
