@@ -45,7 +45,7 @@
             type="text"
             label="No Permohonan"
             description="No Permohonan."
-            name="lokasi"
+            name="id_permohonan"
             required
             readonly
           />

@@ -23,7 +23,7 @@
           table-filter
           pagination
         >
-          <template #No_Permohonan="{ item }">
+          <template #No_Urut="{ item }">
             <td>
               {{ item.id_permohonan.replaceAll("-", "/") }}
             </td>
@@ -304,7 +304,7 @@
 
 <script>
 const fields = [
-  'No_Permohonan',
+  'No_Urut',
   'nama',
   'email',
   'no_telp',

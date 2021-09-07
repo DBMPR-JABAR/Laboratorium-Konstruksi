@@ -20,8 +20,8 @@
           :value="id"
           horizontal
           type="text"
-          label="No Pemohonan Sementara"
-          description="No Pemohonan Sementara."
+          label="No Urut"
+          description="No Urut."
           :readonly="id?true:false"
         />
         <CInput
