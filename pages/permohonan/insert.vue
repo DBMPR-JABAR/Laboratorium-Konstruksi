@@ -20,8 +20,8 @@
           :value="id"
           horizontal
           type="text"
-          label="No Urut"
-          description="No Urut."
+          label="No."
+          description="No."
           :readonly="id?true:false"
         />
         <CInput

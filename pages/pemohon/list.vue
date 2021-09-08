@@ -27,7 +27,7 @@
           table-filter
           pagination
         >
-          <template #ID_Pemohon="{ item }">
+          <template #No="{ item }">
             <td>
               {{ item.id_pemohon }}
             </td>
@@ -117,7 +117,7 @@
           table-filter
           pagination
         >
-          <template #ID_Pemohon="{ item }">
+          <template #No="{ item }">
             <td>
               {{ item.id_pemohon }}
             </td>
@@ -178,7 +178,7 @@
 
 <script>
 const fieldsInternal = [
-  'ID_Pemohon',
+  'No',
   'nama_penanggung_jawab',
   'email_penanggung_jawab',
   'no_telp_penanggung_jawab',
@@ -188,7 +188,7 @@ const fieldsInternal = [
   'aksi'
 ]
 const fieldsMasyarakat = [
-  'ID_Pemohon',
+  'No',
   'nama_penanggung_jawab',
   'email_penanggung_jawab',
   'no_telp_penanggung_jawab',

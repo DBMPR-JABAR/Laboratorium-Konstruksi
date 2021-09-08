@@ -23,7 +23,7 @@
           table-filter
           pagination
         >
-          <template #No_Urut="{ item }">
+          <template #No="{ item }">
             <td>
               {{ item.id_permohonan.replaceAll("-", "/") }}
             </td>
@@ -170,6 +170,14 @@
                 >
                   <CIcon name="cil-x-circle" />&nbsp;Hapus
                 </CButton>
+                <CButton
+                  v-if="Number(item.status) >= 2"
+                  color="success"
+                  class="text-white"
+                  @click="viewSurat(item.id_permohonan)"
+                >
+                  <CIcon name="cil-arrow-thick-from-top" />&nbsp;Lihat Surat
+                </CButton>
               </CButtonGroup>
             </td>
           </template>
@@ -303,15 +311,7 @@
 </template>
 
 <script>
-const fields = [
-  'No_Urut',
-  'nama',
-  'email',
-  'no_telp',
-  'nip',
-  'status',
-  'aksi'
-]
+const fields = ['No', 'nama', 'email', 'no_telp', 'nip', 'status', 'aksi']
 export default {
   layout: 'TheContainer',
   async asyncData ({ $axios }) {
@@ -527,6 +527,27 @@ export default {
     printDate (d) {
       const date = new Date(d)
       return date.toLocaleDateString()
+    },
+    viewSurat (idPermohonan) {
+      const item = this.daftarPermohonan.find(
+        data => (data.id_permohonan === idPermohonan)
+      )
+      console.log(item)
+      // window.open(
+      //   `http://124.81.122.131/temanjabar/public/storage/${item.formulir_permohonan}`,
+      //   'blank'
+      // )
+      // window.open(
+      //   `http://124.81.122.131/temanjabar/public/storage/${item.surat_permohonan}`,
+      //   'blank'
+      // )
+      const link = document.createElement('a')
+      link.href = `http://localhost/temanjabar/public/storage/${item.formulir_permohonan}`
+      link.setAttribute('download', 'FormulirPermohonan')
+      link.setAttribute('target', 'blank')
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
     },
     riwayatClass (type, keterangan) {
       let hexaClassName = 'success_hexa'
