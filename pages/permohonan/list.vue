@@ -172,11 +172,26 @@
                 </CButton>
                 <CButton
                   v-if="Number(item.status) >= 2"
-                  color="success"
-                  class="text-white"
-                  @click="viewSurat(item.id_permohonan)"
+                  color="primary"
+                  class="text-white p-0"
                 >
-                  <CIcon name="cil-arrow-thick-from-top" />&nbsp;Lihat Surat
+                  <CDropdown
+                    v-if="Number(item.status) >= 2"
+                    class="text-white"
+                    toggler-text="Lihat Dokumen"
+                    color="primary"
+                  >
+                    <CDropdownItem
+                      @click="viewSurat(item.id_permohonan, 'sp')"
+                    >
+                      Surat Permohonan
+                    </CDropdownItem>
+                    <CDropdownItem
+                      @click="viewSurat(item.id_permohonan, 'fp')"
+                    >
+                      Formulir Permohonan
+                    </CDropdownItem>
+                  </CDropdown>
                 </CButton>
               </CButtonGroup>
             </td>
@@ -528,21 +543,12 @@ export default {
       const date = new Date(d)
       return date.toLocaleDateString()
     },
-    viewSurat (idPermohonan) {
+    viewSurat (idPermohonan, type) {
       const item = this.daftarPermohonan.find(
         data => (data.id_permohonan === idPermohonan)
       )
-      console.log(item)
-      // window.open(
-      //   `http://124.81.122.131/temanjabar/public/storage/${item.formulir_permohonan}`,
-      //   'blank'
-      // )
-      // window.open(
-      //   `http://124.81.122.131/temanjabar/public/storage/${item.surat_permohonan}`,
-      //   'blank'
-      // )
       const link = document.createElement('a')
-      link.href = `http://localhost/temanjabar/public/storage/${item.formulir_permohonan}`
+      link.href = `http://localhost/temanjabar/public/storage/${type === 'fp' ? item.formulir_permohonan : item.surat_permohonan}`
       link.setAttribute('download', 'FormulirPermohonan')
       link.setAttribute('target', 'blank')
       document.body.appendChild(link)
@@ -663,6 +669,21 @@ export default {
 }
 </script>
 <style scoped>
+.dropdown_on_button {
+  color: white;
+  background-color: transparent;
+}
+
+.dropdown_on_button:hover {
+  background: transparent;
+}
+
+.dropdown_on_button:active {
+  background: none;
+  background-color: transparent;
+  border: none;
+}
+
 .hexa {
   border: 0px;
   float: left;
