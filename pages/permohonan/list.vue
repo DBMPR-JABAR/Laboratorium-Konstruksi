@@ -548,8 +548,8 @@ export default {
         data => (data.id_permohonan === idPermohonan)
       )
       const link = document.createElement('a')
-      link.href = `http://localhost/temanjabar/public/storage/${type === 'fp' ? item.formulir_permohonan : item.surat_permohonan}`
-      link.setAttribute('download', 'FormulirPermohonan')
+      link.href = `http://124.81.122.131/temanjabar/public/storage/${type === 'fp' ? item.formulir_permohonan : item.surat_permohonan}`
+      link.setAttribute('download', type === 'fp' ? 'FormulirPermohonan' : 'SuratPermohonan')
       link.setAttribute('target', 'blank')
       document.body.appendChild(link)
       link.click()
