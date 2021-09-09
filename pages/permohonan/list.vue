@@ -23,11 +23,11 @@
           table-filter
           pagination
         >
-          <template #No="{ item }">
+          <!-- <template #No="{ item }">
             <td>
               {{ item.id_permohonan.replaceAll("-", "/") }}
             </td>
-          </template>
+          </template> -->
           <template #nama="{ item }">
             <td>
               {{ item.nama_penanggung_jawab }}
@@ -364,8 +364,8 @@ export default {
     async initDaftarPermohonan () {
       const { data } = await this.$axios.get('labkon/permohonan')
       this.daftarPermohonan = []
-      data.data.permohonan.forEach((row) => {
-        this.daftarPermohonan.push(row)
+      data.data.permohonan.forEach((row, idx) => {
+        this.daftarPermohonan.push({ No: idx + 1, ...row })
       })
       this.dataLoaded = true
       return this.daftarPermohonan

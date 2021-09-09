@@ -27,11 +27,11 @@
           table-filter
           pagination
         >
-          <template #No="{ item }">
+          <!-- <template #No="{ item }">
             <td>
               {{ item.id_pemohon }}
             </td>
-          </template>
+          </template> -->
 
           <template #nama="{ item }">
             <td>
@@ -117,11 +117,11 @@
           table-filter
           pagination
         >
-          <template #No="{ item }">
+          <!-- <template #No="{ item }">
             <td>
               {{ item.id_pemohon }}
             </td>
-          </template>
+          </template> -->
           <template #status="{ item }">
             <td>
               <CBadge :color="status(item.status).color">
@@ -224,8 +224,8 @@ export default {
     async initDaftarPemohon () {
       const { data } = await this.$axios.get('labkon/daftar_pemohon')
       this.daftarPemohon = []
-      data.daftar_pemohon.forEach((row) => {
-        this.daftarPemohon.push(row)
+      data.daftar_pemohon.forEach((row, idx) => {
+        this.daftarPemohon.push({ No: idx + 1, ...row })
       })
       this.dataLoaded = true
       return this.daftarPemohon
@@ -253,8 +253,8 @@ export default {
     },
     getDaftarPemohon (type) {
       return type === 'internal'
-        ? this.daftarPemohon.filter(data => data.uptd_id != null)
-        : this.daftarPemohon.filter(data => data.uptd_id == null)
+        ? this.daftarPemohon.filter(data => data.uptd_id != null).map((data, idx) => ({ ...data, No: idx + 1 }))
+        : this.daftarPemohon.filter(data => data.uptd_id == null).map((data, idx) => ({ ...data, No: idx + 1 }))
     },
     async onDelete (id) {
       const { data } = await this.$axios.get(
