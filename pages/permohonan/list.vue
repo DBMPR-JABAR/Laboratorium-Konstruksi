@@ -547,13 +547,7 @@ export default {
       const item = this.daftarPermohonan.find(
         data => (data.id_permohonan === idPermohonan)
       )
-      const link = document.createElement('a')
-      link.href = `http://124.81.122.131/temanjabar/public/storage/${type === 'fp' ? item.formulir_permohonan : item.surat_permohonan}`
-      link.setAttribute('download', type === 'fp' ? 'FormulirPermohonan' : 'SuratPermohonan')
-      link.setAttribute('target', 'blank')
-      document.body.appendChild(link)
-      link.click()
-      link.remove()
+      window.open(`http://124.81.122.131/temanjabar/public/storage/${type === 'fp' ? item.formulir_permohonan : item.surat_permohonan}`, '_blank')
     },
     riwayatClass (type, keterangan) {
       let hexaClassName = 'success_hexa'
