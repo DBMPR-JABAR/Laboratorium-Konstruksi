@@ -547,7 +547,7 @@ export default {
       const item = this.daftarPermohonan.find(
         data => (data.id_permohonan === idPermohonan)
       )
-      window.open(`http://124.81.122.131/temanjabar/public/storage/${type === 'fp' ? item.formulir_permohonan : item.surat_permohonan}`, '_blank')
+      window.open(`https://124.81.122.131/temanjabar/public/storage/${type === 'fp' ? item.formulir_permohonan : item.surat_permohonan}`, '_blank')
     },
     riwayatClass (type, keterangan) {
       let hexaClassName = 'success_hexa'
