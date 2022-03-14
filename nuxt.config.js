@@ -3,9 +3,7 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: process.env.TARGET || "static",
   publicRuntimeConfig: {
-    storageUrl:
-      process.env.STORAGE_URL ||
-      "http://202.75.26.11/temanjabar/public/storage/"
+    storageUrl: process.env.STORAGE_URL || "https://tj.temanjabar.net/storage/"
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -65,7 +63,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl: process.env.API_URL || "http://localhost/temanjabar/public/api/"
+    baseUrl: process.env.API_URL || "https://tj.temanjabar.net/api/"
   },
 
   // Authorization
