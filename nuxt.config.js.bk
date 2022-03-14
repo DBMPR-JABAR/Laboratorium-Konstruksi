@@ -97,7 +97,7 @@ export default {
   },
 
   router: {
-    base: '/',
+    base: '/laboratorium_konstruksi/',
     // mode: 'hash',
     linkActiveClass: 'active',
     routeNameSplitter: '/',
