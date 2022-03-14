@@ -64,7 +64,7 @@
                   color="info"
                   :to="{
                     path: '/permohonan/insert',
-                    query: { id: item.id_permohonan },
+                    query: { id: item.id_permohonan }
                   }"
                 >
                   <CIcon name="cil-pencil" />&nbsp;Edit
@@ -163,8 +163,8 @@
                         open: true,
                         title: 'Konfirmasi Hapus Data',
                         message: `Anda yakin akan menghapus data pemohon ${item.id_permohonan} ?`,
-                        onClick: () => onDelete(item.id_permohonan),
-                      },
+                        onClick: () => onDelete(item.id_permohonan)
+                      }
                     ])
                   "
                 >
@@ -181,14 +181,10 @@
                     toggler-text="Lihat Dokumen"
                     color="primary"
                   >
-                    <CDropdownItem
-                      @click="viewSurat(item.id_permohonan, 'sp')"
-                    >
+                    <CDropdownItem @click="viewSurat(item.id_permohonan, 'sp')">
                       Surat Permohonan
                     </CDropdownItem>
-                    <CDropdownItem
-                      @click="viewSurat(item.id_permohonan, 'fp')"
-                    >
+                    <CDropdownItem @click="viewSurat(item.id_permohonan, 'fp')">
                       Formulir Permohonan
                     </CDropdownItem>
                   </CDropdown>
@@ -289,19 +285,25 @@
           <div :class="key % 2 === 0 ? 'direction-r' : 'direction-l'">
             <div class="flag-wrapper">
               <span
-                :class="`hexa ${
-                  riwayatClass(riwayat.type_keterangan, riwayat.keterangan).hexa
-                }`"
+                :class="
+                  `hexa ${
+                    riwayatClass(riwayat.type_keterangan, riwayat.keterangan)
+                      .hexa
+                  }`
+                "
               />
               <span class="flag">{{ riwayat.type_keterangan }}</span>
-              <span
-                class="time-wrapper"
-              ><span
-                :class="`time ${
-                  riwayatClass(riwayat.type_keterangan, riwayat.keterangan)
-                    .hexa
-                }`"
-              >{{ printDate(riwayat.created_at) }}</span></span>
+              <span class="time-wrapper"
+                ><span
+                  :class="
+                    `time ${
+                      riwayatClass(riwayat.type_keterangan, riwayat.keterangan)
+                        .hexa
+                    }`
+                  "
+                  >{{ printDate(riwayat.created_at) }}</span
+                ></span
+              >
             </div>
             <div class="desc" v-html="riwayatDesc(riwayat.keterangan)" />
           </div>
@@ -326,23 +328,23 @@
 </template>
 
 <script>
-const fields = ['No', 'nama', 'email', 'no_telp', 'nip', 'status', 'aksi']
+const fields = ["No", "nama", "email", "no_telp", "nip", "status", "aksi"];
 export default {
-  layout: 'TheContainer',
-  async asyncData ({ $axios }) {
+  layout: "TheContainer",
+  async asyncData({ $axios }) {
     const pengkajianPermissionData = await $axios.get(
-      'has_access/Pengkajian Pengujian'
-    )
-    const pengkajianPermission = pengkajianPermissionData.data.data.permission
+      "has_access/Pengkajian Pengujian"
+    );
+    const pengkajianPermission = pengkajianPermissionData.data.data.permission;
     const perubahanStatusPengujianData = await $axios.get(
-      'has_access/Perubahan Status Pengujian'
-    )
+      "has_access/Perubahan Status Pengujian"
+    );
     const perubahanStatusPengujian =
-      perubahanStatusPengujianData.data.data.permission
+      perubahanStatusPengujianData.data.data.permission;
 
-    return { pengkajianPermission, perubahanStatusPengujian }
+    return { pengkajianPermission, perubahanStatusPengujian };
   },
-  data () {
+  data() {
     return {
       uploadModalDoneIsOpen: false,
       uploadModalIsOpen: false,
@@ -352,315 +354,333 @@ export default {
       hasilPengujian: null,
       suratPermohonan: null,
       formulirPermohonan: null,
-      idPermohonan: '',
+      idPermohonan: "",
       accordion: 0,
       riwayatPermohonan: null
-    }
+    };
   },
-  created () {
-    this.initDaftarPermohonan()
+  created() {
+    this.initDaftarPermohonan();
   },
   methods: {
-    async initDaftarPermohonan () {
-      const { data } = await this.$axios.get('labkon/permohonan')
-      this.daftarPermohonan = []
+    async initDaftarPermohonan() {
+      const { data } = await this.$axios.get("labkon/permohonan");
+      this.daftarPermohonan = [];
       data.data.permohonan.forEach((row, idx) => {
-        this.daftarPermohonan.push({ No: idx + 1, ...row })
-      })
-      this.dataLoaded = true
-      return this.daftarPermohonan
+        this.daftarPermohonan.push({ No: idx + 1, ...row });
+      });
+      this.dataLoaded = true;
+      return this.daftarPermohonan;
     },
-    status (status) {
-      let className
+    status(status) {
+      let className;
       switch (Number(status)) {
         case 6:
-          className = { status: 'Selesai', color: 'success' }
-          break
+          className = { status: "Selesai", color: "success" };
+          break;
         case 5:
-          className = { status: 'Selesai', color: 'success' }
-          break
+          className = { status: "Selesai", color: "success" };
+          break;
         case 4:
-          className = { status: 'Selesai', color: 'success' }
-          break
+          className = { status: "Selesai", color: "success" };
+          break;
         case 3:
-          className = { status: 'On Proggress', color: 'primary' }
-          break
+          className = { status: "On Proggress", color: "primary" };
+          break;
         case 2:
-          className = { status: 'Waiting List', color: 'warning' }
-          break
+          className = { status: "Waiting List", color: "warning" };
+          break;
         case 1:
-          className = { status: 'Registration', color: 'secondary' }
-          break
+          className = { status: "Registration", color: "secondary" };
+          break;
         default:
-          className = { status: 'Pending', color: 'danger' }
-          break
+          className = { status: "Pending", color: "danger" };
+          break;
       }
-      return className
+      return className;
     },
-    async onDelete (id) {
+    async onDelete(id) {
       const { data } = await this.$axios.delete(
-        'labkon/permohonan/delete/' + id
-      )
-      if (data.status === 'success') {
-        this.initDaftarPermohonan()
-        this.$store.commit('ui/set', [
-          'flushMessage',
+        "labkon/permohonan/delete/" + id
+      );
+      if (data.status === "success") {
+        this.initDaftarPermohonan();
+        this.$store.commit("ui/set", [
+          "flushMessage",
           {
-            color: 'success',
+            color: "success",
             open: true,
             message: `Berhasil menghapus data permohonan ${id}.`
           }
-        ])
+        ]);
       } else {
-        this.$store.commit('ui/set', [
-          'flushMessage',
+        this.$store.commit("ui/set", [
+          "flushMessage",
           {
-            color: 'danger',
+            color: "danger",
             open: true,
             message: `Terjadi kesalahan saat menghapus data permohonan ${id}.`
           }
-        ])
+        ]);
       }
     },
-    uploadModal (idPermohonan) {
-      this.idPermohonan = idPermohonan
-      this.uploadModalIsOpen = true
+    uploadModal(idPermohonan) {
+      this.idPermohonan = idPermohonan;
+      this.uploadModalIsOpen = true;
     },
-    uploadModalDone (idPermohonan) {
-      this.idPermohonan = idPermohonan
-      this.uploadModalDoneIsOpen = true
+    uploadModalDone(idPermohonan) {
+      this.idPermohonan = idPermohonan;
+      this.uploadModalDoneIsOpen = true;
     },
-    async riwayatModal (idPermohonan) {
+    async riwayatModal(idPermohonan) {
       const { data } = await this.$axios.get(
-        'labkon/permohonan/riwayat_permohonan/' + idPermohonan
-      )
-      this.riwayatPermohonan = data.data.riwayat_permohonan
-      this.riwayatModalIsOpen = true
+        "labkon/permohonan/riwayat_permohonan/" + idPermohonan
+      );
+      this.riwayatPermohonan = data.data.riwayat_permohonan;
+      this.riwayatModalIsOpen = true;
     },
-    print () {
+    print() {
       const routeData = this.$router.resolve({
-        path: '/permohonan/formulir_pengujian/' + this.idPermohonan
-      })
-      window.open(routeData.href, '_blank')
+        path: "/permohonan/formulir_pengujian/" + this.idPermohonan
+      });
+      window.open(routeData.href, "_blank");
     },
-    printFormulirPengaduan (idPermohonan) {
+    printFormulirPengaduan(idPermohonan) {
       const routeData = this.$router.resolve({
-        path: '/permohonan/formulir_pengaduan/' + idPermohonan
-      })
-      window.open(routeData.href, '_blank')
+        path: "/permohonan/formulir_pengaduan/" + idPermohonan
+      });
+      window.open(routeData.href, "_blank");
     },
-    async upload (e) {
-      const submitButton = this.$refs.upload_button
-      e.preventDefault()
+    async upload(e) {
+      const submitButton = this.$refs.upload_button;
+      e.preventDefault();
       if (this.suratPermohonan === null) {
-        this.$refs.formUploadModal.surat_permohonan.focus()
+        this.$refs.formUploadModal.surat_permohonan.focus();
       }
       if (this.formulirPermohonan === null) {
-        this.$refs.formUploadModal.formulir_pengujian.focus()
+        this.$refs.formUploadModal.formulir_pengujian.focus();
       }
       if (this.$refs.formUploadModal.checkValidity()) {
-        submitButton.disabled = true
-        const fd = new FormData()
-        fd.append('surat_permohonan', this.suratPermohonan)
-        fd.append('formulir_permohonan', this.formulirPermohonan)
+        submitButton.disabled = true;
+        const fd = new FormData();
+        fd.append("surat_permohonan", this.suratPermohonan);
+        fd.append("formulir_permohonan", this.formulirPermohonan);
         const { data } = await this.$axios.post(
-          '/labkon/permohonan/upload_dokumen_persyaratan_permohonan/' +
+          "/labkon/permohonan/upload_dokumen_persyaratan_permohonan/" +
             this.idPermohonan,
           fd,
           {
             headers: {
-              'Content-Type': 'multipart/form-data'
+              "Content-Type": "multipart/form-data"
             }
           }
-        )
-        if (data.status === 'success') {
-          submitButton.disabled = true
-          this.initDaftarPermohonan()
-          this.uploadModalIsOpen = false
+        );
+        if (data.status === "success") {
+          submitButton.disabled = true;
+          this.initDaftarPermohonan();
+          this.uploadModalIsOpen = false;
         } else {
-          submitButton.disabled = false
+          submitButton.disabled = false;
         }
       }
     },
-    async uploadDone (e) {
-      const submitButton = this.$refs.upload_done_button
-      e.preventDefault()
+    async uploadDone(e) {
+      const submitButton = this.$refs.upload_done_button;
+      e.preventDefault();
       if (this.hasilPengujian === null) {
-        this.$refs.formUploadDoneModal.hasil_pengujian.focus()
+        this.$refs.formUploadDoneModal.hasil_pengujian.focus();
       }
       if (this.$refs.formUploadDoneModal.checkValidity()) {
-        submitButton.disabled = true
-        const fd = new FormData()
-        fd.append('dokumen_hasil_pengujian', this.hasilPengujian)
+        submitButton.disabled = true;
+        const fd = new FormData();
+        fd.append("dokumen_hasil_pengujian", this.hasilPengujian);
         const { data } = await this.$axios.post(
-          '/labkon/permohonan/upload_dokumen_hasil_pengujian/' +
+          "/labkon/permohonan/upload_dokumen_hasil_pengujian/" +
             this.idPermohonan,
           fd,
           {
             headers: {
-              'Content-Type': 'multipart/form-data'
+              "Content-Type": "multipart/form-data"
             }
           }
-        )
-        if (data.status === 'success') {
-          this.setDone(this.idPermohonan)
-          submitButton.disabled = true
-          this.initDaftarPermohonan()
-          this.uploadModalDoneIsOpen = false
+        );
+        if (data.status === "success") {
+          this.setDone(this.idPermohonan);
+          submitButton.disabled = true;
+          this.initDaftarPermohonan();
+          this.uploadModalDoneIsOpen = false;
         } else {
-          submitButton.disabled = false
+          submitButton.disabled = false;
         }
       }
     },
-    updateSuratPermohonan (files, event) {
+    updateSuratPermohonan(files, event) {
       if (files.length > 0) {
-        this.suratPermohonan = files[0]
+        this.suratPermohonan = files[0];
         event.target.labels[1].innerText = String(files[0].name).substring(
           0,
           30
-        )
+        );
       }
     },
-    updateHasilPengujian (files, event) {
+    updateHasilPengujian(files, event) {
       if (files.length > 0) {
-        this.hasilPengujian = files[0]
+        this.hasilPengujian = files[0];
         event.target.labels[1].innerText = String(files[0].name).substring(
           0,
           30
-        )
+        );
       }
     },
-    updateFormulirPermohonan (files, event) {
+    updateFormulirPermohonan(files, event) {
       if (files.length > 0) {
-        this.formulirPermohonan = files[0]
+        this.formulirPermohonan = files[0];
         event.target.labels[1].innerText = String(files[0].name).substring(
           0,
           30
-        )
+        );
       }
     },
-    printDate (d) {
-      const date = new Date(d)
-      return date.toLocaleDateString()
+    printDate(d) {
+      const date = new Date(d);
+      return date.toLocaleDateString();
     },
-    viewSurat (idPermohonan, type) {
+    viewSurat(idPermohonan, type) {
       const item = this.daftarPermohonan.find(
-        data => (data.id_permohonan === idPermohonan)
-      )
-      window.open(`https://124.81.122.131/temanjabar/public/storage/${type === 'fp' ? item.formulir_permohonan : item.surat_permohonan}`, '_blank')
+        data => data.id_permohonan === idPermohonan
+      );
+      window.open(
+        `https://202.75.26.11/temanjabar/public/storage/${
+          type === "fp" ? item.formulir_permohonan : item.surat_permohonan
+        }`,
+        "_blank"
+      );
     },
-    riwayatClass (type, keterangan) {
-      let hexaClassName = 'success_hexa'
-      let backgroudTimeClassName = 'success_bg_time'
-      if (String(type).toLowerCase().includes('pengkajian permohonan')) {
-        if (String(keterangan).toLowerCase().includes('menunda')) {
-          hexaClassName = 'danger_hexa'
-          backgroudTimeClassName = 'danger_bg_time'
+    riwayatClass(type, keterangan) {
+      let hexaClassName = "success_hexa";
+      let backgroudTimeClassName = "success_bg_time";
+      if (
+        String(type)
+          .toLowerCase()
+          .includes("pengkajian permohonan")
+      ) {
+        if (
+          String(keterangan)
+            .toLowerCase()
+            .includes("menunda")
+        ) {
+          hexaClassName = "danger_hexa";
+          backgroudTimeClassName = "danger_bg_time";
         }
       }
       if (
-        String(type).toLowerCase().includes('perubahan data permohonan') ||
         String(type)
           .toLowerCase()
-          .includes('upload dokumen persyaratan permohonan') ||
-        String(type).toLowerCase().includes('perubahan status proggress')
+          .includes("perubahan data permohonan") ||
+        String(type)
+          .toLowerCase()
+          .includes("upload dokumen persyaratan permohonan") ||
+        String(type)
+          .toLowerCase()
+          .includes("perubahan status proggress")
       ) {
-        hexaClassName = 'warning_hexa'
-        backgroudTimeClassName = 'warning_bg_time'
+        hexaClassName = "warning_hexa";
+        backgroudTimeClassName = "warning_bg_time";
       }
-      return { hexa: hexaClassName, bg_time: backgroudTimeClassName }
+      return { hexa: hexaClassName, bg_time: backgroudTimeClassName };
     },
-    riwayatDesc (keterangan) {
+    riwayatDesc(keterangan) {
       if (keterangan) {
-        const explode = keterangan.split(':')
+        const explode = keterangan.split(":");
         if (explode.length > 0) {
-          let tmp = ''
+          let tmp = "";
           for (let i = 0; i < explode.length; i++) {
             i === 0
               ? (tmp += explode[i])
               : (tmp += `<span class="${
-                  String(keterangan).toLowerCase().includes('menunda')
-                    ? 'text-danger'
-                    : 'text-success'
-                }">${explode[i]}</span>`)
+                  String(keterangan)
+                    .toLowerCase()
+                    .includes("menunda")
+                    ? "text-danger"
+                    : "text-success"
+                }">${explode[i]}</span>`);
           }
-          return tmp
+          return tmp;
         }
-        return keterangan
+        return keterangan;
       } else {
-        return '-'
+        return "-";
       }
     },
-    async setDone (idPermohonan) {
-      const fd = new FormData()
-      fd.append('status', 6)
-      fd.append('type_keterangan', 'Selesai')
-      fd.append('keterangan', 'Permohonan telah selesai')
+    async setDone(idPermohonan) {
+      const fd = new FormData();
+      fd.append("status", 6);
+      fd.append("type_keterangan", "Selesai");
+      fd.append("keterangan", "Permohonan telah selesai");
       const { data } = await this.$axios.post(
-        '/labkon/permohonan/catatan_status_progress/' + idPermohonan,
+        "/labkon/permohonan/catatan_status_progress/" + idPermohonan,
         fd,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            "Content-Type": "multipart/form-data"
           }
         }
-      )
-      if (data.status === 'success') {
-        this.initDaftarPermohonan()
-        this.$store.commit('ui/set', [
-          'flushMessage',
+      );
+      if (data.status === "success") {
+        this.initDaftarPermohonan();
+        this.$store.commit("ui/set", [
+          "flushMessage",
           {
-            color: 'success',
+            color: "success",
             open: true,
-            message:
-              'Berhasil melakukan perubahan status proggress permohonan.'
+            message: "Berhasil melakukan perubahan status proggress permohonan."
           }
-        ])
+        ]);
       }
     },
-    questionerDownload (idPermohonan) {
+    questionerDownload(idPermohonan) {
       this.$axios
-        .get('/labkon/permohonan/kuesioner/' + idPermohonan, {
-          responseType: 'blob'
+        .get("/labkon/permohonan/kuesioner/" + idPermohonan, {
+          responseType: "blob"
         })
         .then(({ data }) => {
-          const downloadUrl = window.URL.createObjectURL(new Blob([data]))
-          const link = document.createElement('a')
-          link.href = downloadUrl
-          link.setAttribute('download', `Kuesioner_${idPermohonan}.xlsx`)
-          document.body.appendChild(link)
-          link.click()
-          link.remove()
-        })
+          const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+          const link = document.createElement("a");
+          link.href = downloadUrl;
+          link.setAttribute("download", `Kuesioner_${idPermohonan}.xlsx`);
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        });
     },
-    hasilUjiDownload (idPermohonan) {
+    hasilUjiDownload(idPermohonan) {
       this.$axios
-        .get('/labkon/permohonan/dokumen_hasil_pengujian/' + idPermohonan, {
-          responseType: 'blob'
+        .get("/labkon/permohonan/dokumen_hasil_pengujian/" + idPermohonan, {
+          responseType: "blob"
         })
         .then(({ data }) => {
           if (data) {
-            const downloadUrl = window.URL.createObjectURL(new Blob([data]))
-            const link = document.createElement('a')
-            link.href = downloadUrl
-            link.setAttribute('download', `Hasil_Uji_${idPermohonan}.pdf`)
-            document.body.appendChild(link)
-            link.click()
-            link.remove()
+            const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+            const link = document.createElement("a");
+            link.href = downloadUrl;
+            link.setAttribute("download", `Hasil_Uji_${idPermohonan}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
           } else {
-            this.$store.commit('ui/set', [
-              'flushMessage',
+            this.$store.commit("ui/set", [
+              "flushMessage",
               {
-                color: 'error',
+                color: "error",
                 open: true,
-                message: 'Anda tidak memiliki akses.'
+                message: "Anda tidak memiliki akses."
               }
-            ])
+            ]);
           }
-        })
+        });
     }
   }
-}
+};
 </script>
 <style scoped>
 .dropdown_on_button {

@@ -1,49 +1,49 @@
-import webpack from 'webpack'
+import webpack from "webpack";
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: process.env.TARGET || 'static',
+  target: process.env.TARGET || "static",
   publicRuntimeConfig: {
     storageUrl:
       process.env.STORAGE_URL ||
-      'http://124.81.122.131/temanjabar/public/storage/'
+      "http://202.75.26.11/temanjabar/public/storage/"
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Labolatorium Kontruksi',
+    title: "Labolatorium Kontruksi",
     htmlAttrs: {
-      lang: 'id'
+      lang: "id"
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
-        hid: 'description',
-        name: 'description',
-        content: 'Bina Marga Laboratorium Konstruksi'
+        hid: "description",
+        name: "description",
+        content: "Bina Marga Laboratorium Konstruksi"
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~node_modules/@coreui/coreui/scss/coreui',
-    '~assets/scss/style.scss',
-    '~node_modules/vue-select/src/scss/vue-select.scss',
-    '~node_modules/vue-tour/dist/vue-tour.css'
+    "~node_modules/@coreui/coreui/scss/coreui",
+    "~assets/scss/style.scss",
+    "~node_modules/vue-select/src/scss/vue-select.scss",
+    "~node_modules/vue-tour/dist/vue-tour.css"
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/coreui-vue.js', mode: 'client' },
-    { src: '~/plugins/icons.js', mode: 'client' },
-    { src: '~/plugins/vue-select.js', mode: 'client' },
-    { src: '~/plugins/html-to-paper.js', mode: 'client' },
-    { src: '~/plugins/vue-pdf.js', mode: 'client' },
-    { src: '~/plugins/bootstrap-vue.js', mode: 'client' },
-    { src: '~/plugins/nuxt-leaflet.js', mode: 'client' },
-    { src: '~/plugins/vue-tour.js', mode: 'client' },
-    { src: '~/plugins/lingallery', mode: 'client' }
+    { src: "~/plugins/coreui-vue.js", mode: "client" },
+    { src: "~/plugins/icons.js", mode: "client" },
+    { src: "~/plugins/vue-select.js", mode: "client" },
+    { src: "~/plugins/html-to-paper.js", mode: "client" },
+    { src: "~/plugins/vue-pdf.js", mode: "client" },
+    { src: "~/plugins/bootstrap-vue.js", mode: "client" },
+    { src: "~/plugins/nuxt-leaflet.js", mode: "client" },
+    { src: "~/plugins/vue-tour.js", mode: "client" },
+    { src: "~/plugins/lingallery", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,20 +52,20 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    "@nuxtjs/eslint-module"
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    '@nuxtjs/auth',
-    'nuxt-leaflet'
+    "@nuxtjs/axios",
+    "@nuxtjs/auth",
+    "nuxt-leaflet"
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl: process.env.API_URL || 'http://localhost/temanjabar/public/api/'
+    baseUrl: process.env.API_URL || "http://localhost/temanjabar/public/api/"
   },
 
   // Authorization
@@ -74,11 +74,11 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: 'auth/login',
-            method: 'post',
-            propertyName: 'data.token.access_token'
+            url: "auth/login",
+            method: "post",
+            propertyName: "data.token.access_token"
           },
-          user: { url: 'auth/user', method: 'post', propertyName: 'data.user' },
+          user: { url: "auth/user", method: "post", propertyName: "data.user" },
           logout: false
         }
       }
@@ -88,20 +88,20 @@ export default {
   build: {
     plugins: [
       new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery'
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery"
       })
     ],
-    transpile: ['@coreui']
+    transpile: ["@coreui"]
   },
 
   router: {
-    base: '/',
+    base: "/",
     // mode: 'hash',
-    linkActiveClass: 'active',
-    routeNameSplitter: '/',
-    middleware: ['auth']
+    linkActiveClass: "active",
+    routeNameSplitter: "/",
+    middleware: ["auth"]
     // extendRoutes (routes, resolve) {
     //   routes.push({
     //     name: 'Pengujian',
@@ -115,6 +115,6 @@ export default {
     // }
   },
   generate: {
-    dir: String(process.env.TARGET) === 'server' ? './dist' : '../labkon'
+    dir: String(process.env.TARGET) === "server" ? "./dist" : "../labkon"
   }
-}
+};
