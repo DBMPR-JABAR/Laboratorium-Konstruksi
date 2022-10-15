@@ -1,7 +1,7 @@
 <template>
   <CFooter :fixed="false">
     <div>
-      <a href="https://202.75.26.11" target="_blank">{{
+      <a href="http://temanjabar.net/" target="_blank">{{
         $auth.user.role === "internal" ? "Talikuat" : "Teman Jabar"
       }}</a>
       <span class="ml-1"

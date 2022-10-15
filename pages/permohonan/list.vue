@@ -550,7 +550,7 @@ export default {
         data => data.id_permohonan === idPermohonan
       );
       window.open(
-        `https://202.75.26.11/temanjabar/public/storage/${
+        `https://tj.temanjabar.net/storage/${
           type === "fp" ? item.formulir_permohonan : item.surat_permohonan
         }`,
         "_blank"
