@@ -2,7 +2,17 @@
   <div class="container">
     <div>
       <NuxtLink to="/dashboard">
-        <LogoHitam :height="75" />
+        <LogoHitam :height="75"/>
+      </NuxtLink>
+      <NuxtLink to="/dashboard">
+        <CRow class="d-flex justify-content-center p-4">
+          <CButton
+            color="success"
+            class="m-2"
+          >
+            Pergi ke dashboard
+          </CButton>
+        </CRow>
       </NuxtLink>
       <h1 class="title">
         Selamat Datang di UPTD Laboratorium Bahan Konstruksi
@@ -26,21 +36,25 @@ export default {}
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: 'Quicksand',
+  'Source Sans Pro',
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  Arial,
+  sans-serif;
   display: block;
   font-weight: 300;
   font-size: 50px;
   color: #35495e;
   letter-spacing: 1px;
+}
+
+.button-dashboard {
+  display: block;
+  margin: 24px auto;
 }
 
 .subtitle {
